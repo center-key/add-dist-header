@@ -29,13 +29,14 @@
       "banner",
       "directory",
       "dist",
+      "distribution",
       "file",
       "folder",
       "header",
       "prepend"
    ],
    "jshintConfig": {
-      "esversion": 9,
+      "esversion": 11,
       "strict": "implied",
       "eqeqeq": true,
       "undef": true,
@@ -71,6 +72,7 @@
       "step:05": "tsc --module UMD --outDir build/umd",
       "step:06": "cpy 'build/umd/*.js' build --rename=add-dist-header.umd.cjs",
       "step:07": "cpy 'build/*' dist",
+      "step:08": "node bin/cli.js --version=false build dist",
       "pretest": "npm-run-all step:*",
       "test": "mocha spec/*.spec.js"
    },
