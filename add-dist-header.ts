@@ -8,7 +8,7 @@ export type Options = {
    filename:    string,   //input filename, example: 'build/my-app.js'
    dist?:       string,   //output folder
    extension?:  string,   //rename with new file extension (with dot), example: '.css'
-   setVersion?: boolean,  //replace occurances of "{{{version}}}" with the package.json verion number
+   setVersion?: boolean,  //replace occurances of "~~~version~~~" with the package.json version number
    };
 export type Result = {
    dist:   string,  //absolute path to distribution folder
@@ -32,9 +32,12 @@ const addDistHeader = {
       const jsStyle =        /\.(js|ts|cjs|mjs)/.test(outputFileExt);
       const input =          readFileSync(settings.filename, 'utf8');
       const pkg =            JSON.parse(readFileSync('package.json', 'utf8'));
-      const versionPattern = /{{{version}}}/g;
+      const versionPattern = /~~~version~~~/g;
       const dist =           settings.setVersion ? input.replace(versionPattern, pkg.version) : input;
-      const banner =         `${pkg.name} v${pkg.version} ~ ${pkg.repository} ~ ${pkg.license} License`;
+      const info =           pkg.homepage ?? pkg.repository;
+      const unlicensed =     !pkg.license || pkg.license === 'UNLICENSED';
+      const license =        unlicensed ? 'All Rights Reserved' : pkg.license + ' License';
+      const banner =         `${pkg.name} v${pkg.version} ~ ${info} ~ ${license}`;
       const header =         (jsStyle ? '//! ' : '/*! ') + banner + (jsStyle ? '' : ' */');
       const output =         header + '\n\n' + dist;
       const distFolder =     makeDir.sync(settings.dist);

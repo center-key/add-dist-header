@@ -9,8 +9,8 @@ import { readFileSync } from 'fs';
 import { addDistHeader } from '../dist/add-dist-header.js';
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
 const header = {
-   js:  '//! add-dist-header v' + pkg.version + ' ~ github:center-key/add-dist-header ~ MIT License',
-   css: '/*! add-dist-header v' + pkg.version + ' ~ github:center-key/add-dist-header ~ MIT License */',
+   js:  '//! add-dist-header v' + pkg.version + ' ~ https://github.com/center-key/add-dist-header ~ MIT License',
+   css: '/*! add-dist-header v' + pkg.version + ' ~ https://github.com/center-key/add-dist-header ~ MIT License */',
    };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
