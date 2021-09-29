@@ -1,4 +1,4 @@
-//! add-dist-header v0.0.2 ~ github:center-key/add-dist-header ~ MIT License
+//! add-dist-header v0.0.3 ~ https://github.com/center-key/add-dist-header ~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -32,9 +32,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const jsStyle = /\.(js|ts|cjs|mjs)/.test(outputFileExt);
             const input = (0, fs_1.readFileSync)(settings.filename, 'utf8');
             const pkg = JSON.parse((0, fs_1.readFileSync)('package.json', 'utf8'));
-            const versionPattern = /{{{version}}}/g;
+            const versionPattern = /~~~version~~~/g;
             const dist = settings.setVersion ? input.replace(versionPattern, pkg.version) : input;
-            const banner = `${pkg.name} v${pkg.version} ~ ${pkg.repository} ~ ${pkg.license} License`;
+            const info = pkg.homepage ?? pkg.repository;
+            const unlicensed = !pkg.license || pkg.license === 'UNLICENSED';
+            const license = unlicensed ? 'All Rights Reserved' : pkg.license + ' License';
+            const banner = `${pkg.name} v${pkg.version} ~ ${info} ~ ${license}`;
             const header = (jsStyle ? '//! ' : '/*! ') + banner + (jsStyle ? '' : ' */');
             const output = header + '\n\n' + dist;
             const distFolder = make_dir_1.default.sync(settings.dist);
