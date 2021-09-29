@@ -1,3 +1,5 @@
+//! add-dist-header v0.0.2 ~ github:center-key/add-dist-header ~ MIT License
+
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };

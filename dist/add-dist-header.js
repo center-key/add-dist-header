@@ -1,3 +1,5 @@
+//! add-dist-header v0.0.2 ~ github:center-key/add-dist-header ~ MIT License
+
 import { format, parse } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
 import makeDir from 'make-dir';
