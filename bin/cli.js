@@ -17,9 +17,11 @@
 //    $ node bin/cli.js  #update distribution files for this project
 
 // Imports
-import glob              from 'glob';
-import { existsSync, statSync }      from 'fs';
-import { addDistHeader } from '../dist/add-dist-header.js';
+import { addDistHeader }        from '../dist/add-dist-header.js';
+import { existsSync, statSync } from 'fs';
+import chalk                    from 'chalk';
+import glob                     from 'glob';
+import log                      from 'fancy-log';
 
 // Parameters
 const args =  process.argv.slice(2);
@@ -36,8 +38,9 @@ const setVersion = flagMap.version !== 'false';
 const isFolder =   existsSync(param.filename) && statSync(param.filename).isDirectory();
 const pattern =    isFolder ? param.filename + '/*' : param.filename;
 const filenames =  glob.sync(pattern, { nodir: true }).sort();
-const log       =  (result) => console.log('[add-dist-header]', result.file, '~ length:', result.length);
+const name =       chalk.gray('add-dist-header');
+const logResult =  (result) => log(name, chalk.blue.bold(result.file), chalk.magenta(result.size));
 if (!filenames.length)
    console.error('[add-dist-header] File not found:', param.filename);
 filenames.forEach(file =>
-   log(addDistHeader.prepend({ filename: file, dist: param.dist, setVersion: setVersion })));
+   logResult(addDistHeader.prepend({ filename: file, dist: param.dist, setVersion: setVersion })));

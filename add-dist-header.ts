@@ -15,6 +15,7 @@ export type Result = {
    header: string,  //text prepended to output file
    file:   string,  //output filename
    length: number,  //number of characters in output file
+   size:   string,  //formatted file size, example: '1,233.70 kB'
    };
 
 const addDistHeader = {
@@ -40,6 +41,7 @@ const addDistHeader = {
       const banner =         `${pkg.name} v${pkg.version} ~ ${info} ~ ${license}`;
       const header =         (jsStyle ? '//! ' : '/*! ') + banner + (jsStyle ? '' : ' */');
       const output =         header + '\n\n' + dist;
+      const fixedDigits =    { minimumFractionDigits: 2, maximumFractionDigits: 2 };
       const distFolder =     makeDir.sync(settings.dist);
       const outputFilename = format({
          dir:  settings.dist,
@@ -47,7 +49,13 @@ const addDistHeader = {
          ext:  outputFileExt,
          });
       writeFileSync(outputFilename, output);
-      return { dist: distFolder, header: header, file: outputFilename, length: output.length };
+      return {
+         dist:   distFolder,
+         header: header,
+         file:   outputFilename,
+         length: output.length,
+         size:   output.length.toLocaleString([], fixedDigits) + ' kB',
+         };
       },
 
    };
