@@ -1,4 +1,4 @@
-//! add-dist-header v0.0.3 ~ https://github.com/center-key/add-dist-header ~ MIT License
+//! add-dist-header v0.1.0 ~ https://github.com/center-key/add-dist-header ~ MIT License
 
 export declare type Options = {
     filename: string;
@@ -11,6 +11,7 @@ export declare type Result = {
     header: string;
     file: string;
     length: number;
+    size: string;
 };
 declare const addDistHeader: {
     prepend(options: Options): Result;

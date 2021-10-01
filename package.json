@@ -1,6 +1,6 @@
 {
    "name": "add-dist-header",
-   "version": "0.0.3",
+   "version": "0.1.0",
    "description": "Adds a header comment to a file and saves it to your distribution folder (written in TypeScript)",
    "license": "MIT",
    "type": "module",
