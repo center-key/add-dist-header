@@ -13,8 +13,8 @@
 //
 // Contributors to this project:
 //    $ cd add-dist-header
-//    $ node bin/cli.js "spec/fixtures/to-kebab.js" "spec/fixtures/dist"  #run on sample file
-//    $ node bin/cli.js  #update distribution files for this project
+//    $ node bin/cli.js "spec/fixtures" "spec/fixtures/dist"  #run on sample files
+//    $ node bin/cli.js --version=false  #update the distribution files for this project
 
 // Imports
 import { addDistHeader }        from '../dist/add-dist-header.js';
@@ -33,6 +33,7 @@ const param = {
    filename: files[0] ?? 'build/*',
    dist:     files[1] ?? 'dist',
    };
+const exit =       (message) => (console.error('[add-dist-header] ' + message), process.exit(1));
 const flagMap =    Object.fromEntries(flags.map(flag => flag.replace(/^[-]*/, '').split('=')));
 const setVersion = flagMap.version !== 'false';
 const isFolder =   existsSync(param.filename) && statSync(param.filename).isDirectory();
@@ -41,6 +42,6 @@ const filenames =  glob.sync(pattern, { nodir: true }).sort();
 const name =       chalk.gray('add-dist-header');
 const logResult =  (result) => log(name, chalk.blue.bold(result.file), chalk.magenta(result.size));
 if (!filenames.length)
-   console.error('[add-dist-header] File not found:', param.filename);
+   exit('File not found: ' + param.filename);
 filenames.forEach(file =>
    logResult(addDistHeader.prepend({ filename: file, dist: param.dist, setVersion: setVersion })));
