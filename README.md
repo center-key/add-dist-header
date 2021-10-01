@@ -32,29 +32,35 @@ $ npm install --save-dev add-dist-header
 ## 2) Usage
 Call `add-dist-header` from the `"scripts"` section of your **package.json** file.
 
-For example:
+The **first** parameter is the *source* file (defaults to `"build/*"`).
+The **second** parameter is the *output* folder (defaults to `"dist"`).
+
+Example **package.json** script:
 ```json
    "scripts": {
       "add-headers": "add-dist-header build dist"
    },
 ```
 
-Or, run from the terminal in your project home folder, such as:
+Alternatively, you can run **add-dist-header** directly from the terminal in your project home
+folder.
+
+Example terminal command:
 ```shell
 $ ls package.json
 package.json
 $ npx add-dist-header "build" "dist"
-[add-dist-header] dist/my-app.d.ts ~ length: 413
-[add-dist-header] dist/my-app.js ~ length: 1569
+[17:13:50] add-dist-header dist/my-app.d.ts 413.11 kB
+[17:13:51] add-dist-header dist/my-app.js 1,569.70 kB
 ```
 
 The parameters are optional:
 ```shell
-$ npx add-dist-header  #same as above since "build/*" "dist" are the default parameters
-[add-dist-header] dist/my-app.d.ts ~ length: 413
-[add-dist-header] dist/my-app.js ~ length: 1569
-$ npx add-dist-header "target/my-app-cli.js"  #creates "dist/my-app.js" prepended with a comment header
-[add-dist-header] dist/my-app-cli.js ~ length: 413
+$ npx add-dist-header  #same as above since "build/*" "dist" are the default parameter values
+[17:13:50] add-dist-header dist/my-app.d.ts 413.11 kB
+[17:13:51] add-dist-header dist/my-app.js 1,569.70 kB
+$ npx add-dist-header "meta/config.js"  #creates "dist/config.js" prepended with a comment header
+[17:15:03] add-dist-header dist/config.js 3.91 kB
 ```
 
 ## 3) Version Number Substitution
@@ -62,9 +68,14 @@ In addition to prepending the header comment, **add-dist-header** also replaces 
 `~~~version~~~` with the version number found in the **package.json** file.
 This enables inserting the current package version number into your distribution files.
 
-The substitution feature can be disabled with the `--version` flag:
+The substitution feature is disabled by setting `--version` flag to `false`:
 ```json
    "scripts": {
       "add-headers": "add-dist-header --version=false build dist"
    },
 ```
+
+<br>
+
+---
+[MIT License](LICENSE.txt)

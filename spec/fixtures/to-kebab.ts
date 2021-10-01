@@ -3,4 +3,4 @@ const toKebab = (camelStr: string): string => {  //v~~~version~~~
    return ('' + camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
    };
 
-export { toKebab }  //version: ~~~version~~~
+export { toKebab };  //version: ~~~version~~~

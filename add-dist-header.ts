@@ -54,7 +54,7 @@ const addDistHeader = {
          header: header,
          file:   outputFilename,
          length: output.length,
-         size:   output.length.toLocaleString([], fixedDigits) + ' kB',
+         size:   (output.length / 1024).toLocaleString([], fixedDigits) + ' kB',
          };
       },
 

@@ -44,12 +44,14 @@ describe('A .js build file', () => {
          header:   result.header,
          file:     result.file,
          length:   result.length,
+         size:     result.size,
          versions: output.split(pkg.version).length - 1,
          };
       const expected = {
          header:   header.js,
          file:     'spec/fixtures/dist/to-kebab.js',
-         length:   output.length,
+         length:   311,
+         size:     '0.30 kB',
          versions: 3,
          };
       assertDeepStrictEqual(actual, expected);
@@ -72,12 +74,14 @@ describe('A .ts build file', () => {
          header:   result.header,
          file:     result.file,
          length:   result.length,
+         size:     result.size,
          versions: output.split(pkg.version).length - 1,
          };
       const expected = {
          header:   header.js,
          file:     'spec/fixtures/dist/to-kebab.ts',
-         length:   output.length,
+         length:   345,
+         size:     '0.34 kB',
          versions: 1,
          };
       assertDeepStrictEqual(actual, expected);
@@ -100,12 +104,14 @@ describe('A .css build file', () => {
          header:   result.header,
          file:     result.file,
          length:   result.length,
+         size:     result.size,
          versions: output.split(pkg.version).length - 1,
          };
       const expected = {
          header:   header.css,
          file:     'spec/fixtures/dist/kebab.min.css',
-         length:   output.length,
+         length:   176,
+         size:     '0.17 kB',
          versions: 2,
          };
       assertDeepStrictEqual(actual, expected);
