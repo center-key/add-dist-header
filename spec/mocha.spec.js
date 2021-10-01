@@ -9,8 +9,9 @@ import { readFileSync } from 'fs';
 import { addDistHeader } from '../dist/add-dist-header.js';
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
 const header = {
-   js:  '//! add-dist-header v' + pkg.version + ' ~ https://github.com/center-key/add-dist-header ~ MIT License',
-   css: '/*! add-dist-header v' + pkg.version + ' ~ https://github.com/center-key/add-dist-header ~ MIT License */',
+   js:   '//! add-dist-header v' +  pkg.version + ' ~ https://github.com/center-key/add-dist-header ~ MIT License',
+   css:  '/*! add-dist-header v' +  pkg.version + ' ~ https://github.com/center-key/add-dist-header ~ MIT License */',
+   html: '<!-- add-dist-header v' + pkg.version + ' ~ https://github.com/center-key/add-dist-header ~ MIT License -->',
    };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +113,35 @@ describe('A .css build file', () => {
          file:     'spec/fixtures/dist/kebab.min.css',
          length:   176,
          size:     '0.17 kB',
+         versions: 2,
+         };
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('A .html build file', () => {
+
+   it('gets the correct header prepended', () => {
+      const options = {
+         filename:   'spec/fixtures/kebab.html',
+         dist:       'spec/fixtures/dist',
+         };
+      const result = addDistHeader.prepend(options);
+      const output = readFileSync('spec/fixtures/dist/kebab.html', 'utf8');
+      const actual =   {
+         header:   result.header,
+         file:     result.file,
+         length:   result.length,
+         size:     result.size,
+         versions: output.split(pkg.version).length - 1,
+         };
+      const expected = {
+         header:   header.html,
+         file:     'spec/fixtures/dist/kebab.html',
+         length:   272,
+         size:     '0.27 kB',
          versions: 2,
          };
       assertDeepStrictEqual(actual, expected);
