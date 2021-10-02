@@ -1,4 +1,4 @@
-//! add-dist-header v0.1.1 ~ https://github.com/center-key/add-dist-header ~ MIT License
+//! add-dist-header v0.1.1 🫓🍢🫓 https://github.com/center-key/add-dist-header 🫓🍢🫓 MIT License
 
 const toKebab = (camelStr) => {  //v0.1.1
    const dash = (word) => '-' + word.toLowerCase();

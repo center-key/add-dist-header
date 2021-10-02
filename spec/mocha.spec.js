@@ -34,10 +34,11 @@ describe('Library module', () => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('A .js build file', () => {
 
-   it('gets the correct header prepended', () => {
+   it('gets the correct header prepended with a custom delimiter', () => {
       const options = {
-         filename: 'spec/fixtures/kebab.js',
-         dist:     'spec/fixtures/dist',
+         filename:  'spec/fixtures/kebab.js',
+         dist:      'spec/fixtures/dist',
+         delimiter: '🫓🍢🫓',
          };
       const result = addDistHeader.prepend(options);
       const output = readFileSync('spec/fixtures/dist/kebab.js', 'utf8');
@@ -49,10 +50,10 @@ describe('A .js build file', () => {
          versions: output.split(pkg.version).length - 1,
          };
       const expected = {
-         header:   header.js,
+         header:   header.js.replace(/~/g, '🫓🍢🫓'),
          file:     'spec/fixtures/dist/kebab.js',
-         length:   311,
-         size:     '0.30 kB',
+         length:   321,
+         size:     '0.31 kB',
          versions: 3,
          };
       assertDeepStrictEqual(actual, expected);

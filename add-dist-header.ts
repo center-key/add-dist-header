@@ -8,6 +8,7 @@ export type Options = {
    filename:        string,   //input filename, example: 'build/my-app.js'
    dist?:           string,   //output folder
    extension?:      string,   //rename with new file extension (with dot), example: '.css'
+   delimiter?:      string,   //character separating the parts of the header comment
    replaceComment?: boolean,  //delete the original first line comment
    setVersion?:     boolean,  //substitute occurances of "~~~version~~~" with the package.json version number
    };
@@ -24,6 +25,7 @@ const addDistHeader = {
    prepend(options: Options): Result {
       const defaults = {
          dist:           'dist',
+         delimiter:      '~',
          replaceComment: true,
          setVersion:     true,
          };
@@ -53,7 +55,8 @@ const addDistHeader = {
       const info =           pkg.homepage ?? pkg.docs ?? pkg.repository;
       const unlicensed =     !pkg.license || pkg.license === 'UNLICENSED';
       const license =        unlicensed ? 'All Rights Reserved' : pkg.license + ' License';
-      const banner =         `${pkg.name} v${pkg.version} ~ ${info} ~ ${license}`;
+      const delimiter =      ' ' + settings.delimiter + ' ';
+      const banner =         [`${pkg.name} v${pkg.version}`, info, license].join(delimiter);
       const header =         commentStyle[type].start + banner + commentStyle[type].end;
       const fixedDigits =    { minimumFractionDigits: 2, maximumFractionDigits: 2 };
       const spacerLines =    (path: string) => path.includes('.min.') || mlStyle ? '\n' : '\n\n';

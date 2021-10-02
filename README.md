@@ -77,10 +77,11 @@ The substitution feature is disabled by setting `--version` flag to `false`:
 ```
 
 ## 4) CLI Flags
-| Flag      | Description                                                                         | Values          | Default |
-| --------- | ----------------------------------------------------------------------------------- | --------------- | ------- |
-| `replace` | Delete the original first line comment (if not marked `!` important).               | `true`, `false` | `true`  |
-| `version` | Substitute occurrences of `~~~version~~~` with the **package.json** version number. | `true`, `false` | `true`  |
+| Flag        | Description                                                                         | Values          | Default |
+| ----------- | ----------------------------------------------------------------------------------- | --------------- | ------- |
+| `delimiter` | Character separating the parts of the header comment.                               | **string**      | `~`     |
+| `replace`   | Delete the original first line comment (if not marked `!` important).               | `true`, `false` | `true`  |
+| `version`   | Substitute occurrences of `~~~version~~~` with the **package.json** version number. | `true`, `false` | `true`  |
 
 <br>
 

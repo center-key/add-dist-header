@@ -35,6 +35,7 @@ const param = {
    };
 const exit =       (message) => (console.error('[add-dist-header] ' + message), process.exit(1));
 const flagMap =    Object.fromEntries(flags.map(flag => flag.replace(/^[-]*/, '').split('=')));
+const delimiter =  flagMap.delimiter ?? '~';
 const replace =    flagMap.replace !== 'false';
 const version =    flagMap.version !== 'false';
 const isFolder =   existsSync(param.filename) && statSync(param.filename).isDirectory();
@@ -47,6 +48,7 @@ if (!filenames.length)
 const prepend = (file) => addDistHeader.prepend({
    filename:       file,
    dist:           param.dist,
+   delimiter:      delimiter,
    replaceComment: replace,
    setVersion:     version,
    });
