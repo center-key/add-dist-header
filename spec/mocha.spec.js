@@ -36,11 +36,11 @@ describe('A .js build file', () => {
 
    it('gets the correct header prepended', () => {
       const options = {
-         filename: 'spec/fixtures/to-kebab.js',
+         filename: 'spec/fixtures/kebab.js',
          dist:     'spec/fixtures/dist',
          };
       const result = addDistHeader.prepend(options);
-      const output = readFileSync('spec/fixtures/dist/to-kebab.js', 'utf8');
+      const output = readFileSync('spec/fixtures/dist/kebab.js', 'utf8');
       const actual =   {
          header:   result.header,
          file:     result.file,
@@ -50,7 +50,7 @@ describe('A .js build file', () => {
          };
       const expected = {
          header:   header.js,
-         file:     'spec/fixtures/dist/to-kebab.js',
+         file:     'spec/fixtures/dist/kebab.js',
          length:   311,
          size:     '0.30 kB',
          versions: 3,
@@ -65,12 +65,12 @@ describe('A .ts build file', () => {
 
    it('gets the correct header prepended without version substitutions', () => {
       const options = {
-         filename:   'spec/fixtures/to-kebab.ts',
+         filename:   'spec/fixtures/kebab.ts',
          dist:       'spec/fixtures/dist',
          setVersion: false,
          };
       const result = addDistHeader.prepend(options);
-      const output = readFileSync('spec/fixtures/dist/to-kebab.ts', 'utf8');
+      const output = readFileSync('spec/fixtures/dist/kebab.ts', 'utf8');
       const actual =   {
          header:   result.header,
          file:     result.file,
@@ -80,7 +80,7 @@ describe('A .ts build file', () => {
          };
       const expected = {
          header:   header.js,
-         file:     'spec/fixtures/dist/to-kebab.ts',
+         file:     'spec/fixtures/dist/kebab.ts',
          length:   424,
          size:     '0.41 kB',
          versions: 1,
