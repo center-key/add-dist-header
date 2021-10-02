@@ -43,6 +43,8 @@ const pattern =    isFolder ? param.filename + '/*' : param.filename;
 const filenames =  glob.sync(pattern, { nodir: true }).sort();
 const name =       chalk.gray('add-dist-header');
 const logResult =  (result) => log(name, chalk.blue.bold(result.file), chalk.magenta(result.size));
+if (files.length > 2)
+   exit('Unknown extraneous parameter: ' + files[2]);
 if (!filenames.length)
    exit('File not found: ' + param.filename);
 const prepend = (file) => addDistHeader.prepend({
