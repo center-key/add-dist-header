@@ -35,21 +35,21 @@ const addDistHeader = {
          ml:    { start: '<!-- ', end: ' -->' },
          other: { start: '/*! ',  end: ' */' },
          };
-      const firstLineComment = {
+      const firstLine = {
          js:    /^(\/\/[^!].*|\/[*][^!].*[*]\/)\n/,  //matches: '// ...' or '/* ... */'
          ml:    /^<!--.*-->\n/,                      //matches: '<!-- ... -->'
          other: /^\/[*][^!].*[*]\/\n/,               //matches: '/* ... */'
          };
+      const pkg =            JSON.parse(readFileSync('package.json', 'utf8'));
       const inputFile =      parse(settings.filename);
-      const outputFileExt =  settings.extension ?? inputFile.ext;
-      const jsStyle =        /\.(js|ts|cjs|mjs)$/.test(outputFileExt);
-      const mlStyle =        /\.(html|sgml|xml|php)$/.test(outputFileExt);
+      const fileExt =        settings.extension ?? inputFile.ext;
+      const jsStyle =        /\.(js|ts|cjs|mjs)$/.test(fileExt);
+      const mlStyle =        /\.(html|sgml|xml|php)$/.test(fileExt);
       const type =           jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
       const input =          readFileSync(settings.filename, 'utf8');
-      const pkg =            JSON.parse(readFileSync('package.json', 'utf8'));
-      const clean =          settings.replaceComment ? input.replace(firstLineComment[type], '') : input;
+      const out1 =           settings.replaceComment ? input.replace(firstLine[type], '') : input;
       const versionPattern = /~~~version~~~/g;
-      const dist =           settings.setVersion ? clean.replace(versionPattern, pkg.version) : clean;
+      const out2 =           settings.setVersion ? out1.replace(versionPattern, pkg.version) : out1;
       const info =           pkg.homepage ?? pkg.docs ?? pkg.repository;
       const unlicensed =     !pkg.license || pkg.license === 'UNLICENSED';
       const license =        unlicensed ? 'All Rights Reserved' : pkg.license + ' License';
@@ -58,15 +58,15 @@ const addDistHeader = {
       const fixedDigits =    { minimumFractionDigits: 2, maximumFractionDigits: 2 };
       const spacerLines =    (path: string) => path.includes('.min.') || mlStyle ? '\n' : '\n\n';
       const distFolder =     makeDir.sync(settings.dist);
-      const outputPath =     format({ dir: settings.dist, name: inputFile.name, ext: outputFileExt });
-      const output =         header + spacerLines(outputPath) + dist.replace(/^\s*\n/, '');
-      writeFileSync(outputPath, output);
+      const outputPath =     format({ dir: settings.dist, name: inputFile.name, ext: fileExt });
+      const out3 =           header + spacerLines(outputPath) + out2.replace(/^\s*\n/, '');
+      writeFileSync(outputPath, out3);
       return {
          dist:   distFolder,
          header: header,
          file:   outputPath,
-         length: output.length,
-         size:   (output.length / 1024).toLocaleString([], fixedDigits) + ' kB',
+         length: out3.length,
+         size:   (out3.length / 1024).toLocaleString([], fixedDigits) + ' kB',
          };
       },
 
