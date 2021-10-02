@@ -1,4 +1,4 @@
-//! add-dist-header v0.1.1 ~ https://github.com/center-key/add-dist-header ~ MIT License
+//! add-dist-header v0.1.2 ~ https://github.com/center-key/add-dist-header ~ MIT License
 
 import { format, parse } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
@@ -7,6 +7,7 @@ const addDistHeader = {
     prepend(options) {
         const defaults = {
             dist: 'dist',
+            delimiter: '~',
             replaceComment: true,
             setVersion: true,
         };
@@ -36,7 +37,8 @@ const addDistHeader = {
         const info = pkg.homepage ?? pkg.docs ?? pkg.repository;
         const unlicensed = !pkg.license || pkg.license === 'UNLICENSED';
         const license = unlicensed ? 'All Rights Reserved' : pkg.license + ' License';
-        const banner = `${pkg.name} v${pkg.version} ~ ${info} ~ ${license}`;
+        const delimiter = ' ' + settings.delimiter + ' ';
+        const banner = [`${pkg.name} v${pkg.version}`, info, license].join(delimiter);
         const header = commentStyle[type].start + banner + commentStyle[type].end;
         const fixedDigits = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
         const spacerLines = (path) => path.includes('.min.') || mlStyle ? '\n' : '\n\n';

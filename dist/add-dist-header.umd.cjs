@@ -1,4 +1,4 @@
-//! add-dist-header v0.1.1 ~ https://github.com/center-key/add-dist-header ~ MIT License
+//! add-dist-header v0.1.2 ~ https://github.com/center-key/add-dist-header ~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -22,6 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         prepend(options) {
             const defaults = {
                 dist: 'dist',
+                delimiter: '~',
                 replaceComment: true,
                 setVersion: true,
             };
@@ -51,7 +52,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const info = pkg.homepage ?? pkg.docs ?? pkg.repository;
             const unlicensed = !pkg.license || pkg.license === 'UNLICENSED';
             const license = unlicensed ? 'All Rights Reserved' : pkg.license + ' License';
-            const banner = `${pkg.name} v${pkg.version} ~ ${info} ~ ${license}`;
+            const delimiter = ' ' + settings.delimiter + ' ';
+            const banner = [`${pkg.name} v${pkg.version}`, info, license].join(delimiter);
             const header = commentStyle[type].start + banner + commentStyle[type].end;
             const fixedDigits = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
             const spacerLines = (path) => path.includes('.min.') || mlStyle ? '\n' : '\n\n';
