@@ -81,8 +81,8 @@ describe('A .ts build file', () => {
       const expected = {
          header:   header.js,
          file:     'spec/fixtures/dist/to-kebab.ts',
-         length:   345,
-         size:     '0.34 kB',
+         length:   424,
+         size:     '0.41 kB',
          versions: 1,
          };
       assertDeepStrictEqual(actual, expected);
@@ -95,9 +95,9 @@ describe('A .css build file', () => {
 
    it('gets the correct compact header prepended plus renamed to .min.css', () => {
       const options = {
-         filename:   'spec/fixtures/kebab.css',
-         dist:       'spec/fixtures/dist',
-         extension:  '.min.css',
+         filename:  'spec/fixtures/kebab.css',
+         dist:      'spec/fixtures/dist',
+         extension: '.min.css',
          };
       const result = addDistHeader.prepend(options);
       const output = readFileSync('spec/fixtures/dist/kebab.min.css', 'utf8');
@@ -123,10 +123,11 @@ describe('A .css build file', () => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('A .html build file', () => {
 
-   it('gets the correct header prepended', () => {
+   it('gets the correct header prepended and keeps the original comment', () => {
       const options = {
-         filename:   'spec/fixtures/kebab.html',
-         dist:       'spec/fixtures/dist',
+         filename:       'spec/fixtures/kebab.html',
+         dist:           'spec/fixtures/dist',
+         replaceComment: false,
          };
       const result = addDistHeader.prepend(options);
       const output = readFileSync('spec/fixtures/dist/kebab.html', 'utf8');
@@ -140,8 +141,8 @@ describe('A .html build file', () => {
       const expected = {
          header:   header.html,
          file:     'spec/fixtures/dist/kebab.html',
-         length:   272,
-         size:     '0.27 kB',
+         length:   304,
+         size:     '0.30 kB',
          versions: 2,
          };
       assertDeepStrictEqual(actual, expected);
