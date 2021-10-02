@@ -93,7 +93,7 @@ describe('A .ts build file', () => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('A .css build file', () => {
 
-   it('gets the correct header prepended plus renamed to .min.css', () => {
+   it('gets the correct compact header prepended plus renamed to .min.css', () => {
       const options = {
          filename:   'spec/fixtures/kebab.css',
          dist:       'spec/fixtures/dist',
@@ -111,7 +111,7 @@ describe('A .css build file', () => {
       const expected = {
          header:   header.css,
          file:     'spec/fixtures/dist/kebab.min.css',
-         length:   176,
+         length:   175,
          size:     '0.17 kB',
          versions: 2,
          };

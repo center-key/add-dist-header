@@ -47,14 +47,15 @@ const addDistHeader = {
       const license =        unlicensed ? 'All Rights Reserved' : pkg.license + ' License';
       const banner =         `${pkg.name} v${pkg.version} ~ ${info} ~ ${license}`;
       const header =         comment.start + banner + comment.end;
-      const output =         header + '\n\n' + dist;
       const fixedDigits =    { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+      const spacerLines =    (filename: string) => filename.includes('.min.') ? '\n' : '\n\n';
       const distFolder =     makeDir.sync(settings.dist);
       const outputFilename = format({
          dir:  settings.dist,
          name: inputFile.name,
          ext:  outputFileExt,
          });
+      const output = header + spacerLines(outputFilename) + dist.replace(/^\s*\n/, '');
       writeFileSync(outputFilename, output);
       return {
          dist:   distFolder,
