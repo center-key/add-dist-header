@@ -1,4 +1,4 @@
-//! add-dist-header v0.1.0 ~ https://github.com/center-key/add-dist-header ~ MIT License
+//! add-dist-header v0.1.1 ~ https://github.com/center-key/add-dist-header ~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -22,6 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         prepend(options) {
             const defaults = {
                 dist: 'dist',
+                replaceComment: true,
                 setVersion: true,
             };
             const settings = { ...defaults, ...options };
@@ -32,35 +33,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 ml: { start: '<!-- ', end: ' -->' },
                 other: { start: '/*! ', end: ' */' },
             };
-            const inputFile = (0, path_1.parse)(settings.filename);
-            const outputFileExt = settings.extension ?? inputFile.ext;
-            const jsStyle = /\.(js|ts|cjs|mjs)$/.test(outputFileExt);
-            const mlStyle = /\.(html|sgml|xml|php)$/.test(outputFileExt);
-            const comment = commentStyle[jsStyle ? 'js' : mlStyle ? 'ml' : 'other'];
-            const input = (0, fs_1.readFileSync)(settings.filename, 'utf8');
+            const firstLine = {
+                js: /^(\/\/[^!].*|\/[*][^!].*[*]\/)\n/,
+                ml: /^<!--.*-->\n/,
+                other: /^\/[*][^!].*[*]\/\n/,
+            };
             const pkg = JSON.parse((0, fs_1.readFileSync)('package.json', 'utf8'));
+            const inputFile = (0, path_1.parse)(settings.filename);
+            const fileExt = settings.extension ?? inputFile.ext;
+            const jsStyle = /\.(js|ts|cjs|mjs)$/.test(fileExt);
+            const mlStyle = /\.(html|sgml|xml|php)$/.test(fileExt);
+            const type = jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
+            const input = (0, fs_1.readFileSync)(settings.filename, 'utf8');
+            const out1 = settings.replaceComment ? input.replace(firstLine[type], '') : input;
             const versionPattern = /~~~version~~~/g;
-            const dist = settings.setVersion ? input.replace(versionPattern, pkg.version) : input;
+            const out2 = settings.setVersion ? out1.replace(versionPattern, pkg.version) : out1;
             const info = pkg.homepage ?? pkg.docs ?? pkg.repository;
             const unlicensed = !pkg.license || pkg.license === 'UNLICENSED';
             const license = unlicensed ? 'All Rights Reserved' : pkg.license + ' License';
             const banner = `${pkg.name} v${pkg.version} ~ ${info} ~ ${license}`;
-            const header = comment.start + banner + comment.end;
-            const output = header + '\n\n' + dist;
+            const header = commentStyle[type].start + banner + commentStyle[type].end;
             const fixedDigits = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+            const spacerLines = (path) => path.includes('.min.') || mlStyle ? '\n' : '\n\n';
             const distFolder = make_dir_1.default.sync(settings.dist);
-            const outputFilename = (0, path_1.format)({
-                dir: settings.dist,
-                name: inputFile.name,
-                ext: outputFileExt,
-            });
-            (0, fs_1.writeFileSync)(outputFilename, output);
+            const outputPath = (0, path_1.format)({ dir: settings.dist, name: inputFile.name, ext: fileExt });
+            const out3 = header + spacerLines(outputPath) + out2.replace(/^\s*\n/, '');
+            (0, fs_1.writeFileSync)(outputPath, out3);
             return {
                 dist: distFolder,
                 header: header,
-                file: outputFilename,
-                length: output.length,
-                size: (output.length / 1024).toLocaleString([], fixedDigits) + ' kB',
+                file: outputPath,
+                length: out3.length,
+                size: (out3.length / 1024).toLocaleString([], fixedDigits) + ' kB',
             };
         },
     };

@@ -1,6 +1,6 @@
 {
    "name": "add-dist-header",
-   "version": "0.1.0",
+   "version": "0.1.1",
    "description": "Adds a header comment to a file and saves it to your distribution folder (written in TypeScript)",
    "license": "MIT",
    "type": "module",
@@ -73,9 +73,8 @@
       "step:06": "cpy build/umd/add-dist-header.js build --rename=add-dist-header.umd.cjs",
       "step:07": "cpy 'build/*' dist",
       "step:08": "node bin/cli.js --version=false build dist",
-      "step:09": "w3c-html-validator",
       "pretest": "npm-run-all step:*",
-      "test": "mocha spec/*.spec.js"
+      "test": "mocha spec/*.spec.js && w3c-html-validator"
    },
    "dependencies": {
       "glob": "~7.2"
