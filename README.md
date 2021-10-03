@@ -11,9 +11,13 @@ _Adds a header comment to a file and saves it to your distribution folder_
 **add-dist-header** uses the `name`, `homepage`, and `license` from your project's **package.json**
 file to create a header comment and prepend it to a build file.
 
-Example header comment:
+Example header comment for a **.js** file:
 ```javascript
-//! my-app v0.3.7 ~~ https://github.com/my-organization/my-app ~~ MIT License
+//! my-app v0.3.7 ~~ https://github.com/my-org/my-app ~~ MIT License
+```
+Example header comment for a **.css** file:
+```javascript
+/*! my-app v0.3.7 ~~ https://github.com/my-org/my-app ~~ MIT License */
 ```
 
 Automatically prepending headers to distribution files is particularly handy when your build
