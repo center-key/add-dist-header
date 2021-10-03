@@ -1,4 +1,4 @@
-//! add-dist-header v0.1.2 ~ https://github.com/center-key/add-dist-header ~ MIT License
+//! add-dist-header v0.1.3 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -22,7 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         prepend(options) {
             const defaults = {
                 dist: 'dist',
-                delimiter: '~',
+                delimiter: '~~',
                 replaceComment: true,
                 setVersion: true,
             };
