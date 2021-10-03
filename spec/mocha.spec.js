@@ -9,9 +9,9 @@ import { readFileSync } from 'fs';
 import { addDistHeader } from '../dist/add-dist-header.js';
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
 const header = {
-   js:   '//! add-dist-header v' +  pkg.version + ' ~ https://github.com/center-key/add-dist-header ~ MIT License',
-   css:  '/*! add-dist-header v' +  pkg.version + ' ~ https://github.com/center-key/add-dist-header ~ MIT License */',
-   html: '<!-- add-dist-header v' + pkg.version + ' ~ https://github.com/center-key/add-dist-header ~ MIT License -->',
+   js:   '//! add-dist-header v' +  pkg.version + ' ~~ https://github.com/center-key/add-dist-header ~~ MIT License',
+   css:  '/*! add-dist-header v' +  pkg.version + ' ~~ https://github.com/center-key/add-dist-header ~~ MIT License */',
+   html: '<!-- add-dist-header v' + pkg.version + ' ~~ https://github.com/center-key/add-dist-header ~~ MIT License -->',
    };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +50,7 @@ describe('A .js build file', () => {
          versions: output.split(pkg.version).length - 1,
          };
       const expected = {
-         header:   header.js.replace(/~/g, '🫓🍢🫓'),
+         header:   header.js.replace(/~~/g, '🫓🍢🫓'),
          file:     'spec/fixtures/dist/kebab.js',
          length:   321,
          size:     '0.31 kB',
@@ -82,8 +82,8 @@ describe('A .ts build file', () => {
       const expected = {
          header:   header.js,
          file:     'spec/fixtures/dist/kebab.ts',
-         length:   424,
-         size:     '0.41 kB',
+         length:   426,
+         size:     '0.42 kB',
          versions: 1,
          };
       assertDeepStrictEqual(actual, expected);
@@ -112,7 +112,7 @@ describe('A .css build file', () => {
       const expected = {
          header:   header.css,
          file:     'spec/fixtures/dist/kebab.min.css',
-         length:   175,
+         length:   177,
          size:     '0.17 kB',
          versions: 2,
          };
@@ -142,7 +142,7 @@ describe('A .html build file', () => {
       const expected = {
          header:   header.html,
          file:     'spec/fixtures/dist/kebab.html',
-         length:   304,
+         length:   306,
          size:     '0.30 kB',
          versions: 2,
          };

@@ -1,4 +1,4 @@
-// Add Dist Header ~ MIT License
+// Add Dist Header ~~ MIT License
 
 import { format, parse } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
@@ -25,7 +25,7 @@ const addDistHeader = {
    prepend(options: Options): Result {
       const defaults = {
          dist:           'dist',
-         delimiter:      '~',
+         delimiter:      '~~',
          replaceComment: true,
          setVersion:     true,
          };

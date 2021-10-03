@@ -13,7 +13,7 @@ file to create a header comment and prepend it to a build file.
 
 Example header comment:
 ```javascript
-//! my-app v0.3.7 ~ https://github.com/my-organization/my-app ~ MIT License
+//! my-app v0.3.7 ~~ https://github.com/my-organization/my-app ~~ MIT License
 ```
 
 Automatically prepending headers to distribution files is particularly handy when your build
@@ -60,7 +60,7 @@ The parameters are optional:
 $ npx add-dist-header  #same as above since "build/*" "dist" are the default parameter values
 [17:13:50] add-dist-header dist/my-app.d.ts 413.11 kB
 [17:13:51] add-dist-header dist/my-app.js 1,569.70 kB
-$ npx add-dist-header "meta/config.js"  #creates "dist/config.js" prepended with a comment header
+$ npx add-dist-header "meta/config.js"  #creates "dist/config.js" prepended with header
 [17:15:03] add-dist-header dist/config.js 3.91 kB
 ```
 
@@ -77,11 +77,11 @@ The substitution feature is disabled by setting `--version` flag to `false`:
 ```
 
 ## 4) CLI Flags
-| Flag        | Description                                                                         | Values          | Default |
-| ----------- | ----------------------------------------------------------------------------------- | --------------- | ------- |
-| `delimiter` | Character separating the parts of the header comment.                               | **string**      | `~`     |
-| `replace`   | Delete the original first line comment (if not marked `!` important).               | `true`, `false` | `true`  |
-| `version`   | Substitute occurrences of `~~~version~~~` with the **package.json** version number. | `true`, `false` | `true`  |
+| Flag          | Description                                                                         | Values          | Default |
+| ------------- | ----------------------------------------------------------------------------------- | --------------- | ------- |
+| `--delimiter` | Characters separating the parts of the header comment.                              | **string**      | `~~`    |
+| `--replace`   | Delete the original first line comment (if not marked `!` important).               | `true`, `false` | `true`  |
+| `--version`   | Substitute occurrences of `~~~version~~~` with the **package.json** version number. | `true`, `false` | `true`  |
 
 <br>
 
