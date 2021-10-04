@@ -77,19 +77,21 @@
       "test": "mocha spec/*.spec.js && w3c-html-validator"
    },
    "dependencies": {
-      "glob": "~7.2"
+      "chalk": "~4.1",
+      "fancy-log": "~1.3",
+      "glob": "~7.2",
+      "make-dir": "~3.1"
    },
    "devDependencies": {
+      "@types/fancy-log": "~1.3",
+      "@types/glob": "~7.1",
       "@types/node": "~16.10",
       "@typescript-eslint/eslint-plugin": "~4.32",
       "@typescript-eslint/parser": "~4.32",
       "assert-deep-strict-equal": "~0.0",
-      "chalk": "~4.1",
       "cpy-cli": "~3.1",
       "eslint": "~7.32",
-      "fancy-log": "~1.3",
       "jshint": "~2.13",
-      "make-dir": "~3.1",
       "mocha": "~9.1",
       "npm-run-all2": "~5.0",
       "rimraf": "~3.0",
