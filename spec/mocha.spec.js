@@ -4,6 +4,7 @@
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { readFileSync } from 'fs';
+import assert from 'assert';
 
 // Setup
 import { addDistHeader } from '../dist/add-dist-header.js';
@@ -42,7 +43,7 @@ describe('A .js build file', () => {
          };
       const result = addDistHeader.prepend(options);
       const output = readFileSync('spec/fixtures/dist/kebab.js', 'utf8');
-      const actual =   {
+      const actual = {
          header:   result.header,
          file:     result.file,
          length:   result.length,
@@ -72,7 +73,7 @@ describe('A .ts build file', () => {
          };
       const result = addDistHeader.prepend(options);
       const output = readFileSync('spec/fixtures/dist/kebab.ts', 'utf8');
-      const actual =   {
+      const actual = {
          header:   result.header,
          file:     result.file,
          length:   result.length,
@@ -102,7 +103,7 @@ describe('A .css build file', () => {
          };
       const result = addDistHeader.prepend(options);
       const output = readFileSync('spec/fixtures/dist/kebab.min.css', 'utf8');
-      const actual =   {
+      const actual = {
          header:   result.header,
          file:     result.file,
          length:   result.length,
@@ -132,7 +133,7 @@ describe('A .html build file', () => {
          };
       const result = addDistHeader.prepend(options);
       const output = readFileSync('spec/fixtures/dist/kebab.html', 'utf8');
-      const actual =   {
+      const actual = {
          header:   result.header,
          file:     result.file,
          length:   result.length,
@@ -147,6 +148,19 @@ describe('A .html build file', () => {
          versions: 2,
          };
       assertDeepStrictEqual(actual, expected);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Empty options', () => {
+
+   it('throws a missing "filename" error', (done) => {
+      const options =       {};
+      const exception =     { message: '[add-dist-header] Must specify the "filename" option.' };
+      const makeBogusCall = () => addDistHeader.prepend(options);
+      assert.throws(makeBogusCall, exception);
+      done();
       });
 
    });

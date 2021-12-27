@@ -31,7 +31,7 @@ const addDistHeader = {
          };
       const settings = { ...defaults, ...options };
       if (!settings.filename)
-         throw Error('Must specify the "filename" option.');
+         throw Error('[add-dist-header] Must specify the "filename" option.');
       const commentStyle = {
          js:    { start: '//! ',  end: '' },
          ml:    { start: '<!-- ', end: ' -->' },

@@ -33,7 +33,7 @@ const param = {
    filename: files[0] ?? 'build/*',
    dist:     files[1] ?? 'dist',
    };
-const exit =       (message) => (console.error('[add-dist-header] ' + message), process.exit(1));
+const exit =       (message) => (console.error('[add-dist-header]', message), process.exit(1));
 const flagMap =    Object.fromEntries(flags.map(flag => flag.replace(/^[-]*/, '').split('=')));
 const delimiter =  flagMap.delimiter ?? '~~';
 const replace =    flagMap.replace !== 'false';
