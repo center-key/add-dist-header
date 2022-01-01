@@ -1,4 +1,4 @@
-//! add-dist-header v0.1.4 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.1.5 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { format, parse } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
@@ -13,7 +13,7 @@ const addDistHeader = {
         };
         const settings = { ...defaults, ...options };
         if (!settings.filename)
-            throw Error('Must specify the "filename" option.');
+            throw Error('[add-dist-header] Must specify the "filename" option.');
         const commentStyle = {
             js: { start: '//! ', end: '' },
             ml: { start: '<!-- ', end: ' -->' },

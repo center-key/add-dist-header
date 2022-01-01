@@ -1,4 +1,4 @@
-//! add-dist-header v0.1.4 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.1.5 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -28,7 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             };
             const settings = { ...defaults, ...options };
             if (!settings.filename)
-                throw Error('Must specify the "filename" option.');
+                throw Error('[add-dist-header] Must specify the "filename" option.');
             const commentStyle = {
                 js: { start: '//! ', end: '' },
                 ml: { start: '<!-- ', end: ' -->' },

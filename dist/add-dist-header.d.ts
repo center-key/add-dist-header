@@ -1,4 +1,4 @@
-//! add-dist-header v0.1.4 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.1.5 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 export declare type Options = {
     filename: string;

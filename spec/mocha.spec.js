@@ -153,14 +153,13 @@ describe('A .html build file', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-describe('Empty options', () => {
+describe('Correct error is thrown', () => {
 
-   it('throws a missing "filename" error', (done) => {
+   it('when "filename" option is missing', () => {
       const options =       {};
-      const exception =     { message: '[add-dist-header] Must specify the "filename" option.' };
       const makeBogusCall = () => addDistHeader.prepend(options);
+      const exception =     { message: '[add-dist-header] Must specify the "filename" option.' };
       assert.throws(makeBogusCall, exception);
-      done();
       });
 
    });
