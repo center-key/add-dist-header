@@ -1,6 +1,9 @@
 #!/usr/bin/env node
-// add-dist-header ~~ MIT License
-//
+/////////////////////
+// add-dist-header //
+// MIT License     //
+/////////////////////
+
 // Usage in package.json:
 //    "scripts": {
 //       "add-headers": "add-dist-header build/*.js dist"
