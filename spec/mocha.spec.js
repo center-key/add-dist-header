@@ -3,7 +3,7 @@
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
-import { readFileSync } from 'fs';
+import { readdirSync, readFileSync } from 'fs';
 import assert from 'assert';
 
 // Setup
@@ -14,6 +14,17 @@ const header = {
    css:  '/*! add-dist-header v' +  pkg.version + ' ~~ https://github.com/center-key/add-dist-header ~~ MIT License */',
    html: '<!-- add-dist-header v' + pkg.version + ' ~~ https://github.com/center-key/add-dist-header ~~ MIT License -->',
    };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('The "dist" folder', () => {
+
+   it('contains the correct files', () => {
+      const actual =   readdirSync('dist').sort();
+      const expected = ['add-dist-header.d.ts', 'add-dist-header.js', 'add-dist-header.umd.cjs'];
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Library module', () => {
