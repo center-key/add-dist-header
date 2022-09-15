@@ -1,5 +1,5 @@
 //! add-dist-header v0.1.7 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
-
+// LF
 import { format, parse } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
 import makeDir from 'make-dir';
