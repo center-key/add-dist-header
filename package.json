@@ -1,6 +1,6 @@
 {
    "name": "add-dist-header",
-   "version": "0.1.7",
+   "version": "0.2.0",
    "description": "Adds a header comment to a file and saves it to your distribution folder (written in functional TypeScript)",
    "license": "MIT",
    "type": "module",
@@ -85,18 +85,18 @@
    },
    "devDependencies": {
       "@types/fancy-log": "~2.0",
-      "@types/glob": "~7.2",
-      "@types/node": "~18.0",
-      "@typescript-eslint/eslint-plugin": "~5.30",
-      "@typescript-eslint/parser": "~5.30",
+      "@types/glob": "~8.0",
+      "@types/node": "~18.7",
+      "@typescript-eslint/eslint-plugin": "~5.37",
+      "@typescript-eslint/parser": "~5.37",
       "assert-deep-strict-equal": "~1.0",
-      "cpy-cli": "~4.1",
-      "eslint": "~8.19",
+      "cpy-cli": "~4.2",
+      "eslint": "~8.23",
       "jshint": "~2.13",
       "mocha": "~10.0",
       "npm-run-all2": "~6.0",
       "rimraf": "~3.0",
-      "typescript": "~4.7",
-      "w3c-html-validator": "~1.0"
+      "typescript": "~4.8",
+      "w3c-html-validator": "~1.1"
    }
 }

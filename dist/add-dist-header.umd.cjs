@@ -1,4 +1,4 @@
-//! add-dist-header v0.1.7 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.2.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -9,7 +9,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "path", "fs", "make-dir"], factory);
+        define(["require", "exports", "path", "fs", "make-dir", "slash"], factory);
     }
 })(function (require, exports) {
     "use strict";
@@ -18,6 +18,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const path_1 = require("path");
     const fs_1 = require("fs");
     const make_dir_1 = __importDefault(require("make-dir"));
+    const slash_1 = __importDefault(require("slash"));
     const addDistHeader = {
         prepend(options) {
             var _a, _b, _c;
@@ -46,7 +47,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const jsStyle = /\.(js|ts|cjs|mjs)$/.test(fileExt);
             const mlStyle = /\.(html|sgml|xml|php)$/.test(fileExt);
             const type = jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
-            const input = (0, fs_1.readFileSync)(settings.filename, 'utf8');
+            const input = (0, fs_1.readFileSync)(settings.filename, 'utf8').replace(/\r/g, '');
             const out1 = settings.replaceComment ? input.replace(firstLine[type], '') : input;
             const versionPattern = /~~~version~~~/g;
             const out2 = settings.setVersion ? out1.replace(versionPattern, pkg.version) : out1;
@@ -59,7 +60,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const fixedDigits = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
             const spacerLines = (path) => path.includes('.min.') || mlStyle ? '\n' : '\n\n';
             const distFolder = make_dir_1.default.sync(settings.dist);
-            const outputPath = (0, path_1.format)({ dir: settings.dist, name: inputFile.name, ext: fileExt });
+            const outputPath = (0, slash_1.default)((0, path_1.format)({ dir: settings.dist, name: inputFile.name, ext: fileExt }));
             const out3 = header + spacerLines(outputPath) + out2.replace(/^\s*\n/, '');
             (0, fs_1.writeFileSync)(outputPath, out3);
             return {

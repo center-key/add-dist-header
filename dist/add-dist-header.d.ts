@@ -1,5 +1,5 @@
-//! add-dist-header v0.1.7 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
-// CRLF
+//! add-dist-header v0.2.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+
 export declare type Options = {
     filename: string;
     dist?: string;
