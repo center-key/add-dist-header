@@ -3,6 +3,7 @@
 import { format, parse } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
 import makeDir from 'make-dir';
+import slash from 'slash';
 
 export type Options = {
    filename:        string,   //input filename, example: 'build/my-app.js'
@@ -48,7 +49,7 @@ const addDistHeader = {
       const jsStyle =        /\.(js|ts|cjs|mjs)$/.test(fileExt);
       const mlStyle =        /\.(html|sgml|xml|php)$/.test(fileExt);
       const type =           jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
-      const input =          readFileSync(settings.filename, 'utf8');
+      const input =          readFileSync(settings.filename, 'utf8').replace(/\r/g, '');
       const out1 =           settings.replaceComment ? input.replace(firstLine[type], '') : input;
       const versionPattern = /~~~version~~~/g;
       const out2 =           settings.setVersion ? out1.replace(versionPattern, pkg.version) : out1;
@@ -61,7 +62,7 @@ const addDistHeader = {
       const fixedDigits =    { minimumFractionDigits: 2, maximumFractionDigits: 2 };
       const spacerLines =    (path: string) => path.includes('.min.') || mlStyle ? '\n' : '\n\n';
       const distFolder =     makeDir.sync(settings.dist);
-      const outputPath =     format({ dir: settings.dist, name: inputFile.name, ext: fileExt });
+      const outputPath =     slash(format({ dir: settings.dist, name: inputFile.name, ext: fileExt }));
       const out3 =           header + spacerLines(outputPath) + out2.replace(/^\s*\n/, '');
       writeFileSync(outputPath, out3);
       return {
