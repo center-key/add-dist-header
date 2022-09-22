@@ -90,4 +90,9 @@ The substitution feature is disabled by setting `--version` flag to `false`:
 <br>
 
 ---
+**Build Tools**
+   - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Adds a header comment to a file and saves it to your distribution folder_
+   - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _A file copy and rename cli tool designed for use in npm scripts_
+   - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli):&nbsp; _A recursive directory file copy utility designed for use in npm scripts_
+
 [MIT License](LICENSE.txt)
