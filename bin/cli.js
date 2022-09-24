@@ -36,7 +36,6 @@ const param = {
    filename: files[0] ?? 'build/*',
    dist:     files[1] ?? 'dist',
    };
-const exit =       (message) => (console.error('[add-dist-header]', message), process.exit(1));
 const flagMap =    Object.fromEntries(flags.map(flag => flag.replace(/^[-]*/, '').split('=')));
 const delimiter =  flagMap.delimiter ?? '~~';
 const replace =    flagMap.replace !== 'false';
@@ -46,10 +45,12 @@ const pattern =    isFolder ? param.filename + '/*' : param.filename;
 const filenames =  glob.sync(pattern, { nodir: true }).sort();
 const name =       chalk.gray('add-dist-header');
 const logResult =  (result) => log(name, chalk.blue.bold(result.file), chalk.magenta(result.size));
-if (files.length > 2)
-   exit('Unknown extraneous parameter: ' + files[2]);
-if (!filenames.length)
-   exit('File not found: ' + param.filename);
+const error =
+   files.length > 2 ?  'Unknown extraneous parameter: ' + files[2] :
+   !filenames.length ? 'File not found: ' + param.filename :
+   null;
+if (error)
+   throw Error('[add-dist-header] ' + error);
 const prepend = (file) => addDistHeader.prepend({
    filename:       file,
    dist:           param.dist,
