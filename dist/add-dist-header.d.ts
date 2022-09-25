@@ -1,4 +1,4 @@
-//! add-dist-header v0.2.1 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.2.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 export declare type Options = {
     filename: string;
@@ -11,6 +11,7 @@ export declare type Options = {
 export declare type Result = {
     dist: string;
     header: string;
+    source: string;
     file: string;
     length: number;
     size: string;

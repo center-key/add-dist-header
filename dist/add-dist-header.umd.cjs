@@ -1,4 +1,4 @@
-//! add-dist-header v0.2.1 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.2.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -66,9 +66,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             return {
                 dist: distFolder,
                 header: header,
+                source: settings.filename,
                 file: outputPath,
                 length: out3.length,
-                size: (out3.length / 1024).toLocaleString([], fixedDigits) + ' kB',
+                size: (out3.length / 1024).toLocaleString([], fixedDigits) + ' KB',
             };
         },
     };

@@ -38,9 +38,9 @@ const files = args.filter(arg => !/^-/.test(arg));
 const logResult =  (result) => {
    const name =   chalk.gray('add-dist-header');
    const arrow =  chalk.gray.bold(' ⟹  ');  //extra space for alignment
-   const source = chalk.white(result.source);
-   const target = chalk.blue.bold(result.file);
-   const size =   chalk.magenta(result.size);
+   const source = chalk.blue.bold(result.source);
+   const target = chalk.magenta(result.file);
+   const size =   chalk.white('(' + result.size + ')');
    log(name, source, arrow, target, size);
    };
 

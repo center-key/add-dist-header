@@ -1,4 +1,4 @@
-//! add-dist-header v0.2.1 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.2.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { format, parse } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
@@ -51,9 +51,10 @@ const addDistHeader = {
         return {
             dist: distFolder,
             header: header,
+            source: settings.filename,
             file: outputPath,
             length: out3.length,
-            size: (out3.length / 1024).toLocaleString([], fixedDigits) + ' kB',
+            size: (out3.length / 1024).toLocaleString([], fixedDigits) + ' KB',
         };
     },
 };
