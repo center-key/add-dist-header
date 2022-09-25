@@ -11,6 +11,9 @@ _Prepend a one-line header comment (with license notice) to distribution files_
 **add-dist-header** uses the `name`, `homepage`, and `license` from your project's **package.json**
 file to create a header comment and prepend it to a build file.
 
+<img src=https://raw.githubusercontent.com/center-key/add-dist-header/main/screenshot.png
+width=800 alt=screenshot>
+
 Example header comment for a **.js** file:
 ```javascript
 //! my-app v0.3.7 ~~ https://github.com/my-org/my-app ~~ MIT License
@@ -54,17 +57,17 @@ Example terminal commands:
 ```shell
 $ npm install --global add-dist-header
 $ add-dist-header "build" "dist"
-[17:13:50] add-dist-header dist/my-app.d.ts 413.11 kB
-[17:13:51] add-dist-header dist/my-app.js 1,569.70 kB
+[17:13:50] add-dist-header build/my-app.d.ts --> dist/my-app.d.ts (413.11 KB)
+[17:13:51] add-dist-header build/my-app.js --> dist/my-app.js (1,569.70 KB)
 ```
 
 The parameters are optional:
 ```shell
 $ add-dist-header  #same as above since "build/*" "dist" are the default parameter values
-[17:13:50] add-dist-header dist/my-app.d.ts 413.11 kB
-[17:13:51] add-dist-header dist/my-app.js 1,569.70 kB
+[17:13:50] add-dist-header build/my-app.d.ts --> dist/my-app.d.ts (413.11 KB)
+[17:13:51] add-dist-header build/my-app.js --> dist/my-app.js (1,569.70 KB)
 $ add-dist-header "meta/config.js"  #creates "dist/config.js" prepended with header
-[17:15:03] add-dist-header dist/config.js 3.91 kB
+[17:15:03] add-dist-header meta/config.js --> dist/config.js (3.91 KB)
 ```
 
 ### 3. CLI Flags
