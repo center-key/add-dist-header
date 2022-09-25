@@ -10,12 +10,15 @@
 //    },
 //
 // Usage from command line:
-//    $ npx add-dist-header "build" "dist"
-//    $ npx add-dist-header  #same as above since "build/*" "dist" are the default parameters
-//    $ npx add-dist-header "target/app.js"  #creates "dist/app.js" prepended with a comment header
+// Usage from command line:
+//    $ npm install --global copy-file-util
+//    $ add-dist-header "build" "dist"
+//    $ add-dist-header  #same as above since "build/*" "dist" are the default parameters
+//    $ add-dist-header "target/app.js"  #creates "dist/app.js" prepended with a comment header
 //
 // Contributors to this project:
 //    $ cd add-dist-header
+//    $ npm install
 //    $ node bin/cli.js "spec/fixtures" "spec/fixtures/dist"  #run on sample files
 //    $ node bin/cli.js --version=false  #update the distribution files for this project
 

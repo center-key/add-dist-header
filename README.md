@@ -83,7 +83,7 @@ This enables inserting the current package version number into your distribution
 The substitution feature is disabled by setting `--version` flag to `false`:
 
 Examples:
-   - `add-dist-header temp dist --delimiter=🔥`   &nbsp; Use "🔥" instead of "~~~" in the header.
+   - `add-dist-header temp dist --delimiter=🔥`   &nbsp; Use "🔥" instead of "~~" in the header.
    - `add-dist-header --version=false build dist` &nbsp; Add headers but do not subsitute the version number.
 
 ## C) Application Code
