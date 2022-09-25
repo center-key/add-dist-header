@@ -16,9 +16,10 @@ export type Options = {
 export type Result = {
    dist:   string,  //absolute path to distribution folder
    header: string,  //text prepended to output file
+   source: string,  //input filename
    file:   string,  //output filename
    length: number,  //number of characters in output file
-   size:   string,  //formatted file size, example: '1,233.70 kB'
+   size:   string,  //formatted file size, example: '1,233.70 KB'
    };
 
 const addDistHeader = {
@@ -68,9 +69,10 @@ const addDistHeader = {
       return {
          dist:   distFolder,
          header: header,
+         source: settings.filename,
          file:   outputPath,
          length: out3.length,
-         size:   (out3.length / 1024).toLocaleString([], fixedDigits) + ' kB',
+         size:   (out3.length / 1024).toLocaleString([], fixedDigits) + ' KB',
          };
       },
 

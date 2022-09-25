@@ -65,7 +65,7 @@ describe('A .js build file', () => {
          header:   header.js.replace(/~~/g, '🫓🍢🫓'),
          file:     'spec/fixtures/dist/kebab.js',
          length:   321,
-         size:     '0.31 kB',
+         size:     '0.31 KB',
          versions: 3,
          };
       assertDeepStrictEqual(actual, expected);
@@ -95,7 +95,7 @@ describe('A .ts build file', () => {
          header:   header.js,
          file:     'spec/fixtures/dist/kebab.ts',
          length:   426,
-         size:     '0.42 kB',
+         size:     '0.42 KB',
          versions: 1,
          };
       assertDeepStrictEqual(actual, expected);
@@ -125,7 +125,7 @@ describe('A .css build file', () => {
          header:   header.css,
          file:     'spec/fixtures/dist/kebab.min.css',
          length:   177,
-         size:     '0.17 kB',
+         size:     '0.17 KB',
          versions: 2,
          };
       assertDeepStrictEqual(actual, expected);
@@ -155,7 +155,7 @@ describe('A .html build file', () => {
          header:   header.html,
          file:     'spec/fixtures/dist/kebab.html',
          length:   306,
-         size:     '0.30 kB',
+         size:     '0.30 KB',
          versions: 2,
          };
       assertDeepStrictEqual(actual, expected);

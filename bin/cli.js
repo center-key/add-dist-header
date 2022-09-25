@@ -19,8 +19,8 @@
 // Contributors to this project:
 //    $ cd add-dist-header
 //    $ npm install
-//    $ node bin/cli.js "spec/fixtures" "spec/fixtures/dist"  #run on sample files
-//    $ node bin/cli.js --version=false  #update the distribution files for this project
+//    $ node bin/cli.js "spec/fixtures" "spec/fixtures/dist"
+//    $ node bin/cli.js --version=false
 
 // Imports
 import { addDistHeader }        from '../dist/add-dist-header.js';
@@ -34,6 +34,16 @@ const args =  process.argv.slice(2);
 const flags = args.filter(arg => /^-/.test(arg));
 const files = args.filter(arg => !/^-/.test(arg));
 
+// Reporting
+const logResult =  (result) => {
+   const name =   chalk.gray('add-dist-header');
+   const arrow =  chalk.gray.bold(' ⟹  ');  //extra space for alignment
+   const source = chalk.white(result.source);
+   const target = chalk.blue.bold(result.file);
+   const size =   chalk.magenta(result.size);
+   log(name, source, arrow, target, size);
+   };
+
 // Prepend
 const param = {
    filename: files[0] ?? 'build/*',
@@ -46,8 +56,6 @@ const version =    flagMap.version !== 'false';
 const isFolder =   existsSync(param.filename) && statSync(param.filename).isDirectory();
 const pattern =    isFolder ? param.filename + '/*' : param.filename;
 const filenames =  glob.sync(pattern, { nodir: true }).sort();
-const name =       chalk.gray('add-dist-header');
-const logResult =  (result) => log(name, chalk.blue.bold(result.file), chalk.magenta(result.size));
 const error =
    files.length > 2 ?  'Unknown extraneous parameter: ' + files[2] :
    !filenames.length ? 'File not found: ' + param.filename :
