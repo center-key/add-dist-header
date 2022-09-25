@@ -18,6 +18,7 @@
       "./": "./dist/"
    },
    "bin": {
+      "dist-header": "bin/cli.js",
       "add-dist-header": "bin/cli.js"
    },
    "repository": "github:center-key/add-dist-header",
