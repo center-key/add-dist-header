@@ -1,4 +1,4 @@
-//! add-dist-header v0.2.3 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.3.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -20,16 +20,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const make_dir_1 = __importDefault(require("make-dir"));
     const slash_1 = __importDefault(require("slash"));
     const addDistHeader = {
-        prepend(options) {
+        prepend(filename, options) {
             var _a, _b, _c;
             const defaults = {
                 dist: 'dist',
+                extension: null,
                 delimiter: '~~',
                 replaceComment: true,
                 setVersion: true,
             };
             const settings = Object.assign(Object.assign({}, defaults), options);
-            if (!settings.filename)
+            if (!filename)
                 throw Error('[add-dist-header] Must specify the "filename" option.');
             const commentStyle = {
                 js: { start: '//! ', end: '' },
@@ -41,13 +42,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 ml: /^<!--.*-->\n/,
                 other: /^\/[*][^!].*[*]\/\n/,
             };
-            const pkg = JSON.parse((0, fs_1.readFileSync)('package.json', 'utf8'));
-            const inputFile = (0, path_1.parse)(settings.filename);
+            const pkg = JSON.parse((0, fs_1.readFileSync)('package.json', 'utf-8'));
+            const inputFile = (0, path_1.parse)(filename);
             const fileExt = (_a = settings.extension) !== null && _a !== void 0 ? _a : inputFile.ext;
             const jsStyle = /\.(js|ts|cjs|mjs)$/.test(fileExt);
             const mlStyle = /\.(html|sgml|xml|php)$/.test(fileExt);
             const type = jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
-            const input = (0, fs_1.readFileSync)(settings.filename, 'utf8').replace(/\r/g, '');
+            const input = (0, fs_1.readFileSync)(filename, 'utf-8').replace(/\r/g, '');
             const out1 = settings.replaceComment ? input.replace(firstLine[type], '') : input;
             const versionPattern = /~~~version~~~/g;
             const out2 = settings.setVersion ? out1.replace(versionPattern, pkg.version) : out1;
@@ -66,7 +67,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             return {
                 dist: distFolder,
                 header: header,
-                source: settings.filename,
+                source: filename,
                 file: outputPath,
                 length: out3.length,
                 size: (out3.length / 1024).toLocaleString([], fixedDigits) + ' KB',

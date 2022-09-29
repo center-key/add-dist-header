@@ -1,6 +1,6 @@
 {
    "name": "add-dist-header",
-   "version": "0.2.3",
+   "version": "0.3.0",
    "description": "Prepend a one-line header comment (with license notice) to distribution files",
    "license": "MIT",
    "type": "module",
@@ -82,7 +82,7 @@
       "fancy-log": "~2.0",
       "glob": "~8.0",
       "make-dir": "~3.1",
-      "slash": "~4.0"
+      "slash": "~5.0"
    },
    "devDependencies": {
       "@types/fancy-log": "~2.0",

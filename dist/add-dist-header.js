@@ -1,20 +1,21 @@
-//! add-dist-header v0.2.3 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.3.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { format, parse } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
 import makeDir from 'make-dir';
 import slash from 'slash';
 const addDistHeader = {
-    prepend(options) {
+    prepend(filename, options) {
         var _a, _b, _c;
         const defaults = {
             dist: 'dist',
+            extension: null,
             delimiter: '~~',
             replaceComment: true,
             setVersion: true,
         };
         const settings = Object.assign(Object.assign({}, defaults), options);
-        if (!settings.filename)
+        if (!filename)
             throw Error('[add-dist-header] Must specify the "filename" option.');
         const commentStyle = {
             js: { start: '//! ', end: '' },
@@ -26,13 +27,13 @@ const addDistHeader = {
             ml: /^<!--.*-->\n/,
             other: /^\/[*][^!].*[*]\/\n/,
         };
-        const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
-        const inputFile = parse(settings.filename);
+        const pkg = JSON.parse(readFileSync('package.json', 'utf-8'));
+        const inputFile = parse(filename);
         const fileExt = (_a = settings.extension) !== null && _a !== void 0 ? _a : inputFile.ext;
         const jsStyle = /\.(js|ts|cjs|mjs)$/.test(fileExt);
         const mlStyle = /\.(html|sgml|xml|php)$/.test(fileExt);
         const type = jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
-        const input = readFileSync(settings.filename, 'utf8').replace(/\r/g, '');
+        const input = readFileSync(filename, 'utf-8').replace(/\r/g, '');
         const out1 = settings.replaceComment ? input.replace(firstLine[type], '') : input;
         const versionPattern = /~~~version~~~/g;
         const out2 = settings.setVersion ? out1.replace(versionPattern, pkg.version) : out1;
@@ -51,7 +52,7 @@ const addDistHeader = {
         return {
             dist: distFolder,
             header: header,
-            source: settings.filename,
+            source: filename,
             file: outputPath,
             length: out3.length,
             size: (out3.length / 1024).toLocaleString([], fixedDigits) + ' KB',

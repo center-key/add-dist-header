@@ -1,13 +1,13 @@
-//! add-dist-header v0.2.3 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.3.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
-export declare type Options = {
-    filename: string;
-    dist?: string;
-    extension?: string;
-    delimiter?: string;
-    replaceComment?: boolean;
-    setVersion?: boolean;
+export declare type Settings = {
+    dist: string;
+    extension: string | null;
+    delimiter: string;
+    replaceComment: boolean;
+    setVersion: boolean;
 };
+export declare type Options = Partial<Settings>;
 export declare type Result = {
     dist: string;
     header: string;
@@ -17,6 +17,6 @@ export declare type Result = {
     size: string;
 };
 declare const addDistHeader: {
-    prepend(options: Options): Result;
+    prepend(filename: string, options?: Options): Result;
 };
 export { addDistHeader };
