@@ -5,14 +5,14 @@ import { readFileSync, writeFileSync } from 'fs';
 import makeDir from 'make-dir';
 import slash from 'slash';
 
-export type Options = {
-   filename:        string,   //input filename, example: 'build/my-app.js'
-   dist?:           string,   //output folder
-   extension?:      string,   //rename with new file extension (with dot), example: '.css'
-   delimiter?:      string,   //character separating the parts of the header comment
-   replaceComment?: boolean,  //delete the original first line comment
-   setVersion?:     boolean,  //substitute occurances of "~~~version~~~" with the package.json version number
+export type Settings = {
+   dist:           string,         //output folder
+   extension:      string | null,  //rename with new file extension (with dot), example: '.css'
+   delimiter:      string,         //character separating the parts of the header comment
+   replaceComment: boolean,        //delete the original first line comment
+   setVersion:     boolean,        //substitute occurances of "~~~version~~~" with the package.json version number
    };
+export type Options = Partial<Settings>;
 export type Result = {
    dist:   string,  //absolute path to distribution folder
    header: string,  //text prepended to output file
@@ -24,15 +24,16 @@ export type Result = {
 
 const addDistHeader = {
 
-   prepend(options: Options): Result {
+   prepend(filename: string, options?: Options): Result {
       const defaults = {
          dist:           'dist',
+         extension:      null,
          delimiter:      '~~',
          replaceComment: true,
          setVersion:     true,
          };
       const settings = { ...defaults, ...options };
-      if (!settings.filename)
+      if (!filename)
          throw Error('[add-dist-header] Must specify the "filename" option.');
       const commentStyle = {
          js:    { start: '//! ',  end: '' },
@@ -44,13 +45,13 @@ const addDistHeader = {
          ml:    /^<!--.*-->\n/,                      //matches: '<!-- ... -->'
          other: /^\/[*][^!].*[*]\/\n/,               //matches: '/* ... */'
          };
-      const pkg =            JSON.parse(readFileSync('package.json', 'utf8'));
-      const inputFile =      parse(settings.filename);
+      const pkg =            JSON.parse(readFileSync('package.json', 'utf-8'));
+      const inputFile =      parse(filename);
       const fileExt =        settings.extension ?? inputFile.ext;
       const jsStyle =        /\.(js|ts|cjs|mjs)$/.test(fileExt);
       const mlStyle =        /\.(html|sgml|xml|php)$/.test(fileExt);
       const type =           jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
-      const input =          readFileSync(settings.filename, 'utf8').replace(/\r/g, '');
+      const input =          readFileSync(filename, 'utf-8').replace(/\r/g, '');
       const out1 =           settings.replaceComment ? input.replace(firstLine[type], '') : input;
       const versionPattern = /~~~version~~~/g;
       const out2 =           settings.setVersion ? out1.replace(versionPattern, pkg.version) : out1;
@@ -69,7 +70,7 @@ const addDistHeader = {
       return {
          dist:   distFolder,
          header: header,
-         source: settings.filename,
+         source: filename,
          file:   outputPath,
          length: out3.length,
          size:   (out3.length / 1024).toLocaleString([], fixedDigits) + ' KB',

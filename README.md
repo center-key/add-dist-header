@@ -97,11 +97,10 @@ Example:
 import { addDistHeader } from 'add-dist-header';
 
 const options = {
-   filename:  'build/rocket.js',
    dist:      'dist',
    delimiter: '🚀🚀🚀',
    };
-const result = addDistHeader.prepend(options);
+const result = addDistHeader.prepend('build/rocket.js', options);
 console.log('The size of the new file is:', result.size);
 ```
 
@@ -114,6 +113,7 @@ See the **TypeScript Declarations** at the top of [add-dist-header.ts](add-dist-
    - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line header comment (with license notice) to distribution files_
    - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file (CLI tool designed for use in npm scripts)_
    - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli):&nbsp; _Recursively copy a folder (CLI tool designed for use in npm scripts)_
+   - 🔢 [rev-web-assets](https://github.com/center-key/rev-web-assets):&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_
    - 🚦 [w3c-html-validator](https://github.com/center-key/w3c-html-validator):&nbsp; _Check the markup validity of HTML files using the W3C validator_
 
 Feel free to submit questions at:<br>

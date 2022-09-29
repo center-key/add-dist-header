@@ -49,24 +49,23 @@ const param = {
    filename: files[0] ?? 'build/*',
    dist:     files[1] ?? 'dist',
    };
-const flagMap =    Object.fromEntries(flags.map(flag => flag.replace(/^[-]*/, '').split('=')));
-const delimiter =  flagMap.delimiter ?? '~~';
-const replace =    flagMap.replace !== 'false';
-const version =    flagMap.version !== 'false';
-const isFolder =   existsSync(param.filename) && statSync(param.filename).isDirectory();
-const pattern =    isFolder ? param.filename + '/*' : param.filename;
-const filenames =  glob.sync(pattern, { nodir: true }).sort();
+const flagMap =   Object.fromEntries(flags.map(flag => flag.replace(/^[-]*/, '').split('=')));
+const delimiter = flagMap.delimiter ?? '~~';
+const replace =   flagMap.replace !== 'false';
+const version =   flagMap.version !== 'false';
+const isFolder =  existsSync(param.filename) && statSync(param.filename).isDirectory();
+const pattern =   isFolder ? param.filename + '/*' : param.filename;
+const filenames = glob.sync(pattern, { nodir: true }).sort();
 const error =
    files.length > 2 ?  'Unknown extraneous parameter: ' + files[2] :
    !filenames.length ? 'File not found: ' + param.filename :
    null;
 if (error)
    throw Error('[add-dist-header] ' + error);
-const prepend = (file) => addDistHeader.prepend({
-   filename:       file,
+const options = {
    dist:           param.dist,
    delimiter:      delimiter,
    replaceComment: replace,
    setVersion:     version,
-   });
-filenames.forEach(file => logResult(prepend(file)));
+   };
+filenames.forEach(filename => logResult(addDistHeader.prepend(filename, options)));

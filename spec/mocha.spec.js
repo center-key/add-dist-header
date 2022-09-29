@@ -8,7 +8,7 @@ import assert from 'assert';
 
 // Setup
 import { addDistHeader } from '../dist/add-dist-header.js';
-const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+const pkg = JSON.parse(readFileSync('package.json', 'utf-8'));
 const header = {
    js:   '//! add-dist-header v' +  pkg.version + ' ~~ https://github.com/center-key/add-dist-header ~~ MIT License',
    css:  '/*! add-dist-header v' +  pkg.version + ' ~~ https://github.com/center-key/add-dist-header ~~ MIT License */',
@@ -47,13 +47,13 @@ describe('Library module', () => {
 describe('A .js build file', () => {
 
    it('gets the correct header prepended with a custom delimiter', () => {
+      const filename = 'spec/fixtures/kebab.js';
       const options = {
-         filename:  'spec/fixtures/kebab.js',
          dist:      'spec/fixtures/dist',
          delimiter: '🫓🍢🫓',
          };
-      const result = addDistHeader.prepend(options);
-      const output = readFileSync('spec/fixtures/dist/kebab.js', 'utf8');
+      const result = addDistHeader.prepend(filename, options);
+      const output = readFileSync('spec/fixtures/dist/kebab.js', 'utf-8');
       const actual = {
          header:   result.header,
          file:     result.file,
@@ -77,13 +77,13 @@ describe('A .js build file', () => {
 describe('A .ts build file', () => {
 
    it('gets the correct header prepended without version substitutions', () => {
+      const filename = 'spec/fixtures/kebab.ts';
       const options = {
-         filename:   'spec/fixtures/kebab.ts',
          dist:       'spec/fixtures/dist',
          setVersion: false,
          };
-      const result = addDistHeader.prepend(options);
-      const output = readFileSync('spec/fixtures/dist/kebab.ts', 'utf8');
+      const result = addDistHeader.prepend(filename, options);
+      const output = readFileSync('spec/fixtures/dist/kebab.ts', 'utf-8');
       const actual = {
          header:   result.header,
          file:     result.file,
@@ -107,13 +107,13 @@ describe('A .ts build file', () => {
 describe('A .css build file', () => {
 
    it('gets the correct compact header prepended plus renamed to .min.css', () => {
+      const filename = 'spec/fixtures/kebab.css';
       const options = {
-         filename:  'spec/fixtures/kebab.css',
          dist:      'spec/fixtures/dist',
          extension: '.min.css',
          };
-      const result = addDistHeader.prepend(options);
-      const output = readFileSync('spec/fixtures/dist/kebab.min.css', 'utf8');
+      const result = addDistHeader.prepend(filename, options);
+      const output = readFileSync('spec/fixtures/dist/kebab.min.css', 'utf-8');
       const actual = {
          header:   result.header,
          file:     result.file,
@@ -137,13 +137,13 @@ describe('A .css build file', () => {
 describe('A .html build file', () => {
 
    it('gets the correct header prepended and keeps the original comment', () => {
+      const filename = 'spec/fixtures/kebab.html';
       const options = {
-         filename:       'spec/fixtures/kebab.html',
          dist:           'spec/fixtures/dist',
          replaceComment: false,
          };
-      const result = addDistHeader.prepend(options);
-      const output = readFileSync('spec/fixtures/dist/kebab.html', 'utf8');
+      const result = addDistHeader.prepend(filename, options);
+      const output = readFileSync('spec/fixtures/dist/kebab.html', 'utf-8');
       const actual = {
          header:   result.header,
          file:     result.file,
@@ -166,9 +166,8 @@ describe('A .html build file', () => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Correct error is thrown', () => {
 
-   it('when "filename" option is missing', () => {
-      const options =       {};
-      const makeBogusCall = () => addDistHeader.prepend(options);
+   it('when "filename" is missing', () => {
+      const makeBogusCall = () => addDistHeader.prepend();
       const exception =     { message: '[add-dist-header] Must specify the "filename" option.' };
       assert.throws(makeBogusCall, exception);
       });
