@@ -66,7 +66,7 @@
       }
    },
    "scripts": {
-      "step:01": "rimraf build dist spec/fixtures/dist **/.DS_Store",
+      "step:01": "rimraf build dist spec/fixtures/target **/.DS_Store",
       "step:02": "jshint . --exclude-path .gitignore",
       "step:03": "eslint --max-warnings 0 . --ext .ts",
       "step:04": "tsc",
