@@ -1,4 +1,4 @@
-//! add-dist-header v0.3.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.3.1 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -48,10 +48,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const jsStyle = /\.(js|ts|cjs|mjs)$/.test(fileExt);
             const mlStyle = /\.(html|sgml|xml|php)$/.test(fileExt);
             const type = jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
-            const input = (0, fs_1.readFileSync)(filename, 'utf-8').replace(/\r/g, '');
-            const out1 = settings.replaceComment ? input.replace(firstLine[type], '') : input;
+            const input = (0, fs_1.readFileSync)(filename, 'utf-8');
+            const normalizeEol = /\r/g;
+            const normalizeEof = /\s*$(?!\n)/;
+            const out1 = input.replace(normalizeEol, '').replace(normalizeEof, '\n');
+            const out2 = settings.replaceComment ? out1.replace(firstLine[type], '') : out1;
             const versionPattern = /~~~version~~~/g;
-            const out2 = settings.setVersion ? out1.replace(versionPattern, pkg.version) : out1;
+            const out3 = settings.setVersion ? out2.replace(versionPattern, pkg.version) : out2;
             const info = (_c = (_b = pkg.homepage) !== null && _b !== void 0 ? _b : pkg.docs) !== null && _c !== void 0 ? _c : pkg.repository;
             const unlicensed = !pkg.license || pkg.license === 'UNLICENSED';
             const license = unlicensed ? 'All Rights Reserved' : pkg.license + ' License';
@@ -62,15 +65,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const spacerLines = (path) => path.includes('.min.') || mlStyle ? '\n' : '\n\n';
             const distFolder = make_dir_1.default.sync(settings.dist);
             const outputPath = (0, slash_1.default)((0, path_1.format)({ dir: settings.dist, name: inputFile.name, ext: fileExt }));
-            const out3 = header + spacerLines(outputPath) + out2.replace(/^\s*\n/, '');
-            (0, fs_1.writeFileSync)(outputPath, out3);
+            const leadingBlanks = /^\s*\n/;
+            const final = header + spacerLines(outputPath) + out3.replace(leadingBlanks, '');
+            (0, fs_1.writeFileSync)(outputPath, final);
             return {
                 dist: distFolder,
                 header: header,
                 source: filename,
                 file: outputPath,
-                length: out3.length,
-                size: (out3.length / 1024).toLocaleString([], fixedDigits) + ' KB',
+                length: final.length,
+                size: (final.length / 1024).toLocaleString([], fixedDigits) + ' KB',
             };
         },
     };
