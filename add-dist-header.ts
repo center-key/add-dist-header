@@ -1,9 +1,9 @@
 // Add Dist Header ~~ MIT License
 
-import { format, parse } from 'path';
-import { readFileSync, writeFileSync } from 'fs';
+import path    from 'path';
+import fs      from 'fs';
 import makeDir from 'make-dir';
-import slash from 'slash';
+import slash   from 'slash';
 
 export type Settings = {
    dist:           string,         //output folder
@@ -45,13 +45,13 @@ const addDistHeader = {
          ml:    /^<!--.*-->\n/,                      //matches: '<!-- ... -->'
          other: /^\/[*][^!].*[*]\/\n/,               //matches: '/* ... */'
          };
-      const pkg =            JSON.parse(readFileSync('package.json', 'utf-8'));
-      const inputFile =      parse(filename);
+      const pkg =            JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+      const inputFile =      path.parse(filename);
       const fileExt =        settings.extension ?? inputFile.ext;
       const jsStyle =        /\.(js|ts|cjs|mjs)$/.test(fileExt);
       const mlStyle =        /\.(html|sgml|xml|php)$/.test(fileExt);
       const type =           jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
-      const input =          readFileSync(filename, 'utf-8');
+      const input =          fs.readFileSync(filename, 'utf-8');
       const normalizeEol =   /\r/g;
       const normalizeEof =   /\s*$(?!\n)/;
       const out1 =           input.replace(normalizeEol, '').replace(normalizeEof, '\n');
@@ -67,10 +67,10 @@ const addDistHeader = {
       const fixedDigits =    { minimumFractionDigits: 2, maximumFractionDigits: 2 };
       const spacerLines =    (path: string) => path.includes('.min.') || mlStyle ? '\n' : '\n\n';
       const distFolder =     makeDir.sync(settings.dist);
-      const outputPath =     slash(format({ dir: settings.dist, name: inputFile.name, ext: fileExt }));
+      const outputPath =     slash(path.format({ dir: settings.dist, name: inputFile.name, ext: fileExt }));
       const leadingBlanks =  /^\s*\n/;
       const final =          header + spacerLines(outputPath) + out3.replace(leadingBlanks, '');
-      writeFileSync(outputPath, final);
+      fs.writeFileSync(outputPath, final);
       return {
          dist:   distFolder,
          header: header,

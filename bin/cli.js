@@ -23,11 +23,11 @@
 //    $ node bin/cli.js --version=false
 
 // Imports
-import { addDistHeader }        from '../dist/add-dist-header.js';
-import { existsSync, statSync } from 'fs';
-import chalk                    from 'chalk';
-import glob                     from 'glob';
-import log                      from 'fancy-log';
+import { addDistHeader } from '../dist/add-dist-header.js';
+import chalk from 'chalk';
+import fs    from 'fs';
+import glob  from 'glob';
+import log   from 'fancy-log';
 
 // Parameters
 const args =  process.argv.slice(2);
@@ -53,7 +53,7 @@ const flagMap =   Object.fromEntries(flags.map(flag => flag.replace(/^[-]*/, '')
 const delimiter = flagMap.delimiter ?? '~~';
 const replace =   flagMap.replace !== 'false';
 const version =   flagMap.version !== 'false';
-const isFolder =  existsSync(param.filename) && statSync(param.filename).isDirectory();
+const isFolder =  fs.existsSync(param.filename) && fs.statSync(param.filename).isDirectory();
 const pattern =   isFolder ? param.filename + '/*' : param.filename;
 const filenames = glob.sync(pattern, { nodir: true }).sort();
 const error =

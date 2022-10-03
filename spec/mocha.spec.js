@@ -3,12 +3,12 @@
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
-import { readdirSync, readFileSync } from 'fs';
+import fs from 'fs';
 import assert from 'assert';
 
 // Setup
 import { addDistHeader } from '../dist/add-dist-header.js';
-const pkg = JSON.parse(readFileSync('package.json', 'utf-8'));
+const pkg = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 const header = {
    js:   '//! add-dist-header v' +  pkg.version + ' ~~ https://github.com/center-key/add-dist-header ~~ MIT License',
    css:  '/*! add-dist-header v' +  pkg.version + ' ~~ https://github.com/center-key/add-dist-header ~~ MIT License */',
@@ -19,7 +19,7 @@ const header = {
 describe('The "dist" folder', () => {
 
    it('contains the correct files', () => {
-      const actual =   readdirSync('dist').sort();
+      const actual =   fs.readdirSync('dist').sort();
       const expected = [
          'add-dist-header.d.ts',
          'add-dist-header.js',
@@ -57,7 +57,7 @@ describe('A .js build file', () => {
          delimiter: '🫓🍢🫓',
          };
       const result = addDistHeader.prepend(filename, options);
-      const output = readFileSync('spec/fixtures/target/kebab.js', 'utf-8');
+      const output = fs.readFileSync('spec/fixtures/target/kebab.js', 'utf-8');
       const actual = {
          header:   result.header,
          file:     result.file,
@@ -79,7 +79,7 @@ describe('A .js build file', () => {
       const filename = 'spec/fixtures/source/kebab.min.js';
       const options =  { dist: 'spec/fixtures/target' };
       const result = addDistHeader.prepend(filename, options);
-      const output = readFileSync('spec/fixtures/target/kebab.min.js', 'utf-8');
+      const output = fs.readFileSync('spec/fixtures/target/kebab.min.js', 'utf-8');
       const actual = {
          header:   result.header,
          file:     result.file,
@@ -109,7 +109,7 @@ describe('A .ts build file', () => {
          setVersion: false,
          };
       const result = addDistHeader.prepend(filename, options);
-      const output = readFileSync('spec/fixtures/target/kebab.ts', 'utf-8');
+      const output = fs.readFileSync('spec/fixtures/target/kebab.ts', 'utf-8');
       const actual = {
          header:   result.header,
          file:     result.file,
@@ -139,7 +139,7 @@ describe('A .css build file', () => {
          extension: '.min.css',
          };
       const result = addDistHeader.prepend(filename, options);
-      const output = readFileSync('spec/fixtures/target/kebab.min.css', 'utf-8');
+      const output = fs.readFileSync('spec/fixtures/target/kebab.min.css', 'utf-8');
       const actual = {
          header:   result.header,
          file:     result.file,
@@ -169,7 +169,7 @@ describe('A .html build file', () => {
          replaceComment: false,
          };
       const result = addDistHeader.prepend(filename, options);
-      const output = readFileSync('spec/fixtures/target/kebab.html', 'utf-8');
+      const output = fs.readFileSync('spec/fixtures/target/kebab.html', 'utf-8');
       const actual = {
          header:   result.header,
          file:     result.file,
