@@ -1,7 +1,7 @@
 {
    "name": "add-dist-header",
    "version": "0.3.1",
-   "description": "Prepend a one-line header comment (with license notice) to distribution files",
+   "description": "Prepend a one-line banner comment (with license notice) to distribution files",
    "license": "MIT",
    "type": "module",
    "module": "dist/add-dist-header.js",
@@ -73,7 +73,7 @@
       "step:05": "tsc --module UMD --outDir build/umd",
       "step:06": "copy-file build/umd/add-dist-header.js build/add-dist-header.umd.cjs",
       "step:07": "copy-file build/add-dist-header.js --folder dist",
-      "step:08": "node bin/cli.js --version=false build dist",
+      "step:08": "node bin/cli.js --no-version build dist",
       "pretest": "npm-run-all step:*",
       "test": "mocha spec/*.spec.js && w3c-html-validator"
    },
@@ -87,9 +87,9 @@
    "devDependencies": {
       "@types/fancy-log": "~2.0",
       "@types/glob": "~8.0",
-      "@types/node": "~18.7",
-      "@typescript-eslint/eslint-plugin": "~5.38",
-      "@typescript-eslint/parser": "~5.38",
+      "@types/node": "~18.8",
+      "@typescript-eslint/eslint-plugin": "~5.39",
+      "@typescript-eslint/parser": "~5.39",
       "assert-deep-strict-equal": "~1.0",
       "copy-file-util": "~0.1",
       "copy-folder-cli": "~0.1",

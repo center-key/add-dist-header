@@ -1,7 +1,7 @@
 # Add Dist Header
 <img src=https://centerkey.com/graphics/center-key-logo.svg align=right width=200 alt=logo>
 
-_Prepend a one-line header comment (with license notice) to distribution files_
+_Prepend a one-line banner comment (with license notice) to distribution files_
 
 [![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/add-dist-header/blob/main/LICENSE.txt)
 [![npm](https://img.shields.io/npm/v/add-dist-header.svg)](https://www.npmjs.com/package/add-dist-header)
@@ -71,12 +71,15 @@ $ dist-header "meta/config.js"  #creates "dist/config.js" prepended with header
 ```
 
 ### 3. CLI Flags
+const validFlags =  ['delimiter', 'keep', 'no-version', 'quiet'];
+
 Command-line flags:
-| Flag          | Description                                                                            | Values          | Default |
-| ------------- | -------------------------------------------------------------------------------------- | --------------- | ------- |
-| `--delimiter` | Characters separating the parts<br>of the header comment.                              | **string**      | `~~`    |
-| `--replace`   | Delete the original first line<br>comment (if not marked `!` important).               | `true`, `false` | `true`  |
-| `--version`   | Substitute occurrences of `~~~version~~~`<br>with the **package.json** version number. | `true`, `false` | `true`  |
+| Flag           | Description                                               | Values     | Default |
+| -------------- | --------------------------------------------------------- | ---------- | ------- |
+| `--delimiter`  | Characters separating the parts<br>of the header comment. | **string** | `~~`    |
+| `--keep`       | Do not delete the original first line<br>comment.         | N/A        | N/A     |
+| `--no-version` | Do not substitute occurrences of `~~~version~~~`<br>with the **package.json** version number. | N/A | N/A |
+| `--quiet`      | Suppress informational messages.                          | N/A        | N/A     |
 
 #### Version Number Substitution:
 In addition to prepending the header comment, **add-dist-header** also replaces all occurrences of
@@ -86,8 +89,8 @@ This enables inserting the current package version number into your distribution
 The substitution feature is disabled by setting `--version` flag to `false`:
 
 Examples:
-   - `dist-header temp dist --delimiter=🔥`   &nbsp; Use "🔥" as the separator instead of "~~".
-   - `dist-header --version=false build dist` &nbsp; Add headers but do not subsitute the version number.
+   - `dist-header temp dist --delimiter=🔥` &nbsp; Use "🔥" as the separator instead of "~~".
+   - `dist-header --no-version build dist`  &nbsp; Add headers but do not subsitute the version number.
 
 ## C) Application Code
 Even though **add-dist-header** is primarily intended for build scripts, the package can easily be used in ESM and TypeScript projects.
@@ -110,7 +113,7 @@ See the **TypeScript Declarations** at the top of [add-dist-header.ts](add-dist-
 
 ---
 **Build Tools**
-   - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line header comment (with license notice) to distribution files_
+   - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line banner comment (with license notice) to distribution files_
    - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file (CLI tool designed for use in npm scripts)_
    - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli):&nbsp; _Recursively copy a folder (CLI tool designed for use in npm scripts)_
    - 🔢 [rev-web-assets](https://github.com/center-key/rev-web-assets):&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_

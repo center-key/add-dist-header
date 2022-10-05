@@ -10,8 +10,7 @@
 //    },
 //
 // Usage from command line:
-// Usage from command line:
-//    $ npm install --global copy-file-util
+//    $ npm install --global add-dist-header
 //    $ dist-header "build" "dist"
 //    $ dist-header  #same as above since "build/*" "dist" are the default parameters
 //    $ dist-header "target/app.js"  #creates "dist/app.js" prepended with a comment header
@@ -19,8 +18,8 @@
 // Contributors to this project:
 //    $ cd add-dist-header
 //    $ npm install
-//    $ node bin/cli.js "spec/fixtures" "spec/fixtures/dist"
-//    $ node bin/cli.js --version=false
+//    $ node bin/cli.js "spec/fixtures/source" "spec/fixtures/target"
+//    $ node bin/cli.js --no-version
 
 // Imports
 import { addDistHeader } from '../dist/add-dist-header.js';
@@ -30,9 +29,17 @@ import glob  from 'glob';
 import log   from 'fancy-log';
 
 // Parameters
-const args =  process.argv.slice(2);
-const flags = args.filter(arg => /^-/.test(arg));
-const files = args.filter(arg => !/^-/.test(arg));
+const validFlags =  ['delimiter', 'keep', 'no-version', 'quiet'];
+const args =        process.argv.slice(2);
+const flags =       args.filter(arg => /^--/.test(arg));
+const flagMap =     Object.fromEntries(flags.map(flag => flag.replace(/^--/, '').split('=')));
+const invalidFlag = Object.keys(flagMap).find(key => !validFlags.includes(key));
+const params =      args.filter(arg => !/^--/.test(arg));
+
+// Data
+const source = params[0] ?? 'build/*';
+const target = params[1] ?? 'dist';
+const mode =   { keep: 'keep' in flagMap, quiet: 'quiet' in flagMap, noVersion: 'no-version' in flagMap };
 
 // Reporting
 const logResult =  (result) => {
@@ -41,31 +48,25 @@ const logResult =  (result) => {
    const source = chalk.blue.bold(result.source);
    const target = chalk.magenta(result.file);
    const size =   chalk.white('(' + result.size + ')');
-   log(name, source, arrow, target, size);
+   if (!mode.quiet)
+      log(name, source, arrow, target, size);
    };
 
 // Prepend
-const param = {
-   filename: files[0] ?? 'build/*',
-   dist:     files[1] ?? 'dist',
-   };
-const flagMap =   Object.fromEntries(flags.map(flag => flag.replace(/^[-]*/, '').split('=')));
-const delimiter = flagMap.delimiter ?? '~~';
-const replace =   flagMap.replace !== 'false';
-const version =   flagMap.version !== 'false';
-const isFolder =  fs.existsSync(param.filename) && fs.statSync(param.filename).isDirectory();
-const pattern =   isFolder ? param.filename + '/*' : param.filename;
+const isFolder =  fs.existsSync(source) && fs.statSync(source).isDirectory();
+const pattern =   isFolder ? source + '/*' : source;
 const filenames = glob.sync(pattern, { nodir: true }).sort();
 const error =
-   files.length > 2 ?  'Unknown extraneous parameter: ' + files[2] :
-   !filenames.length ? 'File not found: ' + param.filename :
+   invalidFlag ?       'Invalid flag: ' + invalidFlag :
+   params.length > 2 ? 'Unknown extraneous parameter: ' + params[2] :
+   !filenames.length ? 'File not found: ' + source :
    null;
 if (error)
    throw Error('[add-dist-header] ' + error);
 const options = {
-   dist:           param.dist,
-   delimiter:      delimiter,
-   replaceComment: replace,
-   setVersion:     version,
+   dist:           target,
+   delimiter:      flagMap.delimiter ?? '~~',
+   replaceComment: !mode.keep,
+   setVersion:     !mode.noVersion,
    };
 filenames.forEach(filename => logResult(addDistHeader.prepend(filename, options)));
