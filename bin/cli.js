@@ -48,7 +48,7 @@ const logResult =  (result) => {
    const source = chalk.blue.bold(result.source);
    const target = chalk.magenta(result.file);
    const size =   chalk.white('(' + result.size + ')');
-   if (!mode.quiet)
+   if (!mode.quiet && result.valid)
       log(name, source, arrow, target, size);
    };
 

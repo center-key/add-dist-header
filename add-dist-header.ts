@@ -1,5 +1,6 @@
 // Add Dist Header ~~ MIT License
 
+import { isBinary } from 'istextorbinary';
 import path    from 'path';
 import fs      from 'fs';
 import makeDir from 'make-dir';
@@ -14,12 +15,13 @@ export type Settings = {
    };
 export type Options = Partial<Settings>;
 export type Result = {
-   dist:   string,  //absolute path to distribution folder
-   header: string,  //text prepended to output file
-   source: string,  //input filename
-   file:   string,  //output filename
-   length: number,  //number of characters in output file
-   size:   string,  //formatted file size, example: '1,233.70 KB'
+   valid:  boolean,  //true if input file is a text file and false if binary
+   dist:   string,   //absolute path to distribution folder
+   header: string,   //text prepended to output file
+   source: string,   //input filename
+   file:   string,   //output filename
+   length: number,   //number of characters in output file
+   size:   string,   //formatted file size, example: '1,233.70 KB'
    };
 
 const addDistHeader = {
@@ -49,8 +51,9 @@ const addDistHeader = {
       const inputFile =      path.parse(filename);
       const fileExt =        settings.extension ?? inputFile.ext;
       const jsStyle =        /\.(js|ts|cjs|mjs)$/.test(fileExt);
-      const mlStyle =        /\.(html|sgml|xml|php)$/.test(fileExt);
+      const mlStyle =        /\.(html|htm|sgml|xml|php)$/.test(fileExt);
       const type =           jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
+      const invalidContent = isBinary(filename);
       const input =          fs.readFileSync(filename, 'utf-8');
       const normalizeEol =   /\r/g;
       const normalizeEof =   /\s*$(?!\n)/;
@@ -70,8 +73,10 @@ const addDistHeader = {
       const outputPath =     slash(path.format({ dir: settings.dist, name: inputFile.name, ext: fileExt }));
       const leadingBlanks =  /^\s*\n/;
       const final =          header + spacerLines(outputPath) + out3.replace(leadingBlanks, '');
-      fs.writeFileSync(outputPath, final);
+      if (!invalidContent)
+         fs.writeFileSync(outputPath, final);
       return {
+         valid:  !invalidContent,
          dist:   distFolder,
          header: header,
          source: filename,
