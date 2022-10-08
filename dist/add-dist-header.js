@@ -1,7 +1,8 @@
-//! add-dist-header v0.3.1 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.3.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
-import { format, parse } from 'path';
-import { readFileSync, writeFileSync } from 'fs';
+import { isBinary } from 'istextorbinary';
+import path from 'path';
+import fs from 'fs';
 import makeDir from 'make-dir';
 import slash from 'slash';
 const addDistHeader = {
@@ -27,13 +28,14 @@ const addDistHeader = {
             ml: /^<!--.*-->\n/,
             other: /^\/[*][^!].*[*]\/\n/,
         };
-        const pkg = JSON.parse(readFileSync('package.json', 'utf-8'));
-        const inputFile = parse(filename);
+        const pkg = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+        const inputFile = path.parse(filename);
         const fileExt = (_a = settings.extension) !== null && _a !== void 0 ? _a : inputFile.ext;
         const jsStyle = /\.(js|ts|cjs|mjs)$/.test(fileExt);
-        const mlStyle = /\.(html|sgml|xml|php)$/.test(fileExt);
+        const mlStyle = /\.(html|htm|sgml|xml|php)$/.test(fileExt);
         const type = jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
-        const input = readFileSync(filename, 'utf-8');
+        const invalidContent = isBinary(filename);
+        const input = fs.readFileSync(filename, 'utf-8');
         const normalizeEol = /\r/g;
         const normalizeEof = /\s*$(?!\n)/;
         const out1 = input.replace(normalizeEol, '').replace(normalizeEof, '\n');
@@ -49,11 +51,13 @@ const addDistHeader = {
         const fixedDigits = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
         const spacerLines = (path) => path.includes('.min.') || mlStyle ? '\n' : '\n\n';
         const distFolder = makeDir.sync(settings.dist);
-        const outputPath = slash(format({ dir: settings.dist, name: inputFile.name, ext: fileExt }));
+        const outputPath = slash(path.format({ dir: settings.dist, name: inputFile.name, ext: fileExt }));
         const leadingBlanks = /^\s*\n/;
         const final = header + spacerLines(outputPath) + out3.replace(leadingBlanks, '');
-        writeFileSync(outputPath, final);
+        if (!invalidContent)
+            fs.writeFileSync(outputPath, final);
         return {
+            valid: !invalidContent,
             dist: distFolder,
             header: header,
             source: filename,

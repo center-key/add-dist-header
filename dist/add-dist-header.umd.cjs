@@ -1,4 +1,4 @@
-//! add-dist-header v0.3.1 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.3.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -9,14 +9,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "path", "fs", "make-dir", "slash"], factory);
+        define(["require", "exports", "istextorbinary", "path", "fs", "make-dir", "slash"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.addDistHeader = void 0;
-    const path_1 = require("path");
-    const fs_1 = require("fs");
+    const istextorbinary_1 = require("istextorbinary");
+    const path_1 = __importDefault(require("path"));
+    const fs_1 = __importDefault(require("fs"));
     const make_dir_1 = __importDefault(require("make-dir"));
     const slash_1 = __importDefault(require("slash"));
     const addDistHeader = {
@@ -42,13 +43,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 ml: /^<!--.*-->\n/,
                 other: /^\/[*][^!].*[*]\/\n/,
             };
-            const pkg = JSON.parse((0, fs_1.readFileSync)('package.json', 'utf-8'));
-            const inputFile = (0, path_1.parse)(filename);
+            const pkg = JSON.parse(fs_1.default.readFileSync('package.json', 'utf-8'));
+            const inputFile = path_1.default.parse(filename);
             const fileExt = (_a = settings.extension) !== null && _a !== void 0 ? _a : inputFile.ext;
             const jsStyle = /\.(js|ts|cjs|mjs)$/.test(fileExt);
-            const mlStyle = /\.(html|sgml|xml|php)$/.test(fileExt);
+            const mlStyle = /\.(html|htm|sgml|xml|php)$/.test(fileExt);
             const type = jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
-            const input = (0, fs_1.readFileSync)(filename, 'utf-8');
+            const invalidContent = (0, istextorbinary_1.isBinary)(filename);
+            const input = fs_1.default.readFileSync(filename, 'utf-8');
             const normalizeEol = /\r/g;
             const normalizeEof = /\s*$(?!\n)/;
             const out1 = input.replace(normalizeEol, '').replace(normalizeEof, '\n');
@@ -64,11 +66,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const fixedDigits = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
             const spacerLines = (path) => path.includes('.min.') || mlStyle ? '\n' : '\n\n';
             const distFolder = make_dir_1.default.sync(settings.dist);
-            const outputPath = (0, slash_1.default)((0, path_1.format)({ dir: settings.dist, name: inputFile.name, ext: fileExt }));
+            const outputPath = (0, slash_1.default)(path_1.default.format({ dir: settings.dist, name: inputFile.name, ext: fileExt }));
             const leadingBlanks = /^\s*\n/;
             const final = header + spacerLines(outputPath) + out3.replace(leadingBlanks, '');
-            (0, fs_1.writeFileSync)(outputPath, final);
+            if (!invalidContent)
+                fs_1.default.writeFileSync(outputPath, final);
             return {
+                valid: !invalidContent,
                 dist: distFolder,
                 header: header,
                 source: filename,

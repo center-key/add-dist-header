@@ -90,10 +90,10 @@ The substitution feature is disabled by setting `--version` flag to `false`:
 
 Examples:
    - `dist-header temp dist --delimiter=🔥` &nbsp; Use "🔥" as the separator instead of "~~".
-   - `dist-header --no-version build dist`  &nbsp; Add headers but do not subsitute the version number.
+   - `dist-header --no-version build dist`  &nbsp; Add headers but do not substitute the version number.
 
 ## C) Application Code
-Even though **add-dist-header** is primarily intended for build scripts, the package can easily be used in ESM and TypeScript projects.
+Even though **add-dist-header** is primarily intended for build scripts, the package can easily be used programmatically in ESM and TypeScript projects.
 
 Example:
 ``` typescript
@@ -112,10 +112,11 @@ See the **TypeScript Declarations** at the top of [add-dist-header.ts](add-dist-
 <br>
 
 ---
-**Build Tools**
+**CLI Build Tools**
    - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line banner comment (with license notice) to distribution files_
-   - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file (CLI tool designed for use in npm scripts)_
-   - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli):&nbsp; _Recursively copy a folder (CLI tool designed for use in npm scripts)_
+   - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file_
+   - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli):&nbsp; _Recursively copy the files in a folder_
+   - 🔍 [files-replace](https://github.com/center-key/files-replace):&nbsp; _Find and replace strings or template outputs in text files_
    - 🔢 [rev-web-assets](https://github.com/center-key/rev-web-assets):&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_
    - 🚦 [w3c-html-validator](https://github.com/center-key/w3c-html-validator):&nbsp; _Check the markup validity of HTML files using the W3C validator_
 

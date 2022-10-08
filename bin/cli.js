@@ -33,13 +33,13 @@ const validFlags =  ['delimiter', 'keep', 'no-version', 'quiet'];
 const args =        process.argv.slice(2);
 const flags =       args.filter(arg => /^--/.test(arg));
 const flagMap =     Object.fromEntries(flags.map(flag => flag.replace(/^--/, '').split('=')));
+const flagOn =      Object.fromEntries(validFlags.map(flag => [flag, flag in flagMap]));
 const invalidFlag = Object.keys(flagMap).find(key => !validFlags.includes(key));
 const params =      args.filter(arg => !/^--/.test(arg));
 
 // Data
 const source = params[0] ?? 'build/*';
 const target = params[1] ?? 'dist';
-const mode =   { keep: 'keep' in flagMap, quiet: 'quiet' in flagMap, noVersion: 'no-version' in flagMap };
 
 // Reporting
 const logResult =  (result) => {
@@ -48,7 +48,7 @@ const logResult =  (result) => {
    const source = chalk.blue.bold(result.source);
    const target = chalk.magenta(result.file);
    const size =   chalk.white('(' + result.size + ')');
-   if (!mode.quiet && result.valid)
+   if (!flagOn.quiet && result.valid)
       log(name, source, arrow, target, size);
    };
 
@@ -66,7 +66,7 @@ if (error)
 const options = {
    dist:           target,
    delimiter:      flagMap.delimiter ?? '~~',
-   replaceComment: !mode.keep,
-   setVersion:     !mode.noVersion,
+   replaceComment: !flagOn.keep,
+   setVersion:     !flagOn['no-version'],
    };
 filenames.forEach(filename => logResult(addDistHeader.prepend(filename, options)));

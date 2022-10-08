@@ -1,6 +1,6 @@
 {
    "name": "add-dist-header",
-   "version": "0.3.1",
+   "version": "0.3.2",
    "description": "Prepend a one-line banner comment (with license notice) to distribution files",
    "license": "MIT",
    "type": "module",
@@ -78,7 +78,7 @@
       "test": "mocha spec/*.spec.js && w3c-html-validator"
    },
    "dependencies": {
-      "chalk": "~5.0",
+      "chalk": "~5.1",
       "fancy-log": "~2.0",
       "glob": "~8.0",
       "make-dir": "~3.1",
@@ -93,7 +93,7 @@
       "assert-deep-strict-equal": "~1.0",
       "copy-file-util": "~0.1",
       "copy-folder-cli": "~0.1",
-      "eslint": "~8.24",
+      "eslint": "~8.25",
       "istextorbinary": "~6.0",
       "jshint": "~2.13",
       "mocha": "~10.0",
