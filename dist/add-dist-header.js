@@ -1,4 +1,4 @@
-//! add-dist-header v0.3.3 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.3.4 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { isBinary } from 'istextorbinary';
 import path from 'path';
@@ -49,11 +49,12 @@ const addDistHeader = {
         const banner = [`${pkg.name} v${pkg.version}`, info, license].join(delimiter);
         const header = commentStyle[type].start + banner + commentStyle[type].end;
         const fixedDigits = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
-        const spacerLines = (path) => path.includes('.min.') || mlStyle ? '\n' : '\n\n';
         const distFolder = makeDir.sync(settings.dist);
         const outputPath = slash(path.format({ dir: settings.dist, name: inputFile.name, ext: fileExt }));
+        const isMinified = outputPath.includes('.min.') || out3.indexOf('\n') === out3.length - 1;
+        const spacerLines = isMinified || mlStyle ? '\n' : '\n\n';
         const leadingBlanks = /^\s*\n/;
-        const final = header + spacerLines(outputPath) + out3.replace(leadingBlanks, '');
+        const final = header + spacerLines + out3.replace(leadingBlanks, '');
         if (!invalidContent)
             fs.writeFileSync(outputPath, final);
         return {

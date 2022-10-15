@@ -1,4 +1,4 @@
-//! add-dist-header v0.3.3 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.3.4 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -64,11 +64,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const banner = [`${pkg.name} v${pkg.version}`, info, license].join(delimiter);
             const header = commentStyle[type].start + banner + commentStyle[type].end;
             const fixedDigits = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
-            const spacerLines = (path) => path.includes('.min.') || mlStyle ? '\n' : '\n\n';
             const distFolder = make_dir_1.default.sync(settings.dist);
             const outputPath = (0, slash_1.default)(path_1.default.format({ dir: settings.dist, name: inputFile.name, ext: fileExt }));
+            const isMinified = outputPath.includes('.min.') || out3.indexOf('\n') === out3.length - 1;
+            const spacerLines = isMinified || mlStyle ? '\n' : '\n\n';
             const leadingBlanks = /^\s*\n/;
-            const final = header + spacerLines(outputPath) + out3.replace(leadingBlanks, '');
+            const final = header + spacerLines + out3.replace(leadingBlanks, '');
             if (!invalidContent)
                 fs_1.default.writeFileSync(outputPath, final);
             return {
