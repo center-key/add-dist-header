@@ -11,7 +11,7 @@ export type Settings = {
    extension:      string | null,  //rename with new file extension (with dot), example: '.css'
    delimiter:      string,         //character separating the parts of the header comment
    replaceComment: boolean,        //delete the original first line comment
-   setVersion:     boolean,        //substitute occurances of "~~~version~~~" with the package.json version number
+   setVersion:     boolean,        //substitute occurances of "{{pkg.version}}" with the package.json version number
    };
 export type Options = Partial<Settings>;
 export type Result = {
@@ -59,8 +59,9 @@ const addDistHeader = {
       const normalizeEof =   /\s*$(?!\n)/;
       const out1 =           input.replace(normalizeEol, '').replace(normalizeEof, '\n');
       const out2 =           settings.replaceComment ? out1.replace(firstLine[type], '') : out1;
-      const versionPattern = /~~~version~~~/g;
-      const out3 =           settings.setVersion ? out2.replace(versionPattern, pkg.version) : out2;
+      const versionPattern = /{{pkg[.]version}}/g;
+      const deprecated =     /~~~version~~~/g;  //delete this line
+      const out3 =           settings.setVersion ? out2.replace(versionPattern, pkg.version).replace(deprecated, pkg.version) : out2;
       const info =           pkg.homepage ?? pkg.docs ?? pkg.repository;
       const unlicensed =     !pkg.license || pkg.license === 'UNLICENSED';
       const license =        unlicensed ? 'All Rights Reserved' : pkg.license + ' License';

@@ -76,13 +76,13 @@ Command-line flags:
 | -------------- | --------------------------------------------------------- | ---------- | ------- |
 | `--delimiter`  | Characters separating the parts<br>of the header comment. | **string** | `~~`    |
 | `--keep`       | Do not delete the original first line<br>comment.         | N/A        | N/A     |
-| `--no-version` | Do not substitute occurrences of `~~~version~~~`<br>with the **package.json** version number. | N/A | N/A |
+| `--no-version` | Do not substitute occurrences of `{{pkg.version}}` with<br>the **package.json** version number. | N/A | N/A |
 | `--note`       | Place to add a comment only for humans.                   | **string** | N/A     |
 | `--quiet`      | Suppress informational messages.                          | N/A        | N/A     |
 
 #### Version Number Substitution:
 In addition to prepending the header comment, **add-dist-header** also replaces all occurrences of
-`~~~version~~~` in each file with the version number found in **package.json**.
+`{{pkg.version}}` in each file with the version number found in **package.json**.
 This enables inserting the current package version number into your distribution files.
 
 The substitution feature is disabled by setting `--version` flag to `false`:

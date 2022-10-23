@@ -120,7 +120,7 @@ describe('A .ts build file', () => {
       const expected = {
          header:   header.js,
          file:     'spec/fixtures/target/kebab.ts',
-         length:   427,
+         length:   431,
          size:     '0.42 KB',
          versions: 1,
          };
