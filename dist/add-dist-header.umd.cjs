@@ -1,4 +1,4 @@
-//! add-dist-header v0.3.4 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.3.5 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -55,8 +55,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const normalizeEof = /\s*$(?!\n)/;
             const out1 = input.replace(normalizeEol, '').replace(normalizeEof, '\n');
             const out2 = settings.replaceComment ? out1.replace(firstLine[type], '') : out1;
-            const versionPattern = /~~~version~~~/g;
-            const out3 = settings.setVersion ? out2.replace(versionPattern, pkg.version) : out2;
+            const versionPattern = /{{pkg[.]version}}/g;
+            const deprecated = /~~~version~~~/g;
+            const out3 = settings.setVersion ? out2.replace(versionPattern, pkg.version).replace(deprecated, pkg.version) : out2;
             const info = (_c = (_b = pkg.homepage) !== null && _b !== void 0 ? _b : pkg.docs) !== null && _c !== void 0 ? _c : pkg.repository;
             const unlicensed = !pkg.license || pkg.license === 'UNLICENSED';
             const license = unlicensed ? 'All Rights Reserved' : pkg.license + ' License';
