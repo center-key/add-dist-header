@@ -71,14 +71,13 @@ $ dist-header "meta/config.js"  #creates "dist/config.js" prepended with header
 ```
 
 ### 3. CLI Flags
-const validFlags =  ['delimiter', 'keep', 'no-version', 'quiet'];
-
 Command-line flags:
 | Flag           | Description                                               | Values     | Default |
 | -------------- | --------------------------------------------------------- | ---------- | ------- |
 | `--delimiter`  | Characters separating the parts<br>of the header comment. | **string** | `~~`    |
 | `--keep`       | Do not delete the original first line<br>comment.         | N/A        | N/A     |
 | `--no-version` | Do not substitute occurrences of `~~~version~~~`<br>with the **package.json** version number. | N/A | N/A |
+| `--note`       | Place to add a comment only for humans.                   | **string** | N/A     |
 | `--quiet`      | Suppress informational messages.                          | N/A        | N/A     |
 
 #### Version Number Substitution:
