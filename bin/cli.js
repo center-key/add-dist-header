@@ -23,23 +23,21 @@
 
 // Imports
 import { addDistHeader } from '../dist/add-dist-header.js';
+import { cliArgvUtil } from 'cli-argv-util';
 import chalk from 'chalk';
 import fs    from 'fs';
 import glob  from 'glob';
 import log   from 'fancy-log';
 
-// Parameters
-const validFlags =  ['delimiter', 'keep', 'no-version', 'note', 'quiet'];
-const args =        process.argv.slice(2);
-const flags =       args.filter(arg => /^--/.test(arg));
-const flagMap =     Object.fromEntries(flags.map(flag => flag.replace(/^--/, '').split('=')));
-const flagOn =      Object.fromEntries(validFlags.map(flag => [flag, flag in flagMap]));
-const invalidFlag = Object.keys(flagMap).find(key => !validFlags.includes(key));
-const params =      args.filter(arg => !/^--/.test(arg));
+// Parameters and flags
+const validFlags = ['delimiter', 'keep-first', 'keep', 'no-version', 'note', 'quiet'];
+const cli =        cliArgvUtil.parse(validFlags);
+const source =     cli.params[0] ?? 'build/*';
+const target =     cli.params[1] ?? 'dist';
 
-// Data
-const source = params[0] ?? 'build/*';
-const target = params[1] ?? 'dist';
+// Deprecated
+if (cli.flagOn.keepFirst) console.log('DEPRECATED: Replace --keep flag with --keep-first');
+cli.flagOn.keep = cli.flagOn.keep || cli.flagOn.keepFirst;
 
 // Reporting
 const logResult =  (result) => {
@@ -48,7 +46,7 @@ const logResult =  (result) => {
    const source = chalk.blue.bold(result.source);
    const target = chalk.magenta(result.file);
    const size =   chalk.white('(' + result.size + ')');
-   if (!flagOn.quiet && result.valid)
+   if (!cli.flagOn.quiet && result.valid)
       log(name, source, arrow, target, size);
    };
 
@@ -57,16 +55,16 @@ const isFolder =  fs.existsSync(source) && fs.statSync(source).isDirectory();
 const pattern =   isFolder ? source + '/*' : source;
 const filenames = glob.sync(pattern, { nodir: true }).sort();
 const error =
-   invalidFlag ?       'Invalid flag: ' + invalidFlag :
-   params.length > 2 ? 'Unknown extraneous parameter: ' + params[2] :
-   !filenames.length ? 'File not found: ' + source :
+   cli.invalidFlag ?     cli.invalidFlagMsg :
+   cli.paramsCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
+   !filenames.length ?   'File not found: ' + source :
    null;
 if (error)
    throw Error('[add-dist-header] ' + error);
 const options = {
    dist:           target,
-   delimiter:      flagMap.delimiter ?? '~~',
-   replaceComment: !flagOn.keep,
-   setVersion:     !flagOn['no-version'],
+   delimiter:      cli.flagMap.delimiter ?? '~~',
+   replaceComment: !cli.flagOn.keep,
+   setVersion:     !cli.flagOn.noVersion,
    };
 filenames.forEach(filename => logResult(addDistHeader.prepend(filename, options)));

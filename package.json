@@ -83,6 +83,7 @@
    },
    "dependencies": {
       "chalk": "~5.1",
+      "cli-argv-util": "~0.1",
       "fancy-log": "~2.0",
       "glob": "~8.0",
       "istextorbinary": "~6.0",
@@ -93,8 +94,8 @@
       "@types/fancy-log": "~2.0",
       "@types/glob": "~8.0",
       "@types/node": "~18.11",
-      "@typescript-eslint/eslint-plugin": "~5.42",
-      "@typescript-eslint/parser": "~5.42",
+      "@typescript-eslint/eslint-plugin": "~5.43",
+      "@typescript-eslint/parser": "~5.43",
       "assert-deep-strict-equal": "~1.0",
       "copy-file-util": "~0.1",
       "copy-folder-util": "~0.2",
@@ -103,7 +104,7 @@
       "mocha": "~10.1",
       "rimraf": "~3.0",
       "run-scripts-util": "~0.1",
-      "typescript": "~4.8",
+      "typescript": "~4.9",
       "w3c-html-validator": "~1.2"
    }
 }
