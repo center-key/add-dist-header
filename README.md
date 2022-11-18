@@ -46,7 +46,7 @@ Parameters:
 Example **package.json** script:
 ```json
    "scripts": {
-      "add-headers": "dist-header build dist"
+      "add-headers": "add-dist-header build dist"
    },
 ```
 
@@ -56,18 +56,18 @@ You can install **add-dist-header** globally and then run it anywhere directly f
 Example terminal commands:
 ```shell
 $ npm install --global add-dist-header
-$ dist-header "build" "dist"
-[17:13:50] dist-header build/my-app.d.ts --> dist/my-app.d.ts (413.11 KB)
-[17:13:51] dist-header build/my-app.js --> dist/my-app.js (1,569.70 KB)
+$ add-dist-header "build" "dist"
+[17:13:50] add-dist-header build/my-app.d.ts --> dist/my-app.d.ts (413.11 KB)
+[17:13:51] add-dist-header build/my-app.js --> dist/my-app.js (1,569.70 KB)
 ```
 
 The parameters are optional:
 ```shell
-$ dist-header  #same as above since "build/*" "dist" are the default parameter values
-[17:13:50] dist-header build/my-app.d.ts --> dist/my-app.d.ts (413.11 KB)
-[17:13:51] dist-header build/my-app.js --> dist/my-app.js (1,569.70 KB)
-$ dist-header "meta/config.js"  #creates "dist/config.js" prepended with header
-[17:15:03] dist-header meta/config.js --> dist/config.js (3.91 KB)
+$ add-dist-header  #same as above since "build/*" "dist" are the default parameter values
+[17:13:50] add-dist-header build/my-app.d.ts --> dist/my-app.d.ts (413.11 KB)
+[17:13:51] add-dist-header build/my-app.js --> dist/my-app.js (1,569.70 KB)
+$ add-dist-header "meta/config.js"  #creates "dist/config.js" prepended with header
+[17:15:03] add-dist-header meta/config.js --> dist/config.js (3.91 KB)
 ```
 
 ### 3. CLI Flags
@@ -88,8 +88,8 @@ This enables inserting the current package version number into your distribution
 The substitution feature is disabled by setting `--version` flag to `false`:
 
 Examples:
-   - `dist-header temp dist --delimiter=🔥` &nbsp; Use "🔥" as the separator instead of "~~".
-   - `dist-header --no-version build dist`  &nbsp; Add headers but do not substitute the version number.
+   - `add-dist-header temp dist --delimiter=🔥` &nbsp; Use "🔥" as the separator instead of "~~".
+   - `add-dist-header --no-version build dist`  &nbsp; Add headers but do not substitute the version number.
 
 ## C) Application Code
 Even though **add-dist-header** is primarily intended for build scripts, the package can easily be used programmatically in ESM and TypeScript projects.

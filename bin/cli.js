@@ -6,14 +6,14 @@
 
 // Usage in package.json:
 //    "scripts": {
-//       "add-headers": "dist-header build/*.js dist"
+//       "add-headers": "add-dist-header build/*.js dist"
 //    },
 //
 // Usage from command line:
 //    $ npm install --global add-dist-header
-//    $ dist-header "build" "dist"
-//    $ dist-header  #same as above since "build/*" "dist" are the default parameters
-//    $ dist-header "target/app.js"  #creates "dist/app.js" prepended with a comment header
+//    $ add-dist-header "build" "dist"
+//    $ add-dist-header  #same as above since "build/*" "dist" are the default parameters
+//    $ add-dist-header "target/app.js"  #creates "dist/app.js" prepended with a comment header
 //
 // Contributors to this project:
 //    $ cd add-dist-header
@@ -41,7 +41,7 @@ cli.flagOn.keep = cli.flagOn.keep || cli.flagOn.keepFirst;
 
 // Reporting
 const logResult =  (result) => {
-   const name =   chalk.gray('dist-header');
+   const name =   chalk.gray('add-dist-header');
    const arrow =  chalk.gray.bold(' ⟹  ');  //extra space for alignment
    const source = chalk.blue.bold(result.source);
    const target = chalk.magenta(result.file);
