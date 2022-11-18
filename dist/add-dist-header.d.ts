@@ -1,14 +1,14 @@
-//! add-dist-header v0.3.5 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.3.6 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
-export declare type Settings = {
+export type Settings = {
     dist: string;
     extension: string | null;
     delimiter: string;
     replaceComment: boolean;
     setVersion: boolean;
 };
-export declare type Options = Partial<Settings>;
-export declare type Result = {
+export type Options = Partial<Settings>;
+export type Result = {
     valid: boolean;
     dist: string;
     header: string;
