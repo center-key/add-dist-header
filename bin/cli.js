@@ -42,7 +42,7 @@ cli.flagOn.keep = cli.flagOn.keep || cli.flagOn.keepFirst;
 // Reporting
 const logResult =  (result) => {
    const name =   chalk.gray('add-dist-header');
-   const arrow =  chalk.gray.bold(' ⟹  ');  //extra space for alignment
+   const arrow =  chalk.gray.bold('→');
    const source = chalk.blue.bold(result.source);
    const target = chalk.magenta(result.file);
    const size =   chalk.white('(' + result.size + ')');
