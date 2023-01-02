@@ -70,7 +70,7 @@ $ add-dist-header "meta/config.js"  #creates "dist/config.js" prepended with hea
 [17:15:03] add-dist-header meta/config.js --> dist/config.js (3.91 KB)
 ```
 
-### 3. CLI Flags
+### 3. CLI flags
 Command-line flags:
 | Flag           | Description                                               | Values     | Default |
 | -------------- | --------------------------------------------------------- | ---------- | ------- |
@@ -80,7 +80,7 @@ Command-line flags:
 | `--note`       | Place to add a comment only for humans.                   | **string** | N/A     |
 | `--quiet`      | Suppress informational messages.                          | N/A        | N/A     |
 
-#### Version Number Substitution:
+#### Version number substitution:
 In addition to prepending the header comment, **add-dist-header** also replaces all occurrences of
 `{{pkg.version}}` in each file with the version number found in **package.json**.
 This enables inserting the current package version number into your distribution files.
