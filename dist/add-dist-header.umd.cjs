@@ -1,4 +1,4 @@
-//! add-dist-header v0.3.7 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v0.3.8 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
