@@ -24,9 +24,9 @@
 // Imports
 import { addDistHeader } from '../dist/add-dist-header.js';
 import { cliArgvUtil } from 'cli-argv-util';
+import { globSync } from 'glob';
 import chalk from 'chalk';
 import fs    from 'fs';
-import glob  from 'glob';
 import log   from 'fancy-log';
 
 // Parameters and flags
@@ -53,7 +53,7 @@ const logResult =  (result) => {
 // Prepend
 const isFolder =  fs.existsSync(source) && fs.statSync(source).isDirectory();
 const pattern =   isFolder ? source + '/*' : source;
-const filenames = glob.sync(pattern, { nodir: true }).sort();
+const filenames = globSync(pattern, { nodir: true }).sort();
 const error =
    cli.invalidFlag ?     cli.invalidFlagMsg :
    cli.paramsCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
