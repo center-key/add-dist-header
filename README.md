@@ -88,8 +88,11 @@ This enables inserting the current package version number into your distribution
 The substitution feature is disabled by setting `--version` flag to `false`:
 
 Examples:
-   - `add-dist-header temp dist --delimiter=🔥` &nbsp; Use "🔥" as the separator instead of "~~".
-   - `add-dist-header --no-version build dist`  &nbsp; Add headers but do not substitute the version number.
+   - `add-dist-header temp dist --delimiter=🔥`<br>
+   Use "🔥" as the separator instead of "~~".
+
+   - `add-dist-header --no-version build dist`<br>
+   Add headers but do not substitute the version number.
 
 ## C) Application Code
 Even though **add-dist-header** is primarily intended for build scripts, the package can easily be used programmatically in ESM and TypeScript projects.
