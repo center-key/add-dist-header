@@ -3,6 +3,7 @@
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
+import { execSync } from 'node:child_process';
 import fs from 'fs';
 import assert from 'assert';
 
@@ -196,6 +197,23 @@ describe('Correct error is thrown', () => {
       const makeBogusCall = () => addDistHeader.prepend();
       const exception =     { message: '[add-dist-header] Must specify the "filename" option.' };
       assert.throws(makeBogusCall, exception);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////
+describe('Executing the CLI', () => {
+   const run = (posix) => {
+      const name =    Object.keys(pkg.bin).sort()[0];
+      const command = process.platform === 'win32' ? posix.replaceAll('\\ ', '" "') : posix;
+      execSync(command.replace(name, 'node bin/cli.js'), { stdio: 'inherit' });
+      };
+
+   it('correclty adds a header to a CSS file', () => {
+      run('add-dist-header spec/fixtures/source/kebab.css spec/fixtures/target/cli');
+      const actual =   fs.readdirSync('spec/fixtures/target/cli').sort();
+      const expected = ['kebab.css'];
+      assertDeepStrictEqual(actual, expected);
       });
 
    });
