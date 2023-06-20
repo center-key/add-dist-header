@@ -4,8 +4,8 @@
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { execSync } from 'node:child_process';
-import fs from 'fs';
 import assert from 'assert';
+import fs from 'fs';
 
 // Setup
 import { addDistHeader } from '../dist/add-dist-header.js';
@@ -24,7 +24,6 @@ describe('The "dist" folder', () => {
       const expected = [
          'add-dist-header.d.ts',
          'add-dist-header.js',
-         'add-dist-header.umd.cjs',
          ];
       assertDeepStrictEqual(actual, expected);
       });
@@ -206,7 +205,7 @@ describe('Executing the CLI', () => {
    const run = (posix) => {
       const name =    Object.keys(pkg.bin).sort()[0];
       const command = process.platform === 'win32' ? posix.replaceAll('\\ ', '" "') : posix;
-      execSync(command.replace(name, 'node bin/cli.js'), { stdio: 'inherit' });
+      return execSync(command.replace(name, 'node bin/cli.js'), { stdio: 'inherit' });
       };
 
    it('correclty adds a header to a CSS file', () => {

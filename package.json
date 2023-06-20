@@ -5,15 +5,14 @@
    "license": "MIT",
    "type": "module",
    "module": "dist/add-dist-header.js",
-   "main": "dist/add-dist-header.umd.cjs",
+   "main": "dist/add-dist-header.js",
    "types": "dist/add-dist-header.d.ts",
    "files": [
       "dist"
    ],
    "exports": {
       ".": {
-         "import": "./dist/add-dist-header.js",
-         "require": "./dist/add-dist-header.umd.cjs"
+         "import": "./dist/add-dist-header.js"
       },
       "./": "./dist/"
    },
@@ -73,8 +72,6 @@
          "jshint . --exclude-path .gitignore",
          "eslint --max-warnings 0 . --ext .ts",
          "tsc",
-         "tsc --module UMD --outDir build/umd",
-         "copy-file build/umd/add-dist-header.js build/add-dist-header.umd.cjs",
          "copy-file build/add-dist-header.js --folder dist",
          "node bin/cli.js --no-version build dist"
       ]
@@ -96,8 +93,8 @@
       "@types/fancy-log": "~2.0",
       "@types/glob": "~8.1",
       "@types/node": "~20.3",
-      "@typescript-eslint/eslint-plugin": "~5.59",
-      "@typescript-eslint/parser": "~5.59",
+      "@typescript-eslint/eslint-plugin": "~5.60",
+      "@typescript-eslint/parser": "~5.60",
       "assert-deep-strict-equal": "~1.0",
       "copy-file-util": "~1.0",
       "copy-folder-util": "~1.0",
