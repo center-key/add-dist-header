@@ -1,4 +1,4 @@
-//! add-dist-header v1.0.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.1.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 //! The toKebab function is important (and don't substitute the version number)
 const toKebab = (camelStr: string): string => {  //v{{pkg.version}}

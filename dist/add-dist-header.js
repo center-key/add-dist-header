@@ -1,4 +1,4 @@
-//! add-dist-header v1.0.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.1.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { isBinary } from 'istextorbinary';
 import path from 'path';
