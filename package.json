@@ -84,9 +84,9 @@
       "chalk": "~5.2",
       "cli-argv-util": "~1.1",
       "fancy-log": "~2.0",
-      "glob": "~10.2",
+      "glob": "~10.3",
       "istextorbinary": "~6.0",
-      "make-dir": "~3.1",
+      "make-dir": "~4.0",
       "slash": "~5.1"
    },
    "devDependencies": {
@@ -95,14 +95,14 @@
       "@types/node": "~20.3",
       "@typescript-eslint/eslint-plugin": "~5.60",
       "@typescript-eslint/parser": "~5.60",
-      "assert-deep-strict-equal": "~1.0",
+      "assert-deep-strict-equal": "~1.1",
       "copy-file-util": "~1.1",
       "copy-folder-util": "~1.1",
       "eslint": "~8.43",
       "jshint": "~2.13",
       "mocha": "~10.2",
       "rimraf": "~5.0",
-      "run-scripts-util": "~1.1",
+      "run-scripts-util": "~1.2",
       "typescript": "~5.1",
       "w3c-html-validator": "~1.4"
    }
