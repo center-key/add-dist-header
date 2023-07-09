@@ -5,7 +5,6 @@ _Prepend a one-line banner comment (with license notice) to distribution files_
 
 [![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/add-dist-header/blob/main/LICENSE.txt)
 [![npm](https://img.shields.io/npm/v/add-dist-header.svg)](https://www.npmjs.com/package/add-dist-header)
-[![Vulnerabilities](https://snyk.io/test/github/center-key/add-dist-header/badge.svg)](https://snyk.io/test/github/center-key/add-dist-header)
 [![Build](https://github.com/center-key/add-dist-header/workflows/build/badge.svg)](https://github.com/center-key/add-dist-header/actions/workflows/run-spec-on-push.yaml)
 
 **add-dist-header** uses the `name`, `homepage`, and `license` from your project's **package.json**
