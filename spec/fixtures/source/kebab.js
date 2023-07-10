@@ -1,4 +1,4 @@
-/* Kebab --- MIT License */
+/* Kebab --- MIT License --- Original header comment */
 
 const toKebab = (camelStr) => {  //v{{pkg.version}}
    const dash = (word) => '-' + word.toLowerCase();

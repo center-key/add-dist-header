@@ -3,7 +3,7 @@
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
-import { execSync } from 'node:child_process';
+import { cliArgvUtil } from 'cli-argv-util';
 import assert from 'assert';
 import fs from 'fs';
 
@@ -78,8 +78,8 @@ describe('A .js build file', () => {
    it('that is minified gets normalized', () => {
       const filename = 'spec/fixtures/source/kebab.min.js';
       const options =  { dist: 'spec/fixtures/target' };
-      const result = addDistHeader.prepend(filename, options);
-      const output = fs.readFileSync('spec/fixtures/target/kebab.min.js', 'utf-8');
+      const result =   addDistHeader.prepend(filename, options);
+      const output =   fs.readFileSync('spec/fixtures/target/kebab.min.js', 'utf-8');
       const actual = {
          header:   result.header,
          file:     result.file,
@@ -120,8 +120,8 @@ describe('A .ts build file', () => {
       const expected = {
          header:   header.js,
          file:     'spec/fixtures/target/kebab.ts',
-         length:   431,
-         size:     '0.42 KB',
+         length:   382,
+         size:     '0.37 KB',
          versions: 1,
          };
       assertDeepStrictEqual(actual, expected);
@@ -202,16 +202,19 @@ describe('Correct error is thrown', () => {
 
 ////////////////////////////////////////////////////////////////////////////////
 describe('Executing the CLI', () => {
-   const run = (posix) => {
-      const name =    Object.keys(pkg.bin).sort()[0];
-      const command = process.platform === 'win32' ? posix.replaceAll('\\ ', '" "') : posix;
-      return execSync(command.replace(name, 'node bin/cli.js'), { stdio: 'inherit' });
-      };
+   const run = (posix) => cliArgvUtil.run(pkg, posix);
 
-   it('correclty adds a header to a CSS file', () => {
-      run('add-dist-header spec/fixtures/source/kebab.css spec/fixtures/target/cli');
-      const actual =   fs.readdirSync('spec/fixtures/target/cli').sort();
-      const expected = ['kebab.css'];
+   it('adds a header to the correct files in the folder', () => {
+      run('add-dist-header spec/fixtures/source spec/fixtures/target/cli');
+      const actual = fs.readdirSync('spec/fixtures/target/cli').sort();
+      const expected = [
+         'kebab.css',
+         'kebab.html',
+         'kebab.js',
+         'kebab.min.js',
+         'kebab.ts',
+         'kebab.xml',
+         ];
       assertDeepStrictEqual(actual, expected);
       });
 
