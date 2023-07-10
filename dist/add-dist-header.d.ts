@@ -1,4 +1,4 @@
-//! add-dist-header v1.1.1 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.1.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 export type Settings = {
     dist: string;
