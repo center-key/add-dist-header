@@ -60,8 +60,7 @@ const addDistHeader = {
       const out1 =           input.replace(normalizeEol, '').replace(normalizeEof, '\n');
       const out2 =           settings.replaceComment ? out1.replace(firstLine[type], '') : out1;
       const versionPattern = /{{pkg[.]version}}/g;
-      const deprecated =     /~~~version~~~/g;  //delete this line
-      const out3 =           settings.setVersion ? out2.replace(versionPattern, pkg.version).replace(deprecated, pkg.version) : out2;
+      const out3 =           settings.setVersion ? out2.replace(versionPattern, pkg.version) : out2;
       const info =           pkg.homepage ?? pkg.docs ?? pkg.repository;
       const unlicensed =     !pkg.license || pkg.license === 'UNLICENSED';
       const license =        unlicensed ? 'All Rights Reserved' : pkg.license + ' License';
