@@ -1,4 +1,4 @@
-//! add-dist-header v1.1.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.1.3 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { isBinary } from 'istextorbinary';
 import path from 'path';
@@ -36,7 +36,7 @@ const addDistHeader = {
         const mlStyle = /\.(html|htm|sgml|xml|php)$/.test(fileExt);
         const type = jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
         const invalidContent = isBinary(filename);
-        const input = fs.readFileSync(filename, 'utf-8');
+        const input = fs.readFileSync(filename, 'utf-8').trimStart();
         const normalizeEol = /\r/g;
         const normalizeEof = /\s*$(?!\n)/;
         const out1 = input.replace(normalizeEol, '').replace(normalizeEof, '\n');
@@ -53,7 +53,8 @@ const addDistHeader = {
         const header = commentStyle[type].start + banner + commentStyle[type].end;
         const fixedDigits = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
         const distFolder = makeDir.sync(settings.dist);
-        const outputPath = slash(path.format({ dir: settings.dist, name: inputFile.name, ext: fileExt }));
+        const formatOptions = { dir: settings.dist, name: inputFile.name, ext: fileExt };
+        const outputPath = slash(path.format(formatOptions));
         const isMinified = outputPath.includes('.min.') || out4.indexOf('\n') === out4.length - 1;
         const spacerLines = isMinified || mlStyle ? '\n' : '\n\n';
         const leadingBlanks = /^\s*\n/;
