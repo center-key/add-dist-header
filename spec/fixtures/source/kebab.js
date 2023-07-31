@@ -5,4 +5,4 @@ const toKebab = (camelStr) => {  //v{{pkg.version}}
    return ('' + camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
    };
 
-module.exports = toKebab;  //version: {{pkg.version}}
+export { toKebab };  //version: {{pkg.version}}

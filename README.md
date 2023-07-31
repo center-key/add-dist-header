@@ -15,11 +15,11 @@ width=800 alt=screenshot>
 
 Example header comment for a **.js** file:
 ```javascript
-//! my-app v0.3.7 ~~ https://github.com/my-org/my-app ~~ MIT License
+//! my-app v3.1.4 ~~ https://github.com/my-org/my-app ~~ MIT License
 ```
 Example header comment for a **.css** file:
 ```javascript
-/*! my-app v0.3.7 ~~ https://github.com/my-org/my-app ~~ MIT License */
+/*! my-app v3.1.4 ~~ https://github.com/my-org/my-app ~~ MIT License */
 ```
 
 Automatically prepending headers to distribution files is particularly handy when your build
@@ -78,20 +78,24 @@ Command-line flags:
 | `--no-version` | Do not substitute occurrences of `{{pkg.version}}`<br>with the **package.json** version number. | N/A | N/A |
 | `--note`       | Place to add a comment only for humans.                   | **string** | N/A     |
 | `--quiet`      | Suppress informational messages.                          | N/A        | N/A     |
+| `--recursive`  | Include subfolders for the source folder.                 | N/A        | N/A     |
 
 #### Version number substitution:
 In addition to prepending the header comment, **add-dist-header** also replaces all occurrences of
 `{{pkg.version}}` in each file with the version number found in **package.json**.
 This enables inserting the current package version number into your distribution files.
 
-The substitution feature is disabled by setting `--version` flag to `false`:
+The substitution feature is disabled with the `--no-version` flag.
 
 Examples:
-   - `add-dist-header temp dist --delimiter=🔥`<br>
-   Use "🔥" as the separator instead of "~~".
+   - `add-dist-header build/minimized dist`<br>
+   Copy the files in the **build/minimized** folder to the **dist** folder and add comment headers.
 
-   - `add-dist-header --no-version build dist`<br>
-   Add headers but do not substitute the version number.
+   - `add-dist-header build dist --no-version --delimiter=🔥`<br>
+   Add comment headers but do not substitute the version number and use "🔥" as the separator in the header comment instead of "~~".
+
+   - `add-dist-header build dist --recursive`<br>
+   Include the subfolders of **build**.
 
 ## C) Application Code
 Even though **add-dist-header** is primarily intended for build scripts, the package can easily be used programmatically in ESM and TypeScript projects.

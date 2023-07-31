@@ -28,9 +28,10 @@ import { globSync } from 'glob';
 import chalk from 'chalk';
 import fs    from 'fs';
 import log   from 'fancy-log';
+import path  from 'path';
 
 // Parameters and flags
-const validFlags = ['delimiter', 'keep-first', 'keep', 'no-version', 'note', 'quiet'];
+const validFlags = ['delimiter', 'keep-first', 'keep', 'no-version', 'note', 'quiet', 'recursive'];
 const cli =        cliArgvUtil.parse(validFlags);
 const source =     cli.params[0] ?? 'build/*';
 const target =     cli.params[1] ?? 'dist';
@@ -40,7 +41,7 @@ if (cli.flagOn.keepFirst) console.log('DEPRECATED: Replace --keep flag with --ke
 cli.flagOn.keep = cli.flagOn.keep || cli.flagOn.keepFirst;
 
 // Reporting
-const logResult =  (result) => {
+const logResult = (result) => {
    const name =   chalk.gray('add-dist-header');
    const arrow =  chalk.gray.bold('→');
    const source = chalk.blue.bold(result.source);
@@ -51,20 +52,26 @@ const logResult =  (result) => {
    };
 
 // Prepend
-const isFolder =  fs.existsSync(source) && fs.statSync(source).isDirectory();
-const pattern =   isFolder ? source + '/*' : source;
-const filenames = globSync(pattern, { nodir: true }).sort();
+const normalize =   (name) => path.normalize(name.endsWith(path.sep) ? name.slice(0, -1) : name);
+const origin =      normalize(source);
+const targetRoot =  normalize(target);
+const isFolder =    fs.existsSync(origin) && fs.statSync(origin).isDirectory();
+const wildcard =    cli.flagOn.recursive ? '/**/*' : '/*';
+const pattern =     isFolder ? origin + wildcard : origin;
+const filenames =   globSync(pattern, { nodir: true }).sort();
 const error =
-   cli.invalidFlag ?     cli.invalidFlagMsg :
-   cli.paramsCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
-   !filenames.length ?   'File not found: ' + source :
+   cli.invalidFlag ?      cli.invalidFlagMsg :
+   cli.paramsCount > 2 ?  'Extraneous parameter: ' + cli.params[2] :
+   !filenames.length ?    'File not found: ' + source :
+   source.includes('*') ? 'Wildcards not supported in source: ' + source :
    null;
 if (error)
    throw Error('[add-dist-header] ' + error);
-const options = {
-   dist:           target,
+const clacOptions = (sourceFilename) => ({
+   dist:           targetRoot + path.dirname(sourceFilename).substring(origin.length),
    delimiter:      cli.flagMap.delimiter ?? '~~',
    replaceComment: !cli.flagOn.keep,
    setVersion:     !cli.flagOn.noVersion,
-   };
-filenames.forEach(filename => logResult(addDistHeader.prepend(filename, options)));
+   });
+filenames.forEach(filename =>
+   logResult(addDistHeader.prepend(filename, clacOptions(filename))));

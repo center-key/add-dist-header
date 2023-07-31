@@ -68,7 +68,7 @@ describe('A .js build file', () => {
       const expected = {
          header:   header.js.replace(/~~/g, '🫓🍢🫓'),
          file:     'spec/fixtures/target/kebab.js',
-         length:   321,
+         length:   315,
          size:     '0.31 KB',
          versions: 3,
          };
@@ -204,9 +204,9 @@ describe('Correct error is thrown', () => {
 describe('Executing the CLI', () => {
    const run = (posix) => cliArgvUtil.run(pkg, posix);
 
-   it('adds a header to the correct files in the folder', () => {
-      run('add-dist-header spec/fixtures/source spec/fixtures/target/cli');
-      const actual = fs.readdirSync('spec/fixtures/target/cli').sort();
+   it('with the --recursive flag adds a header to the correct files in all folders', () => {
+      run('add-dist-header spec/fixtures/source spec/fixtures/target/cli --recursive');
+      const actual = fs.readdirSync('spec/fixtures/target/cli', { recursive: true }).sort();
       const expected = [
          'kebab.css',
          'kebab.html',
@@ -214,6 +214,8 @@ describe('Executing the CLI', () => {
          'kebab.min.js',
          'kebab.ts',
          'kebab.xml',
+         'subfolder',
+         'subfolder/pita-bread.js',
          ];
       assertDeepStrictEqual(actual, expected);
       });
