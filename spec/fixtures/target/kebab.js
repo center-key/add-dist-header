@@ -1,8 +1,8 @@
-//! add-dist-header v1.2.0 🫓🍢🫓 https://github.com/center-key/add-dist-header 🫓🍢🫓 MIT License
+//! add-dist-header v1.2.1 🫓🍢🫓 https://github.com/center-key/add-dist-header 🫓🍢🫓 MIT License
 
-const toKebab = (camelStr) => {  //v1.2.0
+const toKebab = (camelStr) => {  //v1.2.1
    const dash = (word) => '-' + word.toLowerCase();
    return ('' + camelStr).replace(/([A-Z]+)/g, dash).replace(/\s|^-/g, '');
    };
 
-export { toKebab };  //version: 1.2.0
+export { toKebab };  //version: 1.2.1
