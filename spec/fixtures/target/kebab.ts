@@ -1,4 +1,4 @@
-//! add-dist-header v1.1.3 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.2.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 //! This comment is important!
 const toKebab = (camelStr: string): string => {  //v{{pkg.version}}
