@@ -205,8 +205,8 @@ describe('Executing the CLI', () => {
    const run = (posix) => cliArgvUtil.run(pkg, posix);
 
    it('with the --recursive flag adds a header to the correct files in all folders', () => {
-      run('add-dist-header spec/fixtures/source spec/fixtures/target/cli --recursive');
-      const actual = fs.readdirSync('spec/fixtures/target/cli', { recursive: true }).sort();
+      run('add-dist-header spec/fixtures/source spec/fixtures/target/cli/all --recursive');
+      const actual = fs.readdirSync('spec/fixtures/target/cli/all', { recursive: true }).sort();
       const expected = [
          'kebab.css',
          'kebab.html',
@@ -216,6 +216,17 @@ describe('Executing the CLI', () => {
          'kebab.xml',
          'subfolder',
          'subfolder/pita-bread.js',
+         ];
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   it('with the --ext flag adds a header only to files with a specified file extension', () => {
+      run('add-dist-header spec/fixtures/source spec/fixtures/target/cli/ext --ext=.css,.js');
+      const actual = fs.readdirSync('spec/fixtures/target/cli/ext').sort();
+      const expected = [
+         'kebab.css',
+         'kebab.js',
+         'kebab.min.js',
          ];
       assertDeepStrictEqual(actual, expected);
       });

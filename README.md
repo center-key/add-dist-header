@@ -74,6 +74,7 @@ Command-line flags:
 | Flag           | Description                                               | Values     | Default |
 | -------------- | --------------------------------------------------------- | ---------- | ------- |
 | `--delimiter`  | Characters separating the parts of the header<br>comment. | **string** | `~~`    |
+| `--ext`        | Filter files by file extension, such as `.js`.<br>Use a comma to specify multiple extensions. | **string** | N/A     |
 | `--keep-first` | Do not delete the original first line comment.            | N/A        | N/A     |
 | `--no-version` | Do not substitute occurrences of `{{pkg.version}}`<br>with the **package.json** version number. | N/A | N/A |
 | `--note`       | Place to add a comment only for humans.                   | **string** | N/A     |
@@ -94,8 +95,8 @@ Examples:
    - `add-dist-header build dist --no-version --delimiter=🔥`<br>
    Add comment headers but do not substitute the version number and use "🔥" as the separator in the header comment instead of "~~".
 
-   - `add-dist-header build dist --recursive`<br>
-   Include the subfolders of **build**.
+   - `add-dist-header build dist --ext=.js,.css --recursive`<br>
+   Process only JavaScript and CSS files in the **build** folder and its subfolders.
 
 ## C) Application Code
 Even though **add-dist-header** is primarily intended for build scripts, the package can easily be used programmatically in ESM and TypeScript projects.

@@ -31,7 +31,7 @@ import log   from 'fancy-log';
 import path  from 'path';
 
 // Parameters and flags
-const validFlags = ['delimiter', 'keep-first', 'keep', 'no-version', 'note', 'quiet', 'recursive'];
+const validFlags = ['delimiter', 'ext', 'keep-first', 'keep', 'no-version', 'note', 'quiet', 'recursive'];
 const cli =        cliArgvUtil.parse(validFlags);
 const source =     cli.params[0] ?? 'build/*';
 const target =     cli.params[1] ?? 'dist';
@@ -58,7 +58,9 @@ const targetRoot =  normalize(target);
 const isFolder =    fs.existsSync(origin) && fs.statSync(origin).isDirectory();
 const wildcard =    cli.flagOn.recursive ? '/**/*' : '/*';
 const pattern =     isFolder ? origin + wildcard : origin;
-const filenames =   globSync(pattern, { nodir: true }).sort();
+const extensions =  cli.flagMap.ext?.split(',') ?? null;
+const keep =        (filename) => !extensions || extensions.includes(path.extname(filename));
+const filenames =   globSync(pattern, { nodir: true }).filter(keep).sort();
 const error =
    cli.invalidFlag ?      cli.invalidFlagMsg :
    cli.paramsCount > 2 ?  'Extraneous parameter: ' + cli.params[2] :
