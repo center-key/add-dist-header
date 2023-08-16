@@ -49,17 +49,14 @@ Example **package.json** script:
    },
 ```
 
-### 2. Global
-You can install **add-dist-header** globally and then run it anywhere directly from the terminal.
-
+### 2. Command-line npx
 Example terminal commands:
 ```shell
-$ npm install --global add-dist-header
-$ add-dist-header "build" "dist"
+$ npm install --save-dev add-dist-header
+$ npx add-dist-header "build" "dist"
 [17:13:50] add-dist-header build/my-app.d.ts --> dist/my-app.d.ts (413.11 KB)
 [17:13:51] add-dist-header build/my-app.js --> dist/my-app.js (1,569.70 KB)
 ```
-
 The parameters are optional:
 ```shell
 $ add-dist-header  #same as above since "build/*" "dist" are the default parameter values
@@ -68,6 +65,7 @@ $ add-dist-header  #same as above since "build/*" "dist" are the default paramet
 $ add-dist-header "meta/config.js"  #creates "dist/config.js" prepended with header
 [17:15:03] add-dist-header meta/config.js --> dist/config.js (3.91 KB)
 ```
+You can also install **add-dist-header** globally (`--global`) and then run it anywhere directly from the terminal.
 
 ### 3. CLI flags
 Command-line flags:
@@ -122,6 +120,7 @@ See the **TypeScript Declarations** at the top of [add-dist-header.ts](add-dist-
    - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line banner comment (with license notice) to distribution files_
    - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file with optional package version number_
    - 📂 [copy-folder-util](https://github.com/center-key/copy-folder-util):&nbsp; _Recursively copy files from one folder to another folder_
+   - 🪺 [recursive-exec](https://github.com/center-key/recursive-exec):&nbsp; _Run a command on each file in a folder and its subfolders_
    - 🔍 [replacer-util](https://github.com/center-key/replacer-util):&nbsp; _Find and replace strings or template outputs in text files_
    - 🔢 [rev-web-assets](https://github.com/center-key/rev-web-assets):&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_
    - 🚆 [run-scripts-util](https://github.com/center-key/run-scripts-util):&nbsp; _Organize npm scripts into named groups of easy to manage commands_
