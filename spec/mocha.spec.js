@@ -206,7 +206,7 @@ describe('Executing the CLI', () => {
 
    it('with the --recursive flag adds a header to the correct files in all folders', () => {
       run('add-dist-header spec/fixtures/source spec/fixtures/target/cli/all --recursive');
-      const actual = fs.readdirSync('spec/fixtures/target/cli/all', { recursive: true }).sort();
+      const actual = cliArgvUtil.readFiles('spec/fixtures/target/cli/all');
       const expected = [
          'kebab.css',
          'kebab.html',

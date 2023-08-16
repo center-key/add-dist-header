@@ -10,10 +10,10 @@
 //    },
 //
 // Usage from command line:
-//    $ npm install --global add-dist-header
-//    $ add-dist-header "build" "dist"
-//    $ add-dist-header  #same as above since "build/*" "dist" are the default parameters
-//    $ add-dist-header "target/app.js"  #creates "dist/app.js" prepended with a comment header
+//    $ npm install --save-dev add-dist-header
+//    $ npx add-dist-header "build" "dist"
+//    $ npx add-dist-header  #same as above since "build/*" "dist" are the default parameters
+//    $ npx add-dist-header "target/app.js"  #creates "dist/app.js" prepended with a comment header
 //
 // Contributors to this project:
 //    $ cd add-dist-header
@@ -29,6 +29,7 @@ import chalk from 'chalk';
 import fs    from 'fs';
 import log   from 'fancy-log';
 import path  from 'path';
+import slash from 'slash';
 
 // Parameters and flags
 const validFlags = ['delimiter', 'ext', 'keep-first', 'keep', 'no-version', 'note', 'quiet', 'recursive'];
@@ -57,7 +58,7 @@ const origin =      normalize(source);
 const targetRoot =  normalize(target);
 const isFolder =    fs.existsSync(origin) && fs.statSync(origin).isDirectory();
 const wildcard =    cli.flagOn.recursive ? '/**/*' : '/*';
-const pattern =     isFolder ? origin + wildcard : origin;
+const pattern =     slash(isFolder ? origin + wildcard : origin);
 const extensions =  cli.flagMap.ext?.split(',') ?? null;
 const keep =        (filename) => !extensions || extensions.includes(path.extname(filename));
 const filenames =   globSync(pattern, { nodir: true }).filter(keep).sort();
