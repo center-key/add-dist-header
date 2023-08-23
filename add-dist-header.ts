@@ -1,11 +1,13 @@
 // Add Dist Header ~~ MIT License
 
+// Imports
 import { isBinary } from 'istextorbinary';
 import path    from 'path';
 import fs      from 'fs';
 import makeDir from 'make-dir';
 import slash   from 'slash';
 
+// Types
 export type Settings = {
    dist:           string,         //output folder
    extension:      string | null,  //rename with new file extension (with dot), example: '.css'
@@ -13,7 +15,6 @@ export type Settings = {
    replaceComment: boolean,        //delete the original first line comment
    setVersion:     boolean,        //substitute occurances of "{{pkg.version}}" with the package.json version number
    };
-export type Options = Partial<Settings>;
 export type Result = {
    valid:  boolean,  //true if input file is a text file and false if binary
    dist:   string,   //absolute path to distribution folder
@@ -26,7 +27,7 @@ export type Result = {
 
 const addDistHeader = {
 
-   prepend(filename: string, options?: Options): Result {
+   prepend(filename: string, options?: Partial<Settings>): Result {
       const defaults = {
          dist:           'dist',
          extension:      null,
