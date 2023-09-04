@@ -25,9 +25,7 @@
 import { addDistHeader } from '../dist/add-dist-header.js';
 import { cliArgvUtil } from 'cli-argv-util';
 import { globSync } from 'glob';
-import chalk from 'chalk';
 import fs    from 'fs';
-import log   from 'fancy-log';
 import path  from 'path';
 import slash from 'slash';
 
@@ -40,17 +38,6 @@ const target =     cli.params[1] ?? 'dist';
 // Deprecated
 if (cli.flagOn.keepFirst) console.log('DEPRECATED: Replace --keep flag with --keep-first');
 cli.flagOn.keep = cli.flagOn.keep || cli.flagOn.keepFirst;
-
-// Reporting
-const logResult = (result) => {
-   const name =   chalk.gray('add-dist-header');
-   const arrow =  chalk.gray.bold('→');
-   const source = chalk.blue.bold(result.source);
-   const target = chalk.magenta(result.file);
-   const size =   chalk.white('(' + result.size + ')');
-   if (!cli.flagOn.quiet && result.valid)
-      log(name, source, arrow, target, size);
-   };
 
 // Prepend
 const normalize =   (name) => path.normalize(name.endsWith(path.sep) ? name.slice(0, -1) : name);
@@ -70,11 +57,12 @@ const error =
    null;
 if (error)
    throw Error('[add-dist-header] ' + error);
-const clacOptions = (sourceFilename) => ({
+const calcOptions = (sourceFilename) => ({
    dist:           targetRoot + path.dirname(sourceFilename).substring(origin.length),
    delimiter:      cli.flagMap.delimiter ?? '~~',
    replaceComment: !cli.flagOn.keep,
    setVersion:     !cli.flagOn.noVersion,
    });
-filenames.forEach(filename =>
-   logResult(addDistHeader.prepend(filename, clacOptions(filename))));
+const getResult = (filename) => addDistHeader.prepend(filename, calcOptions(filename));
+const quiet = cli.flagOn.quiet;
+filenames.forEach(filename => addDistHeader.reporter(getResult(filename), { quiet }));

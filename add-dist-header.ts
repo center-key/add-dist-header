@@ -2,9 +2,11 @@
 
 // Imports
 import { isBinary } from 'istextorbinary';
-import path    from 'path';
+import chalk   from 'chalk';
 import fs      from 'fs';
+import log     from 'fancy-log';
 import makeDir from 'make-dir';
+import path    from 'path';
 import slash   from 'slash';
 
 // Types
@@ -23,6 +25,9 @@ export type Result = {
    file:   string,   //output filename
    length: number,   //number of characters in output file
    size:   string,   //formatted file size, example: '1,233.70 KB'
+   };
+export type ReporterSettings = {
+   quite: boolean,   //suppress informational messages
    };
 
 const addDistHeader = {
@@ -90,6 +95,21 @@ const addDistHeader = {
          length: final.length,
          size:   (final.length / 1024).toLocaleString([], fixedDigits) + ' KB',
          };
+      },
+
+   reporter(result: Result, options?: ReporterSettings): Result {
+      const defaults = {
+         quiet: false,
+         };
+      const settings = { ...defaults, ...options };
+      const name =   chalk.gray('add-dist-header');
+      const arrow =  chalk.gray.bold('→');
+      const source = chalk.blue.bold(result.source);
+      const target = chalk.magenta(result.file);
+      const size =   chalk.white('(' + result.size + ')');
+      if (!settings.quiet && result.valid)
+         log(name, source, arrow, target, size);
+      return result;
       },
 
    };
