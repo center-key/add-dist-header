@@ -1,13 +1,16 @@
-//! add-dist-header v1.2.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.3.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { isBinary } from 'istextorbinary';
-import path from 'path';
+import chalk from 'chalk';
 import fs from 'fs';
+import log from 'fancy-log';
 import makeDir from 'make-dir';
+import path from 'path';
 import slash from 'slash';
 const addDistHeader = {
     prepend(filename, options) {
         const defaults = {
+            allFiles: false,
             dist: 'dist',
             extension: null,
             delimiter: '~~',
@@ -34,7 +37,7 @@ const addDistHeader = {
         const jsStyle = /\.(js|ts|cjs|mjs)$/.test(fileExt);
         const mlStyle = /\.(html|htm|sgml|xml|php)$/.test(fileExt);
         const type = jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
-        const invalidContent = isBinary(filename);
+        const isTextFile = !isBinary(filename);
         const input = fs.readFileSync(filename, 'utf-8').trimStart();
         const normalizeEol = /\r/g;
         const normalizeEof = /\s*$(?!\n)/;
@@ -58,17 +61,34 @@ const addDistHeader = {
         const spacerLines = isMinified || mlStyle ? '\n' : '\n\n';
         const leadingBlanks = /^\s*\n/;
         const final = doctype + header + spacerLines + out4.replace(leadingBlanks, '');
-        if (!invalidContent)
+        if (isTextFile)
             fs.writeFileSync(outputPath, final);
+        else if (settings.allFiles)
+            fs.copyFileSync(filename, outputPath);
         return {
-            valid: !invalidContent,
+            valid: isTextFile || settings.allFiles,
+            text: isTextFile,
             dist: distFolder,
-            header: header,
+            header: isTextFile ? header : null,
             source: filename,
             file: outputPath,
-            length: final.length,
-            size: (final.length / 1024).toLocaleString([], fixedDigits) + ' KB',
+            length: isTextFile ? final.length : null,
+            size: isTextFile ? (final.length / 1024).toLocaleString([], fixedDigits) + ' KB' : null,
         };
+    },
+    reporter(result, options) {
+        const defaults = {
+            quiet: false,
+        };
+        const settings = { ...defaults, ...options };
+        const name = chalk.gray('add-dist-header');
+        const arrow = chalk.gray.bold('→');
+        const source = chalk.blue.bold(result.source);
+        const target = chalk.magenta(result.file);
+        const size = chalk.white('(' + result.size + ')');
+        if (!settings.quiet && result.valid)
+            log(name, source, arrow, target, size);
+        return result;
     },
 };
 export { addDistHeader };

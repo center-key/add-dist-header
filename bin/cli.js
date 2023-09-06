@@ -35,10 +35,6 @@ const cli =        cliArgvUtil.parse(validFlags);
 const source =     cli.params[0] ?? 'build/*';
 const target =     cli.params[1] ?? 'dist';
 
-// Deprecated
-if (cli.flagOn.keepFirst) console.log('DEPRECATED: Replace --keep flag with --keep-first');
-cli.flagOn.keep = cli.flagOn.keep || cli.flagOn.keepFirst;
-
 // Prepend
 const normalize =   (name) => path.normalize(name.endsWith(path.sep) ? name.slice(0, -1) : name);
 const origin =      normalize(source);
