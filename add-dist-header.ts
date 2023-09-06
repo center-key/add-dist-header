@@ -113,7 +113,7 @@ const addDistHeader = {
       const arrow =  chalk.gray.bold('→');
       const source = chalk.blue.bold(result.source);
       const target = chalk.magenta(result.file);
-      const size =   chalk.white('(' + result.size + ')');
+      const size =   chalk.white('(' + (result.size || 'binary') + ')');
       if (!settings.quiet && result.valid)
          log(name, source, arrow, target, size);
       return result;
