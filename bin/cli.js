@@ -30,7 +30,7 @@ import path  from 'path';
 import slash from 'slash';
 
 // Parameters and flags
-const validFlags = ['delimiter', 'ext', 'keep-first', 'keep', 'no-version', 'note', 'quiet', 'recursive'];
+const validFlags = ['all-files', 'delimiter', 'ext', 'keep-first', 'keep', 'no-version', 'note', 'quiet', 'recursive'];
 const cli =        cliArgvUtil.parse(validFlags);
 const source =     cli.params[0] ?? 'build/*';
 const target =     cli.params[1] ?? 'dist';
@@ -58,6 +58,7 @@ const error =
 if (error)
    throw Error('[add-dist-header] ' + error);
 const calcOptions = (sourceFilename) => ({
+   allFiles:       cli.flagOn.allFiles,
    dist:           targetRoot + path.dirname(sourceFilename).substring(origin.length),
    delimiter:      cli.flagMap.delimiter ?? '~~',
    replaceComment: !cli.flagOn.keep,

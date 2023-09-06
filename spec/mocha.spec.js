@@ -204,18 +204,20 @@ describe('Correct error is thrown', () => {
 describe('Executing the CLI', () => {
    const run = (posix) => cliArgvUtil.run(pkg, posix);
 
-   it('with the --recursive flag adds a header to the correct files in all folders', () => {
-      run('add-dist-header spec/fixtures/source spec/fixtures/target/cli/all --recursive');
+   it('with the --all-files flag and --recursive flag handles all files including subfolders', () => {
+      run('add-dist-header spec/fixtures/source spec/fixtures/target/cli/all --all-files --recursive');
       const actual = cliArgvUtil.readFolder('spec/fixtures/target/cli/all');
       const expected = [
          'kebab.css',
          'kebab.html',
+         'kebab.jpg',
          'kebab.js',
          'kebab.min.js',
          'kebab.ts',
          'kebab.xml',
          'subfolder',
          'subfolder/pita-bread.js',
+         'subfolder/pita-bread.png',
          ];
       assertDeepStrictEqual(actual, expected);
       });

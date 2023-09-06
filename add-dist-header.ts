@@ -11,6 +11,7 @@ import slash   from 'slash';
 
 // Types
 export type Settings = {
+   allFiles:       boolean,        //add headers to text files and just copy binary files
    dist:           string,         //output folder
    extension:      string | null,  //rename with new file extension (with dot), example: '.css'
    delimiter:      string,         //character separating the parts of the header comment
@@ -18,13 +19,14 @@ export type Settings = {
    setVersion:     boolean,        //substitute occurances of "{{pkg.version}}" with the package.json version number
    };
 export type Result = {
-   valid:  boolean,  //true if input file is a text file and false if binary
-   dist:   string,   //absolute path to distribution folder
-   header: string,   //text prepended to output file
-   source: string,   //input filename
-   file:   string,   //output filename
-   length: number,   //number of characters in output file
-   size:   string,   //formatted file size, example: '1,233.70 KB'
+   valid:  boolean,        //true if the input file is a text file or if allFiles is enabled
+   text:   boolean,        //true if input file is a text file and false if binary
+   dist:   string,         //absolute path to distribution folder
+   header: string | null,  //text prepended to output file
+   source: string,         //input filename
+   file:   string,         //output filename
+   length: number | null,  //number of characters in output file
+   size:   string | null,  //formatted file size, example: '1,233.70 KB'
    };
 export type ReporterSettings = {
    quite: boolean,   //suppress informational messages
@@ -34,6 +36,7 @@ const addDistHeader = {
 
    prepend(filename: string, options?: Partial<Settings>): Result {
       const defaults = {
+         allFiles:       false,
          dist:           'dist',
          extension:      null,
          delimiter:      '~~',
@@ -60,7 +63,7 @@ const addDistHeader = {
       const jsStyle =        /\.(js|ts|cjs|mjs)$/.test(fileExt);
       const mlStyle =        /\.(html|htm|sgml|xml|php)$/.test(fileExt);
       const type =           jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
-      const invalidContent = isBinary(filename);
+      const isTextFile =     !isBinary(filename);
       const input =          fs.readFileSync(filename, 'utf-8').trimStart();
       const normalizeEol =   /\r/g;
       const normalizeEof =   /\s*$(?!\n)/;
@@ -84,16 +87,20 @@ const addDistHeader = {
       const spacerLines =    isMinified || mlStyle ? '\n' : '\n\n';
       const leadingBlanks =  /^\s*\n/;
       const final =          doctype + header + spacerLines + out4.replace(leadingBlanks, '');
-      if (!invalidContent)
+      if (isTextFile)
          fs.writeFileSync(outputPath, final);
+      else if (settings.allFiles)
+         fs.copyFileSync(filename, outputPath);
+         // console.log({settings, textContent: isTextFile, filename, outputPath});
       return {
-         valid:  !invalidContent,
+         valid:  isTextFile || settings.allFiles,
+         text:   isTextFile,
          dist:   distFolder,
-         header: header,
+         header: isTextFile ? header : null,
          source: filename,
          file:   outputPath,
-         length: final.length,
-         size:   (final.length / 1024).toLocaleString([], fixedDigits) + ' KB',
+         length: isTextFile ? final.length : null,
+         size:   isTextFile ? (final.length / 1024).toLocaleString([], fixedDigits) + ' KB' : null,
          };
       },
 

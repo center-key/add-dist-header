@@ -18,9 +18,16 @@ Example header comment for a **.js** file:
 //! my-app v3.1.4 ~~ https://github.com/my-org/my-app ~~ MIT License
 ```
 Example header comment for a **.css** file:
-```javascript
+```css
 /*! my-app v3.1.4 ~~ https://github.com/my-org/my-app ~~ MIT License */
 ```
+Example header comment for a **.xml** file:
+```xml
+<!-- my-app v3.1.4 ~~ https://github.com/my-org/my-app ~~ MIT License -->
+```
+
+Header comments are only prepended to text files.&nbsp;
+Binary files are ignored (unless the `--all-files` flag is specified).
 
 Automatically prepending headers to distribution files is particularly handy when your build
 tools are configured to remove comments (such as if `"removeComments": true` in set
@@ -71,6 +78,7 @@ You can also install **add-dist-header** globally (`--global`) and then run it a
 Command-line flags:
 | Flag           | Description                                               | Values     | Default |
 | -------------- | --------------------------------------------------------- | ---------- | ------- |
+| `--all-files`  | Add headers to text files and just copy binary<br>files.  | N/A        | N/A     |
 | `--delimiter`  | Characters separating the parts of the header<br>comment. | **string** | `~~`    |
 | `--ext`        | Filter files by file extension, such as `.js`.<br>Use a comma to specify multiple extensions. | **string** | N/A     |
 | `--keep-first` | Do not delete the original first line comment.            | N/A        | N/A     |
@@ -90,6 +98,9 @@ Examples:
    - `add-dist-header build/minimized dist`<br>
    Copy the files in the **build/minimized** folder to the **dist** folder and add comment headers.
 
+   - `add-dist-header build/minimized dist --all-files`<br>
+   Same as above command except that binary files, such as .png files, will also be copied over unmodified.
+
    - `add-dist-header build dist --no-version --delimiter=🔥`<br>
    Add comment headers but do not substitute the version number and use "🔥" as the separator in the header comment instead of "~~".
 
@@ -97,7 +108,7 @@ Examples:
    Process only JavaScript and CSS files in the **build** folder and its subfolders.
 
 ## C) Application Code
-Even though **add-dist-header** is primarily intended for build scripts, the package can easily be used programmatically in ESM and TypeScript projects.
+Even though **add-dist-header** is primarily intended for build scripts, the package can be used programmatically in ESM and TypeScript projects.
 
 Example:
 ``` typescript
