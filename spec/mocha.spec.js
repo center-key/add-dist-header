@@ -39,9 +39,13 @@ describe('Library module', () => {
       assertDeepStrictEqual(actual, expected);
       });
 
-   it('has a prepend() function', () => {
-      const actual =   { validate: typeof addDistHeader.prepend };
-      const expected = { validate: 'function' };
+   it('has functions named prepend() and reporter()', () => {
+      const module = addDistHeader;
+      const actual = Object.keys(module).sort().map(key => [key, typeof module[key]]);
+      const expected = [
+         ['prepend',  'function'],
+         ['reporter', 'function'],
+         ];
       assertDeepStrictEqual(actual, expected);
       });
 

@@ -76,16 +76,16 @@ You can also install **add-dist-header** globally (`--global`) and then run it a
 
 ### 3. CLI flags
 Command-line flags:
-| Flag           | Description                                               | Values     | Default |
-| -------------- | --------------------------------------------------------- | ---------- | ------- |
-| `--all-files`  | Add headers to text files and just copy binary<br>files.  | N/A        | N/A     |
-| `--delimiter`  | Characters separating the parts of the header<br>comment. | **string** | `~~`    |
-| `--ext`        | Filter files by file extension, such as `.js`.<br>Use a comma to specify multiple extensions. | **string** | N/A     |
-| `--keep-first` | Do not delete the original first line comment.            | N/A        | N/A     |
+| Flag           | Description                                            | Values     | Default |
+| -------------- | ------------------------------------------------------ | ---------- | ------- |
+| `--all-files`  | Add headers to text files and just copy binary files.  | N/A        | N/A     |
+| `--delimiter`  | Characters separating the parts of the header comment. | **string** | `~~`    |
+| `--ext`        | Filter files by file extension, such as `.js`.<br>Use a comma to specify multiple extensions. | **string** | N/A |
+| `--keep-first` | Do not delete the original first line comment.         | N/A        | N/A     |
 | `--no-version` | Do not substitute occurrences of `{{pkg.version}}`<br>with the **package.json** version number. | N/A | N/A |
-| `--note`       | Place to add a comment only for humans.                   | **string** | N/A     |
-| `--quiet`      | Suppress informational messages.                          | N/A        | N/A     |
-| `--recursive`  | Include subfolders for the source folder.                 | N/A        | N/A     |
+| `--note`       | Place to add a comment only for humans.                | **string** | N/A     |
+| `--quiet`      | Suppress informational messages.                       | N/A        | N/A     |
+| `--recursive`  | Include subfolders of the source folder.               | N/A        | N/A     |
 
 #### Version number substitution:
 In addition to prepending the header comment, **add-dist-header** also replaces all occurrences of
