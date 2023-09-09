@@ -1,4 +1,4 @@
-//! add-dist-header v1.3.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.3.1 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { isBinary } from 'istextorbinary';
 import chalk from 'chalk';
@@ -85,7 +85,7 @@ const addDistHeader = {
         const arrow = chalk.gray.bold('→');
         const source = chalk.blue.bold(result.source);
         const target = chalk.magenta(result.file);
-        const size = chalk.white('(' + result.size + ')');
+        const size = chalk.white('(' + (result.size || 'binary') + ')');
         if (!settings.quiet && result.valid)
             log(name, source, arrow, target, size);
         return result;
