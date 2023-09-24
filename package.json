@@ -20,7 +20,10 @@
       "add-dist-header": "bin/cli.js",
       "dist-header": "bin/cli.js"
    },
-   "repository": "github:center-key/add-dist-header",
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/center-key/add-dist-header.git"
+   },
    "homepage": "https://github.com/center-key/add-dist-header",
    "bugs": "https://github.com/center-key/add-dist-header/issues",
    "docs": "https://github.com/center-key/add-dist-header#readme",
@@ -93,17 +96,17 @@
       "@types/fancy-log": "~2.0",
       "@types/glob": "~8.1",
       "@types/node": "~20.6",
-      "@typescript-eslint/eslint-plugin": "~6.6",
-      "@typescript-eslint/parser": "~6.6",
+      "@typescript-eslint/eslint-plugin": "~6.7",
+      "@typescript-eslint/parser": "~6.7",
       "assert-deep-strict-equal": "~1.1",
       "copy-file-util": "~1.1",
       "copy-folder-util": "~1.1",
-      "eslint": "~8.49",
+      "eslint": "~8.50",
       "jshint": "~2.13",
       "mocha": "~10.2",
       "rimraf": "~5.0",
       "run-scripts-util": "~1.2",
       "typescript": "~5.2",
-      "w3c-html-validator": "~1.4"
+      "w3c-html-validator": "~1.5"
    }
 }
