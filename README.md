@@ -104,8 +104,13 @@ Examples:
    - `add-dist-header build dist --no-version --delimiter=🔥`<br>
    Add comment headers but do not substitute the version number and use "🔥" as the separator in the header comment instead of "~~".
 
+   - `add-dist-header build dist --no-version '--delimiter= --- '`<br>
+   Specify a delimiter with a leading and trailing space.
+
    - `add-dist-header build dist --ext=.js,.css --recursive`<br>
    Process only JavaScript and CSS files in the **build** folder and its subfolders.
+
+_**Note:** Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
 
 ## C) Application Code
 Even though **add-dist-header** is primarily intended for build scripts, the package can be used programmatically in ESM and TypeScript projects.
