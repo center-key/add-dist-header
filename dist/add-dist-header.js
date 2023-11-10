@@ -1,4 +1,4 @@
-//! add-dist-header v1.3.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.3.3 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { isBinary } from 'istextorbinary';
 import chalk from 'chalk';
@@ -70,7 +70,7 @@ const addDistHeader = {
             text: isTextFile,
             dist: distFolder,
             header: isTextFile ? header : null,
-            source: filename,
+            source: slash(filename),
             file: outputPath,
             length: isTextFile ? final.length : null,
             size: isTextFile ? (final.length / 1024).toLocaleString([], fixedDigits) + ' KB' : null,
