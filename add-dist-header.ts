@@ -91,13 +91,12 @@ const addDistHeader = {
          fs.writeFileSync(outputPath, final);
       else if (settings.allFiles)
          fs.copyFileSync(filename, outputPath);
-         // console.log({settings, textContent: isTextFile, filename, outputPath});
       return {
          valid:  isTextFile || settings.allFiles,
          text:   isTextFile,
          dist:   distFolder,
          header: isTextFile ? header : null,
-         source: filename,
+         source: slash(filename),
          file:   outputPath,
          length: isTextFile ? final.length : null,
          size:   isTextFile ? (final.length / 1024).toLocaleString([], fixedDigits) + ' KB' : null,
