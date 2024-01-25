@@ -5,17 +5,11 @@
    "license": "MIT",
    "type": "module",
    "module": "dist/add-dist-header.js",
-   "main": "dist/add-dist-header.js",
    "types": "dist/add-dist-header.d.ts",
+   "exports": "./dist/add-dist-header.js",
    "files": [
       "dist"
    ],
-   "exports": {
-      ".": {
-         "import": "./dist/add-dist-header.js"
-      },
-      "./": "./dist/"
-   },
    "bin": {
       "add-dist-header": "bin/cli.js",
       "dist-header": "bin/cli.js"
@@ -97,9 +91,9 @@
    },
    "devDependencies": {
       "@types/fancy-log": "~2.0",
-      "@types/node": "~20.10",
-      "@typescript-eslint/eslint-plugin": "~6.17",
-      "@typescript-eslint/parser": "~6.17",
+      "@types/node": "~20.11",
+      "@typescript-eslint/eslint-plugin": "~6.19",
+      "@typescript-eslint/parser": "~6.19",
       "assert-deep-strict-equal": "~1.1",
       "copy-file-util": "~1.1",
       "copy-folder-util": "~1.1",
