@@ -1,4 +1,4 @@
-//! add-dist-header v1.3.4 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.4.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { isBinary } from 'istextorbinary';
 import chalk from 'chalk';
