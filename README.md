@@ -5,7 +5,7 @@ _Prepend a one-line banner comment (with license notice) to distribution files_
 
 [![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/add-dist-header/blob/main/LICENSE.txt)
 [![npm](https://img.shields.io/npm/v/add-dist-header.svg)](https://www.npmjs.com/package/add-dist-header)
-[![Build](https://github.com/center-key/add-dist-header/workflows/build/badge.svg)](https://github.com/center-key/add-dist-header/actions/workflows/run-spec-on-push.yaml)
+[![Build](https://github.com/center-key/add-dist-header/actions/workflows/run-spec-on-push.yaml/badge.svg)](https://github.com/center-key/add-dist-header/actions/workflows/run-spec-on-push.yaml)
 
 **add-dist-header** uses the `name`, `homepage`, and `license` from your project's **package.json**
 file to create a header comment and prepend it to a build file.
@@ -82,14 +82,14 @@ Command-line flags:
 | `--delimiter`  | Characters separating the parts of the header comment. | **string** | `~~`    |
 | `--ext`        | Filter files by file extension, such as `.js`.<br>Use a comma to specify multiple extensions. | **string** | N/A |
 | `--keep-first` | Do not delete the original first line comment.         | N/A        | N/A     |
-| `--no-version` | Do not substitute occurrences of `{{pkg.version}}`<br>with the **package.json** version number. | N/A | N/A |
+| `--no-version` | Do not substitute occurrences of `{{package.version}}`<br>with the **package.json** version number. | N/A | N/A |
 | `--note`       | Place to add a comment only for humans.                | **string** | N/A     |
 | `--quiet`      | Suppress informational messages.                       | N/A        | N/A     |
 | `--recursive`  | Include subfolders of the source folder.               | N/A        | N/A     |
 
 #### Version number substitution:
 In addition to prepending the header comment, **add-dist-header** also replaces all occurrences of
-`{{pkg.version}}` in each file with the version number found in **package.json**.
+`{{package.version}}` in each file with the version number found in **package.json**.
 This enables inserting the current package version number into your distribution files.
 
 The substitution feature is disabled with the `--no-version` flag.

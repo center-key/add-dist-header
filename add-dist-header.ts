@@ -16,7 +16,7 @@ export type Settings = {
    extension:      string | null,  //rename with new file extension (with dot), example: '.css'
    delimiter:      string,         //character separating the parts of the header comment
    replaceComment: boolean,        //delete the original first line comment
-   setVersion:     boolean,        //substitute occurances of "{{pkg.version}}" with the package.json version number
+   setVersion:     boolean,        //substitute occurances of "{{package.version}}" with the package.json version number
    };
 export type Result = {
    valid:  boolean,        //true if the input file is a text file or if allFiles is enabled
@@ -71,7 +71,8 @@ const addDistHeader = {
       const out2 =           settings.replaceComment ? out1.replace(firstLine[type], '') : out1;
       const doctype =        mlStyle && out2.match(doctypeLine)?.[0] || '';
       const out3 =           mlStyle && doctype ? out2.replace(doctype, '') : out2;
-      const versionPattern = /{{pkg[.]version}}/g;
+      // const versionPattern = /{{pkg[.]version}}/g;
+      const versionPattern = /{{(pkg|package)[.]version}}/g;  //"pkg" is deprecated in favor of "package" for clarity
       const out4 =           settings.setVersion ? out3.replace(versionPattern, pkg.version) : out3;
       const info =           pkg.homepage ?? pkg.docs ?? pkg.repository;
       const unlicensed =     !pkg.license || pkg.license === 'UNLICENSED';

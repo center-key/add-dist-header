@@ -124,8 +124,8 @@ describe('A .ts build file', () => {
       const expected = {
          header:   header.js,
          file:     'spec/fixtures/target/kebab.ts',
-         length:   382,
-         size:     '0.37 KB',
+         length:   390,
+         size:     '0.38 KB',
          versions: 1,
          };
       assertDeepStrictEqual(actual, expected);

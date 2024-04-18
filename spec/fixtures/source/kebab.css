@@ -1,6 +1,6 @@
 /* Kebab --- MIT License */
 
-.kebab {  /* v{{pkg.version}} */
+.kebab {  /* v{{package.version}} */
    border: 2px solid firebrick;
    border-radius: 3px;
    }
