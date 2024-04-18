@@ -1,6 +1,6 @@
 {
    "name": "add-dist-header",
-   "version": "1.4.0",
+   "version": "1.4.1",
    "description": "Prepend a one-line banner comment (with license notice) to distribution files",
    "license": "MIT",
    "type": "module",
@@ -91,18 +91,18 @@
    },
    "devDependencies": {
       "@types/fancy-log": "~2.0",
-      "@types/node": "~20.11",
-      "@typescript-eslint/eslint-plugin": "~7.2",
-      "@typescript-eslint/parser": "~7.2",
+      "@types/node": "~20.12",
+      "@typescript-eslint/eslint-plugin": "~7.7",
+      "@typescript-eslint/parser": "~7.7",
       "assert-deep-strict-equal": "~1.2",
       "copy-file-util": "~1.2",
       "copy-folder-util": "~1.1",
-      "eslint": "~8.57",
+      "eslint": "8.57.0",
       "jshint": "~2.13",
-      "mocha": "~10.3",
+      "mocha": "~10.4",
       "rimraf": "~5.0",
       "run-scripts-util": "~1.2",
       "typescript": "~5.4",
-      "w3c-html-validator": "~1.6"
+      "w3c-html-validator": "~1.7"
    }
 }
