@@ -1,10 +1,9 @@
-//! add-dist-header v1.4.1 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.4.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { isBinary } from 'istextorbinary';
 import chalk from 'chalk';
 import fs from 'fs';
 import log from 'fancy-log';
-import makeDir from 'make-dir';
 import path from 'path';
 import slash from 'slash';
 const addDistHeader = {
@@ -54,7 +53,7 @@ const addDistHeader = {
         const banner = [`${pkg.name} v${pkg.version}`, info, license].join(delimiter);
         const header = commentStyle[type].start + banner + commentStyle[type].end;
         const fixedDigits = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
-        const distFolder = makeDir.sync(settings.dist);
+        const distFolder = fs.mkdirSync(settings.dist, { recursive: true }) ?? settings.dist;
         const formatOptions = { dir: settings.dist, name: inputFile.name, ext: fileExt };
         const outputPath = slash(path.format(formatOptions));
         const isMinified = outputPath.includes('.min.') || out4.indexOf('\n') === out4.length - 1;
