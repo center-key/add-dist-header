@@ -86,14 +86,13 @@
       "fancy-log": "~2.0",
       "glob": "~10.3",
       "istextorbinary": "~9.5",
-      "make-dir": "~4.0",
       "slash": "~5.1"
    },
    "devDependencies": {
       "@types/fancy-log": "~2.0",
       "@types/node": "~20.12",
-      "@typescript-eslint/eslint-plugin": "~7.7",
-      "@typescript-eslint/parser": "~7.7",
+      "@typescript-eslint/eslint-plugin": "~7.8",
+      "@typescript-eslint/parser": "~7.8",
       "assert-deep-strict-equal": "~1.2",
       "copy-file-util": "~1.2",
       "copy-folder-util": "~1.1",
@@ -103,6 +102,6 @@
       "rimraf": "~5.0",
       "run-scripts-util": "~1.2",
       "typescript": "~5.4",
-      "w3c-html-validator": "~1.7"
+      "w3c-html-validator": "~1.8"
    }
 }

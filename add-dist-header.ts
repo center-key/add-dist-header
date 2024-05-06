@@ -2,12 +2,11 @@
 
 // Imports
 import { isBinary } from 'istextorbinary';
-import chalk   from 'chalk';
-import fs      from 'fs';
-import log     from 'fancy-log';
-import makeDir from 'make-dir';
-import path    from 'path';
-import slash   from 'slash';
+import chalk from 'chalk';
+import fs    from 'fs';
+import log   from 'fancy-log';
+import path  from 'path';
+import slash from 'slash';
 
 // Types
 export type Settings = {
@@ -71,7 +70,7 @@ const addDistHeader = {
       const out2 =           settings.replaceComment ? out1.replace(firstLine[type], '') : out1;
       const doctype =        mlStyle && out2.match(doctypeLine)?.[0] || '';
       const out3 =           mlStyle && doctype ? out2.replace(doctype, '') : out2;
-      // const versionPattern = /{{pkg[.]version}}/g;
+      // const versionPattern = /{{package[.]version}}/g;
       const versionPattern = /{{(pkg|package)[.]version}}/g;  //"pkg" is deprecated in favor of "package" for clarity
       const out4 =           settings.setVersion ? out3.replace(versionPattern, pkg.version) : out3;
       const info =           pkg.homepage ?? pkg.docs ?? pkg.repository;
@@ -81,7 +80,7 @@ const addDistHeader = {
       const banner =         [`${pkg.name} v${pkg.version}`, info, license].join(delimiter);
       const header =         commentStyle[type].start + banner + commentStyle[type].end;
       const fixedDigits =    { minimumFractionDigits: 2, maximumFractionDigits: 2 };
-      const distFolder =     makeDir.sync(settings.dist);
+      const distFolder =     fs.mkdirSync(settings.dist, { recursive: true }) ?? settings.dist;
       const formatOptions =  { dir: settings.dist, name: inputFile.name, ext: fileExt };
       const outputPath =     slash(path.format(formatOptions));
       const isMinified =     outputPath.includes('.min.') || out4.indexOf('\n') === out4.length - 1;
