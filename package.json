@@ -84,24 +84,24 @@
       "chalk": "~5.3",
       "cli-argv-util": "~1.2",
       "fancy-log": "~2.0",
-      "glob": "~10.3",
+      "glob": "~10.4",
       "istextorbinary": "~9.5",
       "slash": "~5.1"
    },
    "devDependencies": {
       "@types/fancy-log": "~2.0",
       "@types/node": "~20.12",
-      "@typescript-eslint/eslint-plugin": "~7.8",
-      "@typescript-eslint/parser": "~7.8",
       "assert-deep-strict-equal": "~1.2",
       "copy-file-util": "~1.2",
       "copy-folder-util": "~1.1",
       "eslint": "8.57.0",
+      "@eslint/js": "~9.3",
       "jshint": "~2.13",
       "mocha": "~10.4",
       "rimraf": "~5.0",
       "run-scripts-util": "~1.2",
       "typescript": "~5.4",
+      "typescript-eslint": "~7.10",
       "w3c-html-validator": "~1.8"
    }
 }
