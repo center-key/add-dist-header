@@ -70,8 +70,7 @@ const addDistHeader = {
       const out2 =           settings.replaceComment ? out1.replace(firstLine[type], '') : out1;
       const doctype =        mlStyle && out2.match(doctypeLine)?.[0] || '';
       const out3 =           mlStyle && doctype ? out2.replace(doctype, '') : out2;
-      // const versionPattern = /{{package[.]version}}/g;
-      const versionPattern = /{{(pkg|package)[.]version}}/g;  //"pkg" is deprecated in favor of "package" for clarity
+      const versionPattern = /{{package[.]version}}/g;
       const out4 =           settings.setVersion ? out3.replace(versionPattern, pkg.version) : out3;
       const info =           pkg.homepage ?? pkg.docs ?? pkg.repository;
       const unlicensed =     !pkg.license || pkg.license === 'UNLICENSED';
