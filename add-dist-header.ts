@@ -44,7 +44,7 @@ const addDistHeader = {
          };
       const settings = { ...defaults, ...options };
       if (!filename)
-         throw Error('[add-dist-header] Must specify the "filename" option.');
+         throw new Error('[add-dist-header] Must specify the "filename" option.');
       const doctypeLine = /^<(!doctype|\?xml).*\n/i;  //matches: '<!doctype html>' and '<?xml version="1.0" ?>'
       const commentStyle = {
          js:    { start: '//! ',  end: '' },
@@ -56,7 +56,8 @@ const addDistHeader = {
          ml:    /^<!--.*-->\n/,                      //matches: '<!-- ... -->'
          other: /^\/[*][^!].*[*]\/\n/,               //matches: '/* ... */'
          };
-      const pkg =            JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+      type Pkg =             { [key: string]: string };
+      const pkg =            <Pkg>JSON.parse(fs.readFileSync('package.json', 'utf-8'));
       const inputFile =      path.parse(filename);
       const fileExt =        settings.extension ?? inputFile.ext;
       const jsStyle =        /\.(js|ts|cjs|mjs)$/.test(fileExt);
@@ -71,10 +72,10 @@ const addDistHeader = {
       const doctype =        mlStyle && out2.match(doctypeLine)?.[0] || '';
       const out3 =           mlStyle && doctype ? out2.replace(doctype, '') : out2;
       const versionPattern = /{{package[.]version}}/g;
-      const out4 =           settings.setVersion ? out3.replace(versionPattern, pkg.version) : out3;
+      const out4 =           settings.setVersion ? out3.replace(versionPattern, pkg.version!) : out3;
       const info =           pkg.homepage ?? pkg.docs ?? pkg.repository;
       const unlicensed =     !pkg.license || pkg.license === 'UNLICENSED';
-      const license =        unlicensed ? 'All Rights Reserved' : pkg.license + ' License';
+      const license =        unlicensed ? 'All Rights Reserved' : `${pkg.license} License`;
       const delimiter =      ' ' + settings.delimiter + ' ';
       const banner =         [`${pkg.name} v${pkg.version}`, info, license].join(delimiter);
       const header =         commentStyle[type].start + banner + commentStyle[type].end;

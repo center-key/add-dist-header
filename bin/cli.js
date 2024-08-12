@@ -53,7 +53,7 @@ const error =
    source.includes('*') ? 'Wildcards not supported in source: ' + source :
    null;
 if (error)
-   throw Error('[add-dist-header] ' + error);
+   throw new Error('[add-dist-header] ' + error);
 const calcOptions = (sourceFilename) => ({
    allFiles:       cli.flagOn.allFiles,
    dist:           targetRoot + path.dirname(sourceFilename).substring(origin.length),
