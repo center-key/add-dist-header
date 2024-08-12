@@ -1,6 +1,6 @@
 {
    "name": "add-dist-header",
-   "version": "1.4.2",
+   "version": "1.4.3",
    "description": "Prepend a one-line banner comment (with license notice) to distribution files",
    "license": "MIT",
    "type": "module",

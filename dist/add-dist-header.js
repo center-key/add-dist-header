@@ -1,4 +1,4 @@
-//! add-dist-header v1.4.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.4.3 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { isBinary } from 'istextorbinary';
 import chalk from 'chalk';
@@ -18,7 +18,7 @@ const addDistHeader = {
         };
         const settings = { ...defaults, ...options };
         if (!filename)
-            throw Error('[add-dist-header] Must specify the "filename" option.');
+            throw new Error('[add-dist-header] Must specify the "filename" option.');
         const doctypeLine = /^<(!doctype|\?xml).*\n/i;
         const commentStyle = {
             js: { start: '//! ', end: '' },
@@ -44,11 +44,11 @@ const addDistHeader = {
         const out2 = settings.replaceComment ? out1.replace(firstLine[type], '') : out1;
         const doctype = mlStyle && out2.match(doctypeLine)?.[0] || '';
         const out3 = mlStyle && doctype ? out2.replace(doctype, '') : out2;
-        const versionPattern = /{{(pkg|package)[.]version}}/g;
+        const versionPattern = /{{package[.]version}}/g;
         const out4 = settings.setVersion ? out3.replace(versionPattern, pkg.version) : out3;
         const info = pkg.homepage ?? pkg.docs ?? pkg.repository;
         const unlicensed = !pkg.license || pkg.license === 'UNLICENSED';
-        const license = unlicensed ? 'All Rights Reserved' : pkg.license + ' License';
+        const license = unlicensed ? 'All Rights Reserved' : `${pkg.license} License`;
         const delimiter = ' ' + settings.delimiter + ' ';
         const banner = [`${pkg.name} v${pkg.version}`, info, license].join(delimiter);
         const header = commentStyle[type].start + banner + commentStyle[type].end;
