@@ -62,5 +62,5 @@ const calcOptions = (sourceFilename) => ({
    setVersion:     !cli.flagOn.noVersion,
    });
 const getResult = (filename) => addDistHeader.prepend(filename, calcOptions(filename));
-const quiet = cli.flagOn.quiet;
+const quiet =     cli.flagOn.quiet;
 filenames.forEach(filename => addDistHeader.reporter(getResult(filename), { quiet }));
