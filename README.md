@@ -127,7 +127,7 @@ const result = addDistHeader.prepend('build/rocket.js', options);
 console.log('The size of the new file is:', result.size);
 ```
 
-See the **TypeScript Declarations** at the top of [add-dist-header.ts](add-dist-header.ts) for documentation.
+See the **TypeScript Declarations** at the top of [add-dist-header.ts](src/add-dist-header.ts) for documentation.
 
 <br>
 
