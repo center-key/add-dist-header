@@ -48,7 +48,7 @@ const keep =       (filename) => !extensions || extensions.includes(path.extname
 const filenames =  globSync(pattern, { nodir: true }).filter(keep).sort();
 const error =
    cli.invalidFlag ?      cli.invalidFlagMsg :
-   cli.paramsCount > 2 ?  'Extraneous parameter: ' + cli.params[2] :
+   cli.paramCount > 2 ?   'Extraneous parameter: ' + cli.params[2] :
    !filenames.length ?    'File not found: ' + source :
    source.includes('*') ? 'Wildcards not supported in source: ' + source :
    null;
