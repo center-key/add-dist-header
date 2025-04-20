@@ -28,7 +28,7 @@ export type Result = {
    size:   string | null,  //formatted file size, example: '1,233.70 KB'
    };
 export type ReporterSettings = {
-   quite: boolean,   //suppress informational messages
+   quiet: boolean,   //suppress informational messages
    };
 
 const addDistHeader = {
