@@ -1,4 +1,4 @@
-//! add-dist-header v1.4.5 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.4.6 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { isBinary } from 'istextorbinary';
 import chalk from 'chalk';
@@ -33,7 +33,7 @@ const addDistHeader = {
         const pkg = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
         const inputFile = path.parse(filename);
         const fileExt = settings.extension ?? inputFile.ext;
-        const jsStyle = /\.(js|ts|cjs|mjs)$/.test(fileExt);
+        const jsStyle = /\.(js|ts|cjs|mjs|less)$/.test(fileExt);
         const mlStyle = /\.(html|htm|sgml|xml|php)$/.test(fileExt);
         const type = jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
         const isTextFile = !isBinary(filename);
