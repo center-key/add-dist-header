@@ -45,7 +45,7 @@ const wildcard =   cli.flagOn.recursive ? '/**/*' : '/*';
 const pattern =    slash(isFolder ? origin + wildcard : origin);
 const extensions = cli.flagMap.ext?.split(',') ?? null;
 const keep =       (filename) => !extensions || extensions.includes(path.extname(filename));
-const filenames =  globSync(pattern, { nodir: true }).filter(keep).sort();
+const filenames =  globSync(pattern, { nodir: true }).map(slash).filter(keep).sort();
 const error =
    cli.invalidFlag ?      cli.invalidFlagMsg :
    cli.paramCount > 2 ?   'Extraneous parameter: ' + cli.params[2] :
