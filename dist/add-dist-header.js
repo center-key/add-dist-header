@@ -1,4 +1,4 @@
-//! add-dist-header v1.5.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.5.1 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { EOL } from 'node:os';
 import { isBinary } from 'istextorbinary';
@@ -56,9 +56,10 @@ const addDistHeader = {
         const formatOptions = { dir: settings.dist, name: inputFile.name, ext: fileExt };
         const outputPath = slash(path.format(formatOptions));
         const numLines = input.match(/^/gm).length;
-        const isMinified = outputPath.includes('.min.') || numLines < 5;
+        const isMinified = outputPath.includes('.min.') || (numLines < 5 && fileExt !== '.ts');
         const spacerLines = EOL.repeat(isMinified || mlStyle ? 1 : 2);
-        const final = doctype + header + spacerLines + out3 + EOL;
+        const platformEol = (text) => text.replace(/\r?\n/g, EOL);
+        const final = platformEol(doctype + header + spacerLines + out3 + EOL);
         if (isTextFile)
             fs.writeFileSync(outputPath, final);
         else if (settings.allFiles)
