@@ -83,7 +83,7 @@ const addDistHeader = {
       const formatOptions =  { dir: settings.dist, name: inputFile.name, ext: fileExt };
       const outputPath =     slash(path.format(formatOptions));
       const numLines =       input.match(/^/gm)!.length;
-      const isMinified =     outputPath.includes('.min.') || numLines < 5;
+      const isMinified =     outputPath.includes('.min.') || (numLines < 5 && fileExt !== '.ts');
       const spacerLines =    EOL.repeat(isMinified || mlStyle ? 1 : 2);
       const final =          doctype + header + spacerLines + out3 + EOL;
       if (isTextFile)
