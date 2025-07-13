@@ -85,7 +85,8 @@ const addDistHeader = {
       const numLines =       input.match(/^/gm)!.length;
       const isMinified =     outputPath.includes('.min.') || (numLines < 5 && fileExt !== '.ts');
       const spacerLines =    EOL.repeat(isMinified || mlStyle ? 1 : 2);
-      const final =          doctype + header + spacerLines + out3 + EOL;
+      const platformEol =    (text: string) => text.replace(/\r?\n/g, EOL);
+      const final =          platformEol(doctype + header + spacerLines + out3 + EOL);
       if (isTextFile)
          fs.writeFileSync(outputPath, final);
       else if (settings.allFiles)
