@@ -91,6 +91,7 @@ const addDistHeader = {
          fs.writeFileSync(outputPath, final);
       else if (settings.allFiles)
          fs.copyFileSync(filename, outputPath);
+      const bytes = isTextFile ? final.replaceAll('\r', '').length : null;
       return {
          valid:  isTextFile || settings.allFiles,
          text:   isTextFile,
@@ -98,8 +99,8 @@ const addDistHeader = {
          header: isTextFile ? header : null,
          source: slash(filename),
          file:   outputPath,
-         length: isTextFile ? final.length : null,
-         size:   isTextFile ? (final.length / 1024).toLocaleString([], fixedDigits) + ' KB' : null,
+         length: bytes,
+         size:   isTextFile ? (bytes! / 1024).toLocaleString([], fixedDigits) + ' KB' : null,
          };
       },
 

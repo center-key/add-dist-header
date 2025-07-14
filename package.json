@@ -53,13 +53,13 @@
       ],
       "dist": [
          "copy-file build/src/add-dist-header.js --folder dist",
-         "node bin/cli.js --no-version build/src dist",
-         "html-validator spec"
+         "node bin/cli.js --no-version build/src dist"
       ]
    },
    "scripts": {
       "pretest": "run-scripts clean build dist",
-      "test": "mocha spec/*.spec.js"
+      "test": "mocha spec/*.spec.js",
+      "posttest": "html-validator spec"
    },
    "dependencies": {
       "chalk": "~5.4",
