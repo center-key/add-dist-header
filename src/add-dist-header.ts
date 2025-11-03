@@ -37,7 +37,7 @@ export type ReporterSettings = {
 const addDistHeader = {
 
    cli() {
-      const validFlags = ['all-files', 'delimiter', 'ext', 'keep', 'keep-first',
+      const validFlags = ['all-files', 'delimiter', 'ext', 'keep', 'keep-first', 'new-ext',
          'no-version', 'note', 'quiet', 'recursive'];
       const cli =        cliArgvUtil.parse(validFlags);
       const source =     cli.params[0] ?? 'build/*';
@@ -63,7 +63,7 @@ const addDistHeader = {
          allFiles:       cli.flagOn.allFiles!,
          delimiter:      cli.flagMap.delimiter ?? '~~',
          dist:           targetRoot + path.dirname(sourceFilename).substring(origin.length),
-         extension:      null,
+         extension:      cli.flagMap.newExt ?? null,
          replaceComment: !cli.flagOn.keep,
          setVersion:     !cli.flagOn.noVersion,
          });

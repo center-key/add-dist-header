@@ -238,4 +238,11 @@ describe('Executing the CLI', () => {
       assertDeepStrictEqual(actual, expected);
       });
 
+   it('with the --new-ext flag renames the target to use the specificed file extention', () => {
+      run('add-dist-header spec/fixtures spec/target/cli/new-ext --ext=.css --new-ext=.style.css');
+      const actual =   fs.readFileSync('spec/target/cli/new-ext/kebab.style.css', 'utf-8');
+      const expected = fs.readFileSync('spec/target/cli/ext/kebab.css', 'utf-8');
+      assertDeepStrictEqual(actual, expected);
+      });
+
    });

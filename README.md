@@ -76,16 +76,17 @@ You can also install **add-dist-header** globally (`--global`) and then run it a
 
 ### 3. CLI flags
 Command-line flags:
-| Flag           | Description                                            | Values     | Default |
-| -------------- | ------------------------------------------------------ | ---------- | ------- |
-| `--all-files`  | Add headers to text files and just copy binary files.  | N/A        | N/A     |
-| `--delimiter`  | Characters separating the parts of the header comment. | **string** | `~~`    |
+| Flag           | Description                                               | Values     | Default |
+| -------------- | --------------------------------------------------------- | ---------- | ------- |
+| `--all-files`  | Add headers to text files and just copy binary files.     | N/A        | N/A     |
+| `--delimiter`  | Characters separating the parts of the header comment.    | **string** | `~~`    |
 | `--ext`        | Filter files by file extension, such as `.js`.<br>Use a comma to specify multiple extensions. | **string** | N/A |
-| `--keep-first` | Do not delete the original first line comment.         | N/A        | N/A     |
+| `--keep-first` | Do not delete the original first line comment.            | N/A        | N/A     |
+| `--new-ext`    | Rename target files to use the specificed file extention. | **string** | N/A |
 | `--no-version` | Do not substitute occurrences of `{{package.version}}`<br>with the **package.json** version number. | N/A | N/A |
-| `--note`       | Place to add a comment only for humans.                | **string** | N/A     |
-| `--quiet`      | Suppress informational messages.                       | N/A        | N/A     |
-| `--recursive`  | Include subfolders of the source folder.               | N/A        | N/A     |
+| `--note`       | Place to add a comment only for humans.                   | **string** | N/A     |
+| `--quiet`      | Suppress informational messages.                          | N/A        | N/A     |
+| `--recursive`  | Include subfolders of the source folder.                  | N/A        | N/A     |
 
 #### Version number substitution:
 In addition to prepending the header comment, **add-dist-header** also replaces all occurrences of
@@ -109,6 +110,9 @@ The substitution feature is disabled with the `--no-version` flag.
 
    - `add-dist-header build dist --ext=.js,.css --recursive`<br>
    Process only JavaScript and CSS files in the **build** folder and its subfolders.
+
+   - `add-dist-header build dist --ext=.css --new-ext=.style.css`<br>
+   Process only CSS files and change the **.css** file extension to **.style.css** for each target file.
 
 _**Note:** Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
 
