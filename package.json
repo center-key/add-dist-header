@@ -44,7 +44,7 @@
    },
    "runScriptsConfig": {
       "clean": [
-         "rimraf build dist spec/fixtures/target"
+         "rimraf build dist spec/target"
       ],
       "build": [
          "jshint . --exclude-path .gitignore",

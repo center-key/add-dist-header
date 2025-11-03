@@ -19,7 +19,7 @@
 //    $ cd add-dist-header
 //    $ npm install
 //    $ npm test
-//    $ node bin/cli.js "spec/fixtures/source" "spec/fixtures/target"
+//    $ node bin/cli.js "spec/fixtures" "spec/target"
 //    $ node bin/cli.js --no-version
 
 import { addDistHeader } from '../dist/add-dist-header.js';
