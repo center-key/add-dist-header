@@ -20,7 +20,7 @@ const header = {
 describe('The "dist" folder', () => {
 
    it('contains the correct files', () => {
-      const actual =   fs.readdirSync('dist').sort();
+      const actual = fs.readdirSync('dist').sort();
       const expected = [
          'add-dist-header.d.ts',
          'add-dist-header.js',
@@ -39,10 +39,11 @@ describe('Library module', () => {
       assertDeepStrictEqual(actual, expected);
       });
 
-   it('has functions named prepend() and reporter()', () => {
+   it('has functions named cli(), prepend(), and reporter()', () => {
       const module = addDistHeader;
       const actual = Object.keys(module).sort().map(key => [key, typeof module[key]]);
       const expected = [
+         ['cli',      'function'],
          ['prepend',  'function'],
          ['reporter', 'function'],
          ];

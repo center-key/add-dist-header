@@ -94,7 +94,7 @@ This enables inserting the current package version number into your distribution
 
 The substitution feature is disabled with the `--no-version` flag.
 
-Examples:
+### 4. Examples
    - `add-dist-header build/minimized dist`<br>
    Copy the files in the **build/minimized** folder to the **dist** folder and add comment headers.
 

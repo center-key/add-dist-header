@@ -1,7 +1,9 @@
 // Add Dist Header ~~ MIT License
 
 // Imports
+import { cliArgvUtil } from 'cli-argv-util';
 import { EOL } from 'node:os';
+import { globSync } from 'glob';
 import { isBinary } from 'istextorbinary';
 import chalk from 'chalk';
 import fs    from 'fs';
@@ -33,6 +35,43 @@ export type ReporterSettings = {
    };
 
 const addDistHeader = {
+
+   cli() {
+      const validFlags = ['all-files', 'delimiter', 'ext', 'keep', 'keep-first',
+         'no-version', 'note', 'quiet', 'recursive'];
+      const cli =        cliArgvUtil.parse(validFlags);
+      const source =     cli.params[0] ?? 'build/*';
+      const target =     cli.params[1] ?? 'dist';
+      const cleanPath =  (name: string) => path.normalize(name.endsWith(path.sep) ? name.slice(0, -1) : name);
+      const origin =     cleanPath(source);
+      const targetRoot = cleanPath(target);
+      const isFolder =   fs.existsSync(origin) && fs.statSync(origin).isDirectory();
+      const wildcard =   cli.flagOn.recursive ? '/**/*' : '/*';
+      const pattern =    slash(isFolder ? origin + wildcard : origin);
+      const extensions = cli.flagMap.ext?.split(',') ?? null;
+      const keep =       (filename: string) => !extensions || extensions.includes(path.extname(filename));
+      const filenames =  globSync(pattern, { nodir: true }).map(slash).filter(keep).sort();
+      const error =
+         cli.invalidFlag ?      cli.invalidFlagMsg :
+         cli.paramCount > 2 ?   'Extraneous parameter: ' + cli.params[2]! :
+         !filenames.length ?    'File not found: ' + source :
+         source.includes('*') ? 'Wildcards not supported in source: ' + source :
+         null;
+      if (error)
+         throw new Error('[add-dist-header] ' + error);
+      const calcOptions = (sourceFilename: string): Settings => ({
+         allFiles:       cli.flagOn.allFiles!,
+         delimiter:      cli.flagMap.delimiter ?? '~~',
+         dist:           targetRoot + path.dirname(sourceFilename).substring(origin.length),
+         extension:      null,
+         replaceComment: !cli.flagOn.keep,
+         setVersion:     !cli.flagOn.noVersion,
+         });
+      const getResult = (filename: string) =>
+         addDistHeader.prepend(filename, calcOptions(filename));
+      const reporterSettings = { quiet: cli.flagOn.quiet! };
+      filenames.forEach(filename => addDistHeader.reporter(getResult(filename), reporterSettings));
+      },
 
    prepend(filename: string, options?: Partial<Settings>): Result {
       const defaults = {
