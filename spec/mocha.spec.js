@@ -39,10 +39,11 @@ describe('Library module', () => {
       assertDeepStrictEqual(actual, expected);
       });
 
-   it('has functions named cli(), prepend(), and reporter()', () => {
+   it('has functions named assert(), cli(), prepend(), and reporter()', () => {
       const module = addDistHeader;
       const actual = Object.keys(module).sort().map(key => [key, typeof module[key]]);
       const expected = [
+         ['assert',   'function'],
          ['cli',      'function'],
          ['prepend',  'function'],
          ['reporter', 'function'],
