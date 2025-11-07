@@ -1,7 +1,7 @@
-//! add-dist-header v1.6.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.6.1 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { toKebab } from '../kebab';
 
-const pitaBread = (str) => `🫓 ${toKebab(str)} 🫓`;  //v1.6.0
+const pitaBread = (str) => `🫓 ${toKebab(str)} 🫓`;  //v1.6.1
 
 export { pitaBread };

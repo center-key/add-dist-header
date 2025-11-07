@@ -1,4 +1,4 @@
-//! add-dist-header v1.6.0 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.6.1 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import { EOL } from 'node:os';
@@ -10,6 +10,10 @@ import log from 'fancy-log';
 import path from 'path';
 import slash from 'slash';
 const addDistHeader = {
+    assert(ok, message) {
+        if (!ok)
+            throw new Error(`[add-dist-header] ${message}`);
+    },
     cli() {
         const validFlags = ['all-files', 'delimiter', 'ext', 'keep', 'keep-first', 'new-ext',
             'no-version', 'note', 'quiet', 'recursive'];
@@ -30,8 +34,7 @@ const addDistHeader = {
                 !filenames.length ? 'File not found: ' + source :
                     source.includes('*') ? 'Wildcards not supported in source: ' + source :
                         null;
-        if (error)
-            throw new Error('[add-dist-header] ' + error);
+        addDistHeader.assert(!error, error);
         const calcOptions = (sourceFilename) => ({
             allFiles: cli.flagOn.allFiles,
             delimiter: cli.flagMap.delimiter ?? '~~',
@@ -54,8 +57,7 @@ const addDistHeader = {
             setVersion: true,
         };
         const settings = { ...defaults, ...options };
-        if (!filename)
-            throw new Error('[add-dist-header] Must specify the "filename" option.');
+        addDistHeader.assert(filename, 'Must specify the "filename" option.');
         const commentStyle = {
             js: { start: '//! ', end: '' },
             ml: { start: '<!-- ', end: ' -->' },
