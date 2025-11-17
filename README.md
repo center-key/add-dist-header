@@ -42,12 +42,16 @@ $ npm install --save-dev add-dist-header
 ```
 
 ## B) Usage
-### 1. npm package.json scripts
-Run `dist-header` from the `"scripts"` section of your **package.json** file.
-
+### 1. Synopsis
+```
+add-dist-header [SOURCE] [TARGET]
+```
 Parameters:
 * The **first** parameter is the *source* file (defaults to `"build/*"`).
 * The **second** parameter is the *output* folder (defaults to `"dist"`).
+
+### 2. npm package.json scripts
+Run `dist-header` from the `"scripts"` section of your **package.json** file.
 
 Example **package.json** script:
 ```json
@@ -56,7 +60,7 @@ Example **package.json** script:
    },
 ```
 
-### 2. Command-line npx
+### 3. Command-line npx
 Example terminal commands:
 ```shell
 $ npm install --save-dev add-dist-header
@@ -74,7 +78,7 @@ $ add-dist-header "meta/config.js"  #creates "dist/config.js" prepended with hea
 ```
 You can also install **add-dist-header** globally (`--global`) and then run it anywhere directly from the terminal.
 
-### 3. CLI flags
+### 4. CLI flags
 Command-line flags:
 | Flag           | Description                                               | Values     | Default |
 | -------------- | --------------------------------------------------------- | ---------- | ------- |
@@ -95,7 +99,7 @@ This enables inserting the current package version number into your distribution
 
 The substitution feature is disabled with the `--no-version` flag.
 
-### 4. Examples
+### 5. Examples
    - `add-dist-header build/minimized dist`<br>
    Copy the files in the **build/minimized** folder to the **dist** folder and add comment headers.
 
