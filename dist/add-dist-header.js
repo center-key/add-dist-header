@@ -1,4 +1,4 @@
-//! add-dist-header v1.6.1 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.6.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import { EOL } from 'node:os';
