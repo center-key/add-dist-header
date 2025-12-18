@@ -169,13 +169,11 @@ const addDistHeader = {
          quiet: false,
          };
       const settings = { ...defaults, ...options };
-      const name =   chalk.gray('add-dist-header');
-      const arrow =  chalk.gray.bold('→');
-      const source = chalk.blue.bold(result.source);
-      const target = chalk.magenta(result.file);
-      const size =   chalk.white('(' + (result.size || 'binary') + ')');
+      const name =     chalk.gray('add-dist-header');
+      const ancestor = cliArgvUtil.calcAncestor(result.source, result.file);
+      const size =     chalk.white('(' + (result.size || 'binary') + ')');
       if (!settings.quiet && result.valid)
-         log(name, source, arrow, target, size);
+         log(name, ancestor.message, size);
       return result;
       },
 
