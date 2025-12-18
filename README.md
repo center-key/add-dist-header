@@ -118,7 +118,8 @@ The substitution feature is disabled with the `--no-version` flag.
    - `add-dist-header build dist --ext=.css --new-ext=.style.css`<br>
    Process only CSS files and change the **.css** file extension to **.style.css** for each target file.
 
-_**Note:** Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
+> [!NOTE]
+> _Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
 
 ## C) Application Code
 Even though **add-dist-header** is primarily intended for build scripts, the package can be used programmatically in ESM and TypeScript projects.

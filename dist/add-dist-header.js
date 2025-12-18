@@ -1,4 +1,4 @@
-//! add-dist-header v1.6.2 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.6.3 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import { EOL } from 'node:os';
@@ -120,12 +120,10 @@ const addDistHeader = {
         };
         const settings = { ...defaults, ...options };
         const name = chalk.gray('add-dist-header');
-        const arrow = chalk.gray.bold('→');
-        const source = chalk.blue.bold(result.source);
-        const target = chalk.magenta(result.file);
+        const ancestor = cliArgvUtil.calcAncestor(result.source, result.file);
         const size = chalk.white('(' + (result.size || 'binary') + ')');
         if (!settings.quiet && result.valid)
-            log(name, source, arrow, target, size);
+            log(name, ancestor.message, size);
         return result;
     },
 };
