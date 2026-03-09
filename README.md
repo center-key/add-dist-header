@@ -1,4 +1,4 @@
-# Add Dist Header
+# Add Distribution Header
 <img src=https://centerkey.com/graphics/center-key-logo.svg align=right width=200 alt=logo>
 
 _Prepend a one-line banner comment (with license notice) to distribution files_

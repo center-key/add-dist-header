@@ -1,4 +1,4 @@
-// Add Dist Header ~~ MIT License
+// Add Distribution Header ~~ MIT License
 //
 // Usage in package.json:
 //    "scripts": {
