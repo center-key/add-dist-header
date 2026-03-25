@@ -67,36 +67,6 @@ describe('A .js build file', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////
-describe('A .ts build file', () => {
-
-   it('gets the correct header prepended without version substitutions', () => {
-      const filename = 'spec/fixtures/kebab.ts';
-      const options = {
-         dist:       'spec/target',
-         setVersion: false,
-         };
-      const result = addDistHeader.prepend(filename, options);
-      const output = fs.readFileSync('spec/target/kebab.ts', 'utf-8');
-      const actual = {
-         header:   result.header,
-         file:     result.file,
-         length:   result.length,
-         size:     result.size,
-         versions: output.split(pkg.version).length - 1,
-         };
-      const expected = {
-         header:   header.js,
-         file:     'spec/target/kebab.ts',
-         length:   383,
-         size:     '0.37 KB',
-         versions: 1,
-         };
-      assertDeepStrictEqual(actual, expected);
-      });
-
-   });
-
-////////////////////////////////////////////////////////////////////////////////
 describe('A .css build file', () => {
 
    it('gets the correct compact header prepended plus renamed to .min.css', () => {

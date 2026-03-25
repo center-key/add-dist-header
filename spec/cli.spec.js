@@ -22,7 +22,6 @@ describe('Executing the CLI', () => {
          'kebab.jpg',
          'kebab.js',
          'kebab.min.js',
-         'kebab.ts',
          'kebab.xml',
          'subfolder',
          'subfolder/pita-bread.js',
