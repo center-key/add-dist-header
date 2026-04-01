@@ -20,13 +20,13 @@
 
 // Imports
 import { cliArgvUtil } from 'cli-argv-util';
-import { EOL } from 'node:os';
 import { globSync } from 'glob';
 import { isBinary } from 'istextorbinary';
 import chalk from 'chalk';
-import fs    from 'fs';
+import fs    from 'node:fs';
 import log   from 'fancy-log';
-import path  from 'path';
+import os    from 'node:os';
+import path  from 'node:path';
 import slash from 'slash';
 
 // Types
@@ -131,7 +131,7 @@ const addDistHeader = {
       const out2 =           mlStyle ? out1.replace(doctypePattern, '').trim() : out1;
       const out3 =           settings.setVersion ? out2.replace(versionPattern, pkg.version!) : out2;
       const doctypeLine =    out1.match(doctypePattern)?.[0];
-      const doctype =        mlStyle && doctypeLine ? doctypeLine + EOL : '';
+      const doctype =        mlStyle && doctypeLine ? doctypeLine + os.EOL : '';
       const info =           pkg.homepage ?? pkg.docs ?? pkg.repository;
       const unlicensed =     !pkg.license || pkg.license === 'UNLICENSED';
       const license =        unlicensed ? 'All Rights Reserved' : `${pkg.license} License`;
@@ -144,9 +144,9 @@ const addDistHeader = {
       const outputPath =     slash(path.format(formatOptions));
       const numLines =       input.match(/^/gm)!.length;
       const isMinified =     outputPath.includes('.min.') || (numLines < 5 && fileExt !== '.ts');
-      const spacerLines =    EOL.repeat(isMinified || mlStyle ? 1 : 2);
-      const platformEol =    (text: string) => text.replace(/\r?\n/g, EOL);
-      const final =          platformEol(doctype + header + spacerLines + out3 + EOL);
+      const spacerLines =    os.EOL.repeat(isMinified || mlStyle ? 1 : 2);
+      const platformEol =    (text: string) => text.replace(/\r?\n/g, os.EOL);
+      const final =          platformEol(doctype + header + spacerLines + out3 + os.EOL);
       if (isTextFile)
          fs.writeFileSync(outputPath, final);
       else if (settings.allFiles)
