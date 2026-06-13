@@ -141,9 +141,9 @@ See the **TypeScript Declarations** at the top of [add-dist-header.ts](src/add-d
 <br>
 
 ---
-[🛡️ npm Security Aggregator](https://center-key.github.io/npm-security-aggregator/?package=add-dist-header)
-
 [MIT License](LICENSE.txt)
+
+[🛡️ npm Security Aggregator](https://center-key.github.io/npm-security-aggregator/?package=add-dist-header)
 
 See the `runScriptsConfig` section of [`package.json`](package.json) for a clean way to organize build tasks:
    - 🎋 [`add-dist-header`](https://github.com/center-key/add-dist-header) &mdash;&nbsp; _Prepend a one-line banner comment (with license notice) to distribution files_

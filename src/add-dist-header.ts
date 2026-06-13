@@ -54,7 +54,7 @@ export type ReporterSettings = {
 
 const addDistHeader = {
 
-   assert(ok: unknown, message: string | null) {
+   assertOk(ok: unknown, message: string | null) {
       if (!ok)
          throw new Error(`[add-dist-header] ${message}`);
       },
@@ -80,7 +80,7 @@ const addDistHeader = {
          !filenames.length ?    'File not found: ' + source :
          source.includes('*') ? 'Wildcards not supported in source: ' + source :
          null;
-      addDistHeader.assert(!error, error);
+      addDistHeader.assertOk(!error, error);
       const calcOptions = (sourceFilename: string): Settings => ({
          allFiles:       cli.flagOn.allFiles!,
          delimiter:      cli.flagMap.delimiter ?? '~~',
@@ -105,7 +105,7 @@ const addDistHeader = {
          setVersion:     true,
          };
       const settings = { ...defaults, ...options };
-      addDistHeader.assert(filename, 'Must specify the "filename" option.');
+      addDistHeader.assertOk(filename, 'Must specify the "filename" option.');
       const commentStyle = {
          js:    { start: '//! ',  end: '' },
          ml:    { start: '<!-- ', end: ' -->' },

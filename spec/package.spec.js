@@ -35,7 +35,7 @@ describe('Library module', () => {
       const module = addDistHeader;
       const actual = Object.keys(module).sort().map(key => [key, typeof module[key]]);
       const expected = [
-         ['assert',   'function'],
+         ['assertOk', 'function'],
          ['cli',      'function'],
          ['prepend',  'function'],
          ['reporter', 'function'],
