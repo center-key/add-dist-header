@@ -52,7 +52,11 @@ export type ReporterSettings = {
    quiet: boolean,   //suppress informational messages
    };
 
+const name = chalk.gray('add-dist-header');
+
 const addDistHeader = {
+
+   version: '{{package.version}}',
 
    assertOk(ok: unknown, message: string | null) {
       if (!ok)
@@ -81,6 +85,8 @@ const addDistHeader = {
          source.includes('*') ? 'Wildcards not supported in source: ' + source :
          null;
       addDistHeader.assertOk(!error, error);
+      if (!cli.flagOn.quiet)
+         log(name, chalk.gray('v' + addDistHeader.version), targetRoot);
       const calcOptions = (sourceFilename: string): Settings => ({
          allFiles:       cli.flagOn.allFiles!,
          delimiter:      cli.flagMap.delimiter ?? '~~',
@@ -169,11 +175,10 @@ const addDistHeader = {
          quiet: false,
          };
       const settings = { ...defaults, ...options };
-      const name =     chalk.gray('add-dist-header');
       const ancestor = cliArgvUtil.calcAncestor(result.source, result.file);
       const size =     chalk.white('(' + (result.size || 'binary') + ')');
       if (!settings.quiet && result.valid)
-         log(name, ancestor.message, size);
+         log(name, ancestor.output, size);
       return result;
       },
 
