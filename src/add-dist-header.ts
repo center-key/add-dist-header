@@ -63,44 +63,6 @@ const addDistHeader = {
          throw new Error(`[add-dist-header] ${message}`);
       },
 
-   cli() {
-      const validFlags = ['all-files', 'delimiter', 'ext', 'keep', 'keep-first', 'new-ext',
-         'no-version', 'note', 'quiet', 'recursive'];
-      const cli =        cliArgvUtil.parse(validFlags);
-      const source =     cli.params[0] ?? 'build/*';
-      const target =     cli.params[1] ?? 'dist';
-      const cleanPath =  (name: string) => path.normalize(name.endsWith(path.sep) ? name.slice(0, -1) : name);
-      const origin =     cleanPath(source);
-      const targetRoot = cleanPath(target);
-      const isFolder =   fs.existsSync(origin) && fs.statSync(origin).isDirectory();
-      const wildcard =   cli.flagOn.recursive ? '/**/*' : '/*';
-      const pattern =    slash(isFolder ? origin + wildcard : origin);
-      const extensions = cli.flagMap.ext?.split(',') ?? null;
-      const keep =       (filename: string) => !extensions || extensions.includes(path.extname(filename));
-      const filenames =  globSync(pattern, { nodir: true }).map(slash).filter(keep).sort();
-      const error =
-         cli.invalidFlag ?      cli.invalidFlagMsg :
-         cli.paramCount > 2 ?   'Extraneous parameter: ' + cli.params[2]! :
-         !filenames.length ?    'File not found: ' + source :
-         source.includes('*') ? 'Wildcards not supported in source: ' + source :
-         null;
-      addDistHeader.assertOk(!error, error);
-      if (!cli.flagOn.quiet)
-         log(name, chalk.gray('v' + addDistHeader.version), targetRoot);
-      const calcOptions = (sourceFilename: string): Settings => ({
-         allFiles:       cli.flagOn.allFiles!,
-         delimiter:      cli.flagMap.delimiter ?? '~~',
-         dist:           targetRoot + path.dirname(sourceFilename).substring(origin.length),
-         extension:      cli.flagMap.newExt ?? null,
-         replaceComment: !cli.flagOn.keep,
-         setVersion:     !cli.flagOn.noVersion,
-         });
-      const getResult = (filename: string) =>
-         addDistHeader.prepend(filename, calcOptions(filename));
-      const reporterSettings = { quiet: cli.flagOn.quiet! };
-      filenames.forEach(filename => addDistHeader.reporter(getResult(filename), reporterSettings));
-      },
-
    prepend(filename: string, options?: Partial<Settings>): Result {
       const defaults: Settings = {
          allFiles:       false,
@@ -180,6 +142,44 @@ const addDistHeader = {
       if (!settings.quiet && result.valid)
          log(name, ancestor.output, size);
       return result;
+      },
+
+   cli() {
+      const validFlags = ['all-files', 'delimiter', 'ext', 'keep', 'keep-first', 'new-ext',
+         'no-version', 'note', 'quiet', 'recursive'];
+      const cli =        cliArgvUtil.parse(validFlags);
+      const source =     cli.params[0] ?? 'build/*';
+      const target =     cli.params[1] ?? 'dist';
+      const cleanPath =  (name: string) => path.normalize(name.endsWith(path.sep) ? name.slice(0, -1) : name);
+      const origin =     cleanPath(source);
+      const targetRoot = cleanPath(target);
+      const isFolder =   fs.existsSync(origin) && fs.statSync(origin).isDirectory();
+      const wildcard =   cli.flagOn.recursive ? '/**/*' : '/*';
+      const pattern =    slash(isFolder ? origin + wildcard : origin);
+      const extensions = cli.flagMap.ext?.split(',') ?? null;
+      const keep =       (filename: string) => !extensions || extensions.includes(path.extname(filename));
+      const filenames =  globSync(pattern, { nodir: true }).map(slash).filter(keep).sort();
+      const error =
+         cli.invalidFlag ?      cli.invalidFlagMsg :
+         cli.paramCount > 2 ?   'Extraneous parameter: ' + cli.params[2]! :
+         !filenames.length ?    'File not found: ' + source :
+         source.includes('*') ? 'Wildcards not supported in source: ' + source :
+         null;
+      addDistHeader.assertOk(!error, error);
+      if (!cli.flagOn.quiet)
+         log(name, chalk.gray('v' + addDistHeader.version), targetRoot);
+      const calcOptions = (sourceFilename: string): Settings => ({
+         allFiles:       cli.flagOn.allFiles!,
+         delimiter:      cli.flagMap.delimiter ?? '~~',
+         dist:           targetRoot + path.dirname(sourceFilename).substring(origin.length),
+         extension:      cli.flagMap.newExt ?? null,
+         replaceComment: !cli.flagOn.keep,
+         setVersion:     !cli.flagOn.noVersion,
+         });
+      const getResult = (filename: string) =>
+         addDistHeader.prepend(filename, calcOptions(filename));
+      const reporterSettings = { quiet: cli.flagOn.quiet! };
+      filenames.forEach(filename => addDistHeader.reporter(getResult(filename), reporterSettings));
       },
 
    };

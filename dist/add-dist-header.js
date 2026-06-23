@@ -1,4 +1,4 @@
-//! add-dist-header v1.6.4 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.6.5 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import { globSync } from 'glob';
@@ -9,43 +9,12 @@ import log from 'fancy-log';
 import os from 'node:os';
 import path from 'node:path';
 import slash from 'slash';
+const name = chalk.gray('add-dist-header');
 const addDistHeader = {
-    assert(ok, message) {
+    version: '1.6.5',
+    assertOk(ok, message) {
         if (!ok)
             throw new Error(`[add-dist-header] ${message}`);
-    },
-    cli() {
-        const validFlags = ['all-files', 'delimiter', 'ext', 'keep', 'keep-first', 'new-ext',
-            'no-version', 'note', 'quiet', 'recursive'];
-        const cli = cliArgvUtil.parse(validFlags);
-        const source = cli.params[0] ?? 'build/*';
-        const target = cli.params[1] ?? 'dist';
-        const cleanPath = (name) => path.normalize(name.endsWith(path.sep) ? name.slice(0, -1) : name);
-        const origin = cleanPath(source);
-        const targetRoot = cleanPath(target);
-        const isFolder = fs.existsSync(origin) && fs.statSync(origin).isDirectory();
-        const wildcard = cli.flagOn.recursive ? '/**/*' : '/*';
-        const pattern = slash(isFolder ? origin + wildcard : origin);
-        const extensions = cli.flagMap.ext?.split(',') ?? null;
-        const keep = (filename) => !extensions || extensions.includes(path.extname(filename));
-        const filenames = globSync(pattern, { nodir: true }).map(slash).filter(keep).sort();
-        const error = cli.invalidFlag ? cli.invalidFlagMsg :
-            cli.paramCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
-                !filenames.length ? 'File not found: ' + source :
-                    source.includes('*') ? 'Wildcards not supported in source: ' + source :
-                        null;
-        addDistHeader.assert(!error, error);
-        const calcOptions = (sourceFilename) => ({
-            allFiles: cli.flagOn.allFiles,
-            delimiter: cli.flagMap.delimiter ?? '~~',
-            dist: targetRoot + path.dirname(sourceFilename).substring(origin.length),
-            extension: cli.flagMap.newExt ?? null,
-            replaceComment: !cli.flagOn.keep,
-            setVersion: !cli.flagOn.noVersion,
-        });
-        const getResult = (filename) => addDistHeader.prepend(filename, calcOptions(filename));
-        const reporterSettings = { quiet: cli.flagOn.quiet };
-        filenames.forEach(filename => addDistHeader.reporter(getResult(filename), reporterSettings));
     },
     prepend(filename, options) {
         const defaults = {
@@ -57,7 +26,7 @@ const addDistHeader = {
             setVersion: true,
         };
         const settings = { ...defaults, ...options };
-        addDistHeader.assert(filename, 'Must specify the "filename" option.');
+        addDistHeader.assertOk(filename, 'Must specify the "filename" option.');
         const commentStyle = {
             js: { start: '//! ', end: '' },
             ml: { start: '<!-- ', end: ' -->' },
@@ -119,12 +88,46 @@ const addDistHeader = {
             quiet: false,
         };
         const settings = { ...defaults, ...options };
-        const name = chalk.gray('add-dist-header');
         const ancestor = cliArgvUtil.calcAncestor(result.source, result.file);
         const size = chalk.white('(' + (result.size || 'binary') + ')');
         if (!settings.quiet && result.valid)
-            log(name, ancestor.message, size);
+            log(name, ancestor.output, size);
         return result;
+    },
+    cli() {
+        const validFlags = ['all-files', 'delimiter', 'ext', 'keep', 'keep-first', 'new-ext',
+            'no-version', 'note', 'quiet', 'recursive'];
+        const cli = cliArgvUtil.parse(validFlags);
+        const source = cli.params[0] ?? 'build/*';
+        const target = cli.params[1] ?? 'dist';
+        const cleanPath = (name) => path.normalize(name.endsWith(path.sep) ? name.slice(0, -1) : name);
+        const origin = cleanPath(source);
+        const targetRoot = cleanPath(target);
+        const isFolder = fs.existsSync(origin) && fs.statSync(origin).isDirectory();
+        const wildcard = cli.flagOn.recursive ? '/**/*' : '/*';
+        const pattern = slash(isFolder ? origin + wildcard : origin);
+        const extensions = cli.flagMap.ext?.split(',') ?? null;
+        const keep = (filename) => !extensions || extensions.includes(path.extname(filename));
+        const filenames = globSync(pattern, { nodir: true }).map(slash).filter(keep).sort();
+        const error = cli.invalidFlag ? cli.invalidFlagMsg :
+            cli.paramCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
+                !filenames.length ? 'File not found: ' + source :
+                    source.includes('*') ? 'Wildcards not supported in source: ' + source :
+                        null;
+        addDistHeader.assertOk(!error, error);
+        if (!cli.flagOn.quiet)
+            log(name, chalk.gray('v' + addDistHeader.version), targetRoot);
+        const calcOptions = (sourceFilename) => ({
+            allFiles: cli.flagOn.allFiles,
+            delimiter: cli.flagMap.delimiter ?? '~~',
+            dist: targetRoot + path.dirname(sourceFilename).substring(origin.length),
+            extension: cli.flagMap.newExt ?? null,
+            replaceComment: !cli.flagOn.keep,
+            setVersion: !cli.flagOn.noVersion,
+        });
+        const getResult = (filename) => addDistHeader.prepend(filename, calcOptions(filename));
+        const reporterSettings = { quiet: cli.flagOn.quiet };
+        filenames.forEach(filename => addDistHeader.reporter(getResult(filename), reporterSettings));
     },
 };
 export { addDistHeader };
