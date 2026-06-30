@@ -53,7 +53,7 @@
       ],
       "dist": [
          "copy-file build/add-dist-header.js --folder dist",
-         "node bin/cli.js build dist"
+         "node bin/cli.js build dist --note=Dogfooding"
       ]
    },
    "scripts": {
