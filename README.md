@@ -133,6 +133,7 @@ const options = {
    delimiter: '🚀🚀🚀',
    };
 const result = addDistHeader.prepend('build/rocket.js', options);
+
 console.info('The size of the new file is:', result.size);
 ```
 

@@ -1,4 +1,4 @@
-//! add-dist-header v1.6.5 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.6.6 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 export type Settings = {
     allFiles: boolean;
@@ -25,7 +25,7 @@ declare const addDistHeader: {
     version: string;
     assertOk(ok: unknown, message: string | null): void;
     prepend(filename: string, options?: Partial<Settings>): Result;
-    reporter(result: Result, options?: ReporterSettings): Result;
+    reporter(result: Result, options?: ReporterSettings, count?: number): Result;
     cli(): void;
 };
 export { addDistHeader };
