@@ -91,11 +91,12 @@ const addDistHeader = {
       const jsStyle =        /\.(js|ts|cjs|mjs|less)$/.test(fileExt);
       const mlStyle =        /\.(html|htm|sgml|xml|php)$/.test(fileExt);
       const type =           jsStyle ? 'js' : mlStyle ? 'ml' : 'other';
+      const comment =        firstLine[type];
       const doctypePattern = /^<(!doctype|\?xml).*/i;  //matches: '<!doctype html>' and '<?xml version="1.0" ?>'
       const versionPattern = /{{package\.version}}/g;
       const isTextFile =     !isBinary(filename);
       const input =          fs.readFileSync(filename, 'utf-8').trim();
-      const out1 =           settings.replaceComment ? input.replace(firstLine[type], '').trim() : input;
+      const out1 =           settings.replaceComment ? input.replace(comment, '').trim() : input;
       const out2 =           mlStyle ? out1.replace(doctypePattern, '').trim() : out1;
       const out3 =           settings.setVersion ? out2.replace(versionPattern, pkg.version!) : out2;
       const doctypeLine =    out1.match(doctypePattern)?.[0];
@@ -120,7 +121,7 @@ const addDistHeader = {
       else if (settings.allFiles)
          fs.copyFileSync(filename, outputPath);
       const bytes = isTextFile ? final.replaceAll('\r', '').length : null;
-      return {
+      const result = {
          valid:  isTextFile || settings.allFiles,
          text:   isTextFile,
          dist:   distFolder,
@@ -130,6 +131,7 @@ const addDistHeader = {
          length: bytes,
          size:   isTextFile ? (bytes! / 1024).toLocaleString([], fixedDigits) + ' KB' : null,
          };
+      return result;
       },
 
    reporter(result: Result, options?: ReporterSettings): Result {
@@ -150,14 +152,15 @@ const addDistHeader = {
       const cli =        cliArgvUtil.parse(validFlags);
       const source =     cli.params[0] ?? 'build/*';
       const target =     cli.params[1] ?? 'dist';
-      const cleanPath =  (name: string) => path.normalize(name.endsWith(path.sep) ? name.slice(0, -1) : name);
+      const isFolder =   (name: string) => name.endsWith(path.sep);
+      const cleanPath =  (name: string) => path.normalize(isFolder(name) ? name.slice(0, -1) : name);
       const origin =     cleanPath(source);
       const targetRoot = cleanPath(target);
-      const isFolder =   fs.existsSync(origin) && fs.statSync(origin).isDirectory();
+      const realFolder = fs.existsSync(origin) && fs.statSync(origin).isDirectory();
       const wildcard =   cli.flagOn.recursive ? '/**/*' : '/*';
-      const pattern =    slash(isFolder ? origin + wildcard : origin);
+      const pattern =    slash(realFolder ? origin + wildcard : origin);
       const extensions = cli.flagMap.ext?.split(',') ?? null;
-      const keep =       (filename: string) => !extensions || extensions.includes(path.extname(filename));
+      const keep =       (file: string) => !extensions || extensions.includes(path.extname(file));
       const filenames =  globSync(pattern, { nodir: true }).map(slash).filter(keep).sort();
       const error =
          cli.invalidFlag ?      cli.invalidFlagMsg :
@@ -166,8 +169,10 @@ const addDistHeader = {
          source.includes('*') ? 'Wildcards not supported in source: ' + source :
          null;
       addDistHeader.assertOk(!error, error);
+      const version = chalk.gray('v' + addDistHeader.version);
+      const summary = chalk.white(`(files: ${filenames.length})`);
       if (!cli.flagOn.quiet)
-         log(name, chalk.gray('v' + addDistHeader.version), targetRoot);
+         log(name, version, targetRoot, summary);
       const calcOptions = (sourceFilename: string): Settings => ({
          allFiles:       cli.flagOn.allFiles!,
          delimiter:      cli.flagMap.delimiter ?? '~~',
