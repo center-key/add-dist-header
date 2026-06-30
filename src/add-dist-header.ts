@@ -134,15 +134,15 @@ const addDistHeader = {
       return result;
       },
 
-   reporter(result: Result, options?: ReporterSettings): Result {
+   reporter(result: Result, options?: ReporterSettings, count?: number): Result {
       const defaults: ReporterSettings = {
          quiet: false,
          };
-      const settings = { ...defaults, ...options };
-      const ancestor = cliArgvUtil.calcAncestor(result.source, result.file);
-      const size =     chalk.white('(' + (result.size || 'binary') + ')');
+      const settings =  { ...defaults, ...options };
+      const fileCount = count ? chalk.magenta(count) + ' ' : '';
+      const size =      chalk.blue('(' + (result.size || 'binary') + ')');
       if (!settings.quiet && result.valid)
-         log(name, ancestor.output, size);
+         log(name, fileCount + cliArgvUtil.colorizePath(result.file), size);
       return result;
       },
 
@@ -172,7 +172,7 @@ const addDistHeader = {
       const version = chalk.gray('v' + addDistHeader.version);
       const summary = chalk.white(`(files: ${filenames.length})`);
       if (!cli.flagOn.quiet)
-         log(name, version, targetRoot, summary);
+         log(name, version, origin, summary);
       const calcOptions = (sourceFilename: string): Settings => ({
          allFiles:       cli.flagOn.allFiles!,
          delimiter:      cli.flagMap.delimiter ?? '~~',
@@ -184,7 +184,8 @@ const addDistHeader = {
       const getResult = (filename: string) =>
          addDistHeader.prepend(filename, calcOptions(filename));
       const reporterSettings = { quiet: cli.flagOn.quiet! };
-      filenames.forEach(filename => addDistHeader.reporter(getResult(filename), reporterSettings));
+      filenames.forEach((filename, index) =>
+         addDistHeader.reporter(getResult(filename), reporterSettings, index + 1));
       },
 
    };
