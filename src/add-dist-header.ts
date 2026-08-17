@@ -140,9 +140,10 @@ const addDistHeader = {
          };
       const settings =  { ...defaults, ...options };
       const fileCount = count ? chalk.magenta(count) + ' ' : '';
-      const size =      chalk.gray('(' + (result.size || 'binary') + ')');
+      const fileInfo =  fileCount + cliArgvUtil.colorizePath(result.file);
+      const size =      chalk.blue(`(${result.size || 'binary'})`);
       if (!settings.quiet && result.valid)
-         log(name, fileCount + cliArgvUtil.colorizePath(result.file), size);
+         log(name, fileInfo, size);
       return result;
       },
 
