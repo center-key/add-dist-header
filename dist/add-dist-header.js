@@ -1,4 +1,4 @@
-//! add-dist-header v1.6.6 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.6.7 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import { globSync } from 'glob';
@@ -11,7 +11,7 @@ import path from 'node:path';
 import slash from 'slash';
 const name = chalk.gray('add-dist-header');
 const addDistHeader = {
-    version: '1.6.6',
+    version: '1.6.7',
     assertOk(ok, message) {
         if (!ok)
             throw new Error(`[add-dist-header] ${message}`);
@@ -91,9 +91,10 @@ const addDistHeader = {
         };
         const settings = { ...defaults, ...options };
         const fileCount = count ? chalk.magenta(count) + ' ' : '';
-        const size = chalk.blue('(' + (result.size || 'binary') + ')');
+        const fileInfo = fileCount + cliArgvUtil.colorizePath(result.file);
+        const size = chalk.blue(`(${result.size || 'binary'})`);
         if (!settings.quiet && result.valid)
-            log(name, fileCount + cliArgvUtil.colorizePath(result.file), size);
+            log(name, fileInfo, size);
         return result;
     },
     cli() {
@@ -119,7 +120,7 @@ const addDistHeader = {
                         null;
         addDistHeader.assertOk(!error, error);
         const version = chalk.gray('v' + addDistHeader.version);
-        const summary = chalk.white(`(files: ${filenames.length})`);
+        const summary = chalk.blue(`(files: ${filenames.length})`);
         if (!cli.flagOn.quiet)
             log(name, version, origin, summary);
         const calcOptions = (sourceFilename) => ({

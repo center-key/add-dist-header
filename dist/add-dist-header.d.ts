@@ -1,4 +1,4 @@
-//! add-dist-header v1.6.6 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
+//! add-dist-header v1.6.7 ~~ https://github.com/center-key/add-dist-header ~~ MIT License
 
 export type Settings = {
     allFiles: boolean;

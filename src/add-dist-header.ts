@@ -171,7 +171,7 @@ const addDistHeader = {
          null;
       addDistHeader.assertOk(!error, error);
       const version = chalk.gray('v' + addDistHeader.version);
-      const summary = chalk.white(`(files: ${filenames.length})`);
+      const summary = chalk.blue(`(files: ${filenames.length})`);
       if (!cli.flagOn.quiet)
          log(name, version, origin, summary);
       const calcOptions = (sourceFilename: string): Settings => ({
